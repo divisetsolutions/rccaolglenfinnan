@@ -12,7 +12,7 @@ export default function Home() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
           <h3 className="text-xl font-semibold">Next Mass</h3>
-          <p className="text-muted-foreground">Sunday, 11:00 AM at St. John's, Caol</p>
+          <p className="text-muted-foreground">Sunday, 11:00 AM at St. John&apos;s, Caol</p>
         </div>
         <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
           <h3 className="text-xl font-semibold">Latest News</h3>
