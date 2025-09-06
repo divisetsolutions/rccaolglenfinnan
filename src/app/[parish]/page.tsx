@@ -1,10 +1,13 @@
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { Schedule } from '@/components/Schedule';
+import { Metadata } from 'next';
+
+interface PageProps {
+  params: { parish: string };
+}
 
 export async function generateStaticParams() {
-  // For now, we will hardcode the parishes
-  // In the future, this could be fetched from a list in Firestore
   return [{ parish: 'caol' }, { parish: 'glenfinnan' }];
 }
 
@@ -13,7 +16,7 @@ async function getParishData(parishId: string) {
   return parishDoc.data();
 }
 
-export default async function ParishPage({ params }: { params: { parish: string } }) {
+export default async function ParishPage({ params }: PageProps) {
   const parishData = await getParishData(params.parish);
 
   if (!parishData) {
