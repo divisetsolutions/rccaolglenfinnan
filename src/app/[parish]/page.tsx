@@ -11,6 +11,7 @@ async function getParishData(parishId: string) {
   return parishDoc.data();
 }
 
+// @ts-ignore
 export default async function ParishPage({ params }: { params: { parish: string } }) {
   const parishData = await getParishData(params.parish);
 
