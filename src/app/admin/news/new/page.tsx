@@ -12,6 +12,7 @@ export default function NewNewsArticlePage() {
   const editor = useEditor({
     extensions: [StarterKit],
     content: '<p>Hello World! 🌎️</p>',
+    immediatelyRender: false,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {

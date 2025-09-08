@@ -7,8 +7,8 @@ admin.initializeApp();
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: functions.config().gmail.email,
-    pass: functions.config().gmail.password
+    user: process.env.GMAIL_EMAIL,
+    pass: process.env.GMAIL_PASSWORD
   }
 });
 
@@ -17,7 +17,7 @@ exports.sendContactEmail = functions.https.onCall(async (data, context) => {
 
   const mailOptions = {
     from: email,
-    to: 'your-parish-email@example.com', // Replace with your parish email
+    to: 'caol@rcdai.org.uk', // Replace with your parish email
     subject: `New Contact Form Submission from ${name}`,
     text: message
   };

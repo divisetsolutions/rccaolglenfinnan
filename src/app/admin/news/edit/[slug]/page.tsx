@@ -11,6 +11,7 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
   const [excerpt, setExcerpt] = useState('');
   const editor = useEditor({
     extensions: [StarterKit],
+    immediatelyRender: false,
   });
 
   useEffect(() => {

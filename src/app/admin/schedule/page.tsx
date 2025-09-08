@@ -62,7 +62,61 @@ export default function AdminSchedulePage() {
           Manage Schedule
         </h1>
         <form onSubmit={handleSubmit} className="w-full max-w-sm">
-          {/* Form for adding new schedule items */}
+          <div className="mb-4">
+            <label htmlFor="title" className="block text-sm font-bold mb-2">Title</label>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="dayOfWeek" className="block text-sm font-bold mb-2">Day of the Week</label>
+            <select
+              id="dayOfWeek"
+              value={dayOfWeek}
+              onChange={(e) => setDayOfWeek(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="Sunday">Sunday</option>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="time" className="block text-sm font-bold mb-2">Time</label>
+            <input
+              type="text"
+              id="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="e.g., 10:00 AM"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="parishId" className="block text-sm font-bold mb-2">Parish</label>
+            <select
+              id="parishId"
+              value={parishId}
+              onChange={(e) => setParishId(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="caol">Caol</option>
+              <option value="glenfinnan">Glenfinnan</option>
+            </select>
+          </div>
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Add Schedule Item
+          </button>
         </form>
       </div>
       <div className="grid gap-4">

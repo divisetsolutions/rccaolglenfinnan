@@ -26,3 +26,30 @@ This log will track the development progress, key decisions, and actions taken w
 *   **[2025-09-06]** Implemented the secure contact form with a Firebase Cloud Function for sending emails.
 *   **[2025-09-06]** Implemented online donations with Stripe and PayPal.
 *   **Next Action:** The core features of the website are now implemented. The next steps would be to deploy the site, and work on the future enhancements listed in the tech spec.
+
+---
+
+### Session 2: Local Environment Setup & Admin Feature Testing
+
+*   **[2025-09-06]** Guided user through setting up the local development environment, including creating and configuring a new Firebase project.
+*   **[2025-09-06]** Assisted with creating the first admin user in Firebase Authentication.
+*   **[2025-09-06]** Debugged and resolved a Firestore index issue required for querying news articles.
+*   **[2025-09-06]** Debugged and resolved a server-side rendering (SSR) issue with the Tiptap rich text editor on both the "new article" and "edit article" pages.
+*   **[2025-09-06]** Successfully tested the full CRUD (Create, Read, Update, Delete) functionality for the "News & Events" section.
+*   **[2025-09-06]** Successfully tested the upload, view, and delete functionality for the "Newsletters" section.
+*   **[2025-_09-06]** Implemented the missing UI form for adding new schedule items in the admin dashboard.
+*   **[2025-09-06]** Successfully tested adding and deleting items in the "Schedule" section.
+*   **Next Action:** With all admin features tested and confirmed working, the next step is to deploy the website.
+
+---
+
+### Session 3: Security Hardening & Cloud Function Deployment
+
+*   **[2025-09-06]** Performed a security review of the codebase.
+*   **[2025-09-06]** Added the `.serviceAccountKey.json` file to `.gitignore` to prevent committing sensitive credentials.
+*   **[2025-09-06]** Confirmed that no other sensitive information is hardcoded in the repository.
+*   **[2025-09-06]** Addressed the `functions.config()` deprecation in the Firebase Cloud Function by migrating to `.env` variables.
+*   **[2025-09-06]** Initialized the project as a Firebase project by creating a `firebase.json` file.
+*   **[2025-09-06]** Resolved multiple deployment errors for the cloud function, including missing runtime and package dependencies.
+*   **[2025-09-06]** Successfully deployed the `sendContactEmail` cloud function to Firebase.
+*   **Next Action:** With the backend function deployed and all admin features tested, the project is ready for front-end deployment.
