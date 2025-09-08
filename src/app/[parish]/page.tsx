@@ -11,8 +11,13 @@ async function getParishData(parishId: string) {
   return parishDoc.data();
 }
 
-// @ts-expect-error: Next.js 15 type inference issue with PageProps
-export default async function ParishPage({ params }: { params: { parish: string } }) {
+type ParishPageProps = {
+  params: {
+    parish: string;
+  };
+};
+
+export default async function ParishPage({ params }: ParishPageProps) {
   const parishData = await getParishData(params.parish);
 
   if (!parishData) {
