@@ -135,3 +135,5 @@ GitHub Actions will deploy to **production** at [rccaolglenfinnan.org.uk](https:
 
 This project is maintained by the parish and its collaborators.  
 See [LICENSE](./LICENSE) for details.
+
+<!-- This is a comment to trigger a new deployment on Vercel. -->
