@@ -53,3 +53,13 @@ This log will track the development progress, key decisions, and actions taken w
 *   **[2025-09-06]** Resolved multiple deployment errors for the cloud function, including missing runtime and package dependencies.
 *   **[2025-09-06]** Successfully deployed the `sendContactEmail` cloud function to Firebase.
 *   **Next Action:** With the backend function deployed and all admin features tested, the project is ready for front-end deployment.
+
+---
+
+### Session 4: Vercel Deployment Troubleshooting
+
+*   **[2025-09-09]** Attempted to deploy the front-end to Vercel.
+*   **[2025-09-09]** Encountered persistent build failures during the deployment process.
+*   **[2025-09-09]** The build failure issue has been escalated to the senior team for investigation.
+*   **[2025-09-09]** Reverted the project to the last known stable state pending resolution.
+*   **Next Action:** Await feedback from the senior team and investigate alternative deployment strategies or troubleshoot the Vercel build issue.
