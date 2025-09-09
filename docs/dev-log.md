@@ -82,7 +82,8 @@ This log will track the development progress, key decisions, and actions taken w
 *   **[2025-09-09]** Began UI/UX improvements based on the `techspec.md`.
 *   **[2025-09-09]** Added a hero image carousel to the homepage to showcase both parishes.
 *   **[2025-09-09]** Installed and configured the `shadcn/ui` Carousel component and its dependencies.
-*   **[2025-09-09]** Added the parish logo to the main navigation bar.
+*   **[2025-09-09]** Added the parish logo to the hero carousel and adjusted its size.
 *   **[2025-09-09]** Replaced the default favicon with the parish logo.
+*   **[2025-09-09]** Added a "Welcome from the Parish Priest" section to the homepage and styled it.
 *   **[2025-09-09]** Debugged and resolved several build and runtime errors related to missing dependencies and incorrect component usage.
 *   **Next Action:** Continue with UI/UX improvements, focusing on the rest of the homepage and other key pages.

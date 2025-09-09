@@ -1,4 +1,5 @@
 import { HeroCarousel } from "@/components/HeroCarousel";
+import { WelcomeSection } from "@/components/WelcomeSection";
 
 export default function Home() {
   return (
@@ -6,6 +7,7 @@ export default function Home() {
       <section>
         <HeroCarousel />
       </section>
+      <WelcomeSection />
       <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">

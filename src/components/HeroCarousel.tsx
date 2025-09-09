@@ -36,6 +36,13 @@ export function HeroCarousel() {
           <CarouselItem key={index}>
             <div className="relative h-[560px]">
               <Image
+                src="/logo.png"
+                alt="Parish Logo"
+                width={240}
+                height={240}
+                className="absolute top-4 left-4 z-20"
+              />
+              <Image
                 src={image.src}
                 alt={image.alt}
                 fill
