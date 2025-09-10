@@ -12,6 +12,12 @@ export function MainNav() {
       <Link href="/newsletters" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
         Newsletters
       </Link>
+      <Link href="/gallery" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
+        Gallery
+      </Link>
+      <Link href="/calendar" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
+        Calendar
+      </Link>
       <Link href="/sacraments" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
         Sacraments
       </Link>

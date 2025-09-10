@@ -1,3 +1,10 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Sacraments',
+  description: 'Information about the sacraments of Baptism, Marriage, and more at the parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',
+};
+
 export default function SacramentsPage() {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">

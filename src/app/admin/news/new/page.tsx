@@ -9,6 +9,11 @@ import { collection, addDoc } from 'firebase/firestore';
 export default function NewNewsArticlePage() {
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
+  const [type, setType] = useState('news');
+  const [eventStartDate, setEventStartDate] = useState('');
+  const [eventEndDate, setEventEndDate] = useState('');
+  const [eventLocation, setEventLocation] = useState('');
+
   const editor = useEditor({
     extensions: [StarterKit],
     content: '<p>Hello World! 🌎️</p>',
@@ -24,7 +29,7 @@ export default function NewNewsArticlePage() {
 
     const content = editor.getHTML();
 
-    await addDoc(collection(db, 'news'), {
+    const data: any = {
       title,
       excerpt,
       content,
@@ -32,7 +37,16 @@ export default function NewNewsArticlePage() {
       updatedAt: new Date(),
       status: 'published', // Or 'draft'
       parishTags: ['caol'], // Or based on user selection
-    });
+      type,
+    };
+
+    if (type === 'event') {
+      data.eventStartDate = new Date(eventStartDate);
+      data.eventEndDate = new Date(eventEndDate);
+      data.eventLocation = eventLocation;
+    }
+
+    await addDoc(collection(db, 'news'), data);
 
     // Redirect to the news list
     window.location.href = '/admin/news';
@@ -64,6 +78,52 @@ export default function NewNewsArticlePage() {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
+          <div className="mb-4">
+            <label htmlFor="type" className="block text-sm font-bold mb-2">Type</label>
+            <select
+              id="type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="news">News</option>
+              <option value="event">Event</option>
+            </select>
+          </div>
+          {type === 'event' && (
+            <>
+              <div className="mb-4">
+                <label htmlFor="eventStartDate" className="block text-sm font-bold mb-2">Event Start Date</label>
+                <input
+                  type="datetime-local"
+                  id="eventStartDate"
+                  value={eventStartDate}
+                  onChange={(e) => setEventStartDate(e.target.value)}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="eventEndDate" className="block text-sm font-bold mb-2">Event End Date</label>
+                <input
+                  type="datetime-local"
+                  id="eventEndDate"
+                  value={eventEndDate}
+                  onChange={(e) => setEventEndDate(e.target.value)}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="eventLocation" className="block text-sm font-bold mb-2">Event Location</label>
+                <input
+                  type="text"
+                  id="eventLocation"
+                  value={eventLocation}
+                  onChange={(e) => setEventLocation(e.target.value)}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+            </>
+          )}
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2">Content</label>
             <EditorContent editor={editor} />

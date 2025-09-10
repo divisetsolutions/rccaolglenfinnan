@@ -34,7 +34,8 @@ const news = [
     updatedAt: new Date('2025-12-01T14:00:00Z'),
     status: 'published',
     featuredImageUrl: 'https://via.placeholder.com/800x400',
-    parishTags: ['caol', 'glenfinnan']
+    parishTags: ['caol', 'glenfinnan'],
+    type: 'news'
   }
 ];
 

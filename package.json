@@ -9,6 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@fullcalendar/daygrid": "^6.1.19",
+    "@fullcalendar/google-calendar": "^6.1.19",
+    "@fullcalendar/react": "^6.1.19",
+    "@google/generative-ai": "^0.24.1",
     "@paypal/react-paypal-js": "^8.9.1",
     "@radix-ui/react-slot": "^1.2.3",
     "@stripe/stripe-js": "^7.9.0",

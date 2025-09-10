@@ -1,6 +1,13 @@
 import { db } from '@/lib/firebase';
 import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
 import Link from 'next/link';
+import Image from 'next/image';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'News & Events',
+  description: 'Stay up to date with the latest news and events from the parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',
+};
 
 async function getNews() {
   const newsCollection = collection(db, 'news');
@@ -23,14 +30,31 @@ export default async function NewsPage() {
           Stay up to date with the latest news and events from both parishes.
         </p>
       </div>
-      <div className="grid gap-4">
+      <div className="grid gap-8 md:grid-cols-2">
         {news.map(article => (
-          <Link key={article.id} href={`/news/${article.id}`}>
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
-              <h3 className="text-xl font-semibold">{article.title}</h3>
-              <p className="text-muted-foreground">{article.excerpt}</p>
+          <div key={article.id} className="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden h-full flex flex-col">
+            {article.featuredImageUrl && (
+              <div className="relative h-48">
+                <Image
+                  src={article.featuredImageUrl}
+                  alt={article.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
+            <div className="p-6 flex flex-col flex-grow">
+              <h3 className="text-xl font-semibold mb-2">
+                <Link href={`/news/${article.slug}`}>
+                  <span className="hover:underline">{article.title}</span>
+                </Link>
+              </h3>
+              <p className="text-muted-foreground mb-4 flex-grow">{article.excerpt}</p>
+              <Link href={`/news/${article.slug}`}>
+                <p className="text-sm font-medium text-blue-500 hover:underline">Read More</p>
+              </Link>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </section>

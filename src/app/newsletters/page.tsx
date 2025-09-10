@@ -1,6 +1,12 @@
 import { db } from '@/lib/firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Newsletters',
+  description: 'Download the latest newsletters from the parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',
+};
 
 async function getNewsletters() {
   const newslettersCollection = collection(db, 'newsletters');

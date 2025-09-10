@@ -1,10 +1,21 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Lora, Lato } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { MainNav } from '@/components/MainNav';
 
-const inter = Inter({ subsets: ['latin'] });
+const lora = Lora({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-lora',
+});
+
+const lato = Lato({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  display: 'swap',
+  variable: '--font-lato',
+});
 
 export const metadata: Metadata = {
   title: 'RCCAOL Glenfinnan',
@@ -17,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={`${lora.variable} ${lato.variable}`}>
+      <body>
         <AuthProvider>
           <div className="flex flex-col min-h-screen">
             <header className="bg-gray-100 p-4">

@@ -1,6 +1,15 @@
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { Schedule } from '@/components/Schedule';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { parish: string } }): Promise<Metadata> {
+  const parishData = await getParishData(params.parish);
+  return {
+    title: parishData?.name,
+    description: `Information about ${parishData?.name}`,
+  };
+}
 
 export async function generateStaticParams() {
   return [{ parish: 'caol' }, { parish: 'glenfinnan' }];
@@ -31,6 +40,13 @@ export default async function ParishPage({ params }: { params: { parish: string 
         <div dangerouslySetInnerHTML={{ __html: parishData.aboutContent }} />
         <h2 className="text-2xl font-bold mt-8">Mass & Service Times</h2>
         <Schedule parishId={params.parish} />
+
+        <h2 className="text-2xl font-bold mt-8">Clergy</h2>
+        <div dangerouslySetInnerHTML={{ __html: parishData.clergyInfo }} />
+
+        <h2 className="text-2xl font-bold mt-8">Contact</h2>
+        <p>Email: <a href={`mailto:${parishData.contactInfo.email}`} className="text-blue-500 hover:underline">{parishData.contactInfo.email}</a></p>
+        <p>Phone: {parishData.contactInfo.phone}</p>
       </div>
     </section>
   );

@@ -6,9 +6,17 @@ import { useEffect, useState } from 'react';
 import { db } from '@/lib/firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
+import { generateSeoDescription } from '@/lib/gemini';
+
 export default function EditNewsArticlePage({ params }: { params: { slug: string } }) {
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
+  const [type, setType] = useState('news');
+  const [eventStartDate, setEventStartDate] = useState('');
+  const [eventEndDate, setEventEndDate] = useState('');
+  const [eventLocation, setEventLocation] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+
   const editor = useEditor({
     extensions: [StarterKit],
     immediatelyRender: false,
@@ -22,6 +30,12 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
         const data = docSnap.data();
         setTitle(data.title);
         setExcerpt(data.excerpt);
+        setType(data.type || 'news');
+        if (data.type === 'event') {
+          setEventStartDate(data.eventStartDate?.toDate().toISOString().slice(0, 16) || '');
+          setEventEndDate(data.eventEndDate?.toDate().toISOString().slice(0, 16) || '');
+          setEventLocation(data.eventLocation || '');
+        }
         if (editor) {
           editor.commands.setContent(data.content);
         }
@@ -41,15 +55,43 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
     const content = editor.getHTML();
 
     const docRef = doc(db, 'news', params.slug);
-    await updateDoc(docRef, {
+    const data: any = {
       title,
       excerpt,
       content,
       updatedAt: new Date(),
-    });
+      type,
+    };
+
+    if (type === 'event') {
+      data.eventStartDate = new Date(eventStartDate);
+      data.eventEndDate = new Date(eventEndDate);
+      data.eventLocation = eventLocation;
+    }
+
+    await updateDoc(docRef, data);
 
     // Redirect to the news list
     window.location.href = '/admin/news';
+  };
+
+  const handleGenerateDescription = async () => {
+    if (!editor) {
+      return;
+    }
+
+    const content = editor.getText(); // Get text version of the content
+    setIsGenerating(true);
+
+    try {
+      const description = await generateSeoDescription(content);
+      setExcerpt(description);
+    } catch (error) {
+      console.error('Error generating SEO description:', error);
+      // Handle error appropriately
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -70,7 +112,10 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="excerpt" className="block text-sm font-bold mb-2">Excerpt</label>
+            <div className="flex justify-between items-center mb-2">
+              <label htmlFor="excerpt" className="block text-sm font-bold">Excerpt</label>
+              <button type="button" onClick={handleGenerateDescription} className="text-sm text-blue-500 hover:underline">Generate SEO Description</button>
+            </div>
             <textarea
               id="excerpt"
               value={excerpt}
@@ -78,6 +123,52 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
+          <div className="mb-4">
+            <label htmlFor="type" className="block text-sm font-bold mb-2">Type</label>
+            <select
+              id="type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="news">News</option>
+              <option value="event">Event</option>
+            </select>
+          </div>
+          {type === 'event' && (
+            <>
+              <div className="mb-4">
+                <label htmlFor="eventStartDate" className="block text-sm font-bold mb-2">Event Start Date</label>
+                <input
+                  type="datetime-local"
+                  id="eventStartDate"
+                  value={eventStartDate}
+                  onChange={(e) => setEventStartDate(e.target.value)}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="eventEndDate" className="block text-sm font-bold mb-2">Event End Date</label>
+                <input
+                  type="datetime-local"
+                  id="eventEndDate"
+                  value={eventEndDate}
+                  onChange={(e) => setEventEndDate(e.target.value)}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="eventLocation" className="block text-sm font-bold mb-2">Event Location</label>
+                <input
+                  type="text"
+                  id="eventLocation"
+                  value={eventLocation}
+                  onChange={(e) => setEventLocation(e.target.value)}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+            </>
+          )}
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2">Content</label>
             <EditorContent editor={editor} />

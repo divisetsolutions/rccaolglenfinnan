@@ -1,5 +1,21 @@
 import { db } from '@/lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const newsData = await getNewsData(params.slug);
+  return {
+    title: newsData?.title,
+    description: newsData?.excerpt,
+  };
+}
+
+export async function generateStaticParams() {
+  const newsSnapshot = await getDocs(collection(db, 'news'));
+  return newsSnapshot.docs.map((doc) => ({
+    slug: doc.id,
+  }));
+}
 
 async function getNewsData(slug: string) {
   const newsDoc = await getDoc(doc(db, 'news', slug));
@@ -23,6 +39,26 @@ export default async function NewsArticlePage({ params }: { params: { slug: stri
           {newsData.excerpt}
         </p>
         <div dangerouslySetInnerHTML={{ __html: newsData.content }} />
+
+        {newsData.type === 'event' && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Event',
+                name: newsData.title,
+                startDate: newsData.eventStartDate.toDate(),
+                endDate: newsData.eventEndDate.toDate(),
+                location: {
+                  '@type': 'Place',
+                  name: newsData.eventLocation,
+                },
+                description: newsData.excerpt,
+              }),
+            }}
+          />
+        )}
       </div>
     </section>
   );

@@ -1,6 +1,11 @@
+'use client';
+
 import Image from "next/image";
+import { useState } from "react";
 
 export function WelcomeSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <section className="container py-12 md:py-16">
       <h2 className="text-3xl font-bold tracking-tighter md:text-4xl mb-8">
@@ -13,7 +18,8 @@ export function WelcomeSection() {
             alt="Parish Priest"
             width={300}
             height={300}
-            className="rounded-lg object-cover"
+            className="rounded-lg object-cover cursor-pointer"
+            onClick={() => setIsModalOpen(true)}
           />
         </div>
         <div className="space-y-4 text-lg">
@@ -31,9 +37,32 @@ export function WelcomeSection() {
             So let us come together again. Let us bring our laughter, our questions, our struggles, our families, and our dreams. God is waiting with open arms. And so are we.
           </p>
           <p className="font-semibold">With joy and excitement in Christ,</p>
-          <p className="font-semibold">Revd Charles Ijeoma Egbon</p>
+          <p className="font-semibold">Revd Charles Ijeoma Egbon, MSP</p>
         </div>
       </div>
+
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div className="relative">
+            <Image
+              src="/parish-priest.jpg"
+              alt="Parish Priest"
+              width={800}
+              height={800}
+              className="rounded-lg object-contain"
+            />
+            <button
+              className="absolute top-4 right-4 text-white text-2xl font-bold"
+              onClick={() => setIsModalOpen(false)}
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

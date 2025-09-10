@@ -14,13 +14,13 @@ const newsletters = [
   {
     title: 'Newsletter - 5th Sunday of Lent',
     issueDate: new Date('2025-03-30T10:00:00Z'),
-    fileUrl: 'gs://rccaolglenfinnan-prod.appspot.com/newsletters/sample-newsletter-1.pdf',
+    fileUrl: 'newsletters/sample-newsletter-1.pdf',
     parishTags: ['caol', 'glenfinnan']
   },
   {
     title: 'Newsletter - Palm Sunday',
     issueDate: new Date('2025-04-06T10:00:00Z'),
-    fileUrl: 'gs://rccaolglenfinnan-prod.appspot.com/newsletters/sample-newsletter-2.pdf',
+    fileUrl: 'newsletters/sample-newsletter-2.pdf',
     parishTags: ['caol', 'glenfinnan']
   }
 ];
