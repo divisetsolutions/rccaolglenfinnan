@@ -1,7 +1,7 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { getStorage } from 'firebase/storage';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
 
 const firebaseConfig = {
@@ -19,5 +19,32 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
+
+export async function getLatestNewsletter() {
+  const newslettersRef = collection(db, 'newsletters');
+  const q = query(newslettersRef, orderBy('issueDate', 'desc'), limit(1));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    const doc = querySnapshot.docs[0];
+    const data = doc.data();
+
+    if (data.issueDate && data.issueDate.toDate) {
+      data.issueDate = data.issueDate.toDate().toISOString();
+    }
+
+    if (data.fileUrl) {
+      try {
+        const downloadUrl = await getDownloadURL(ref(storage, data.fileUrl));
+        data.downloadUrl = downloadUrl;
+      } catch (error) {
+        console.error("Error getting download URL:", error);
+        data.downloadUrl = null;
+      }
+    }
+
+    return data;
+  }
+  return null;
+}
 
 export { app, db, auth, storage };
