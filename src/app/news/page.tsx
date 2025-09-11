@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 async function getNews() {
   const newsCollection = collection(db, 'news');
-    const q = query(newsCollection, where('status', '==', 'published'), where('type', 'in', ['News', 'Event']), orderBy('createdAt', 'desc'));
+      const q = query(newsCollection, where('status', '==', 'published'), where('type', 'in', ['news', 'event']), orderBy('createdAt', 'desc'));
   const newsSnapshot = await getDocs(q);
   const newsList = newsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   return newsList;
@@ -45,12 +45,12 @@ export default async function NewsPage() {
             )}
             <div className="p-6 flex flex-col flex-grow">
               <h3 className="text-xl font-semibold mb-2">
-                <Link href={`/news/${article.slug}`}>
+                <Link href={`/news/${article.id}`}>
                   <span className="hover:underline">{article.title}</span>
                 </Link>
               </h3>
               <p className="text-muted-foreground mb-4 flex-grow">{article.excerpt}</p>
-              <Link href={`/news/${article.slug}`}>
+              <Link href={`/news/${article.id}`}>
                 <p className="text-sm font-medium text-blue-500 hover:underline">Read More</p>
               </Link>
             </div>

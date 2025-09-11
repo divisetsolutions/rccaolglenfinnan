@@ -1,6 +1,7 @@
 import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, getDoc, query, where } from 'firebase/firestore';
 import { Metadata } from 'next';
+import Image from 'next/image';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const homilyData = await getHomilyData(params.slug);
@@ -11,7 +12,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export async function generateStaticParams() {
-  const q = query(collection(db, 'news'), where('type', '==', 'Homily'));
+  const q = query(collection(db, 'news'), where('type', '==', 'homily'));
   const homilySnapshot = await getDocs(q);
   return homilySnapshot.docs.map((doc) => ({
     slug: doc.id,
@@ -31,16 +32,32 @@ export default async function HomilyArticlePage({ params }: { params: { slug: st
   }
 
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
+    <article className="container max-w-3xl py-6 lg:py-10">
+      {homilyData.featuredImageUrl && (
+        <div className="relative mb-8 h-60 w-full overflow-hidden rounded-lg md:h-80">
+          <Image
+            src={homilyData.featuredImageUrl}
+            alt={homilyData.title}
+            fill
+            className="object-cover"
+          />
+        </div>
+      )}
+      <div className="flex flex-col items-center gap-4 text-center">
         <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
           {homilyData.title}
         </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          {homilyData.excerpt}
-        </p>
-        <div dangerouslySetInnerHTML={{ __html: homilyData.content }} />
+        {homilyData.excerpt && (
+          <p className="max-w-[700px] text-lg text-muted-foreground">
+            {homilyData.excerpt}
+          </p>
+        )}
       </div>
-    </section>
+
+      <div
+        className="prose mx-auto mt-8 max-w-none"
+        dangerouslySetInnerHTML={{ __html: homilyData.content }}
+      />
+    </article>
   );
 }
