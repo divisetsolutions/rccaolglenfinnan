@@ -3,7 +3,7 @@ import NextService from "@/components/NextService";
 import NewsHighlights from "@/components/NewsHighlights";
 import { WelcomeSection } from "@/components/WelcomeSection";
 import Image from "next/image";
-import { getLatestNewsletter } from "@/lib/firebase";
+import { getLatestNewsletter, getLatestHomily } from "@/lib/firebase";
 import Link from "next/link";
 import { Metadata } from 'next';
 
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const latestNewsletter = await getLatestNewsletter();
+  const latestHomily = await getLatestHomily();
   return (
     <>
       <section>
@@ -49,13 +50,18 @@ export default async function Home() {
               </p>
             )}
           </div>
-          <Link href="/news" className="group">
-            <div className="flex flex-col items-center text-center p-8 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors h-full">
-              <Image src="/file.svg" alt="Sunday Homily" width={64} height={64} className="mb-4" />
-              <h3 className="text-xl font-bold mb-2">Sunday Homily</h3>
-              <p className="text-gray-600">Read the latest Sunday Homily.</p>
-            </div>
-          </Link>
+          <div className="flex flex-col items-center text-center p-8 bg-gray-100 rounded-lg h-full">
+            <Image src="/file.svg" alt="Sunday Homily" width={64} height={64} className="mb-4" />
+            <h3 className="text-xl font-bold mb-2">Sunday Homily</h3>
+            <Link href="/homilies" className="text-gray-600 underline hover:text-gray-800">
+              Read the Sunday Homilies.
+            </Link>
+            {latestHomily && (
+              <p className="text-sm text-gray-500 mt-4">
+                Latest: <Link href={`/homilies/${latestHomily.slug}`} className="underline hover:text-gray-800">{latestHomily.title}</Link>
+              </p>
+            )}
+          </div>
         </div>
       </section>
       <NewsHighlights />

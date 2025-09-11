@@ -121,7 +121,7 @@ The site will be the **primary digital hub** for parishioners and visitors, prov
   "status": "published",
   "featuredImageUrl": "gs://bucket/image.webp",
   "parishTags": ["caol", "glenfinnan"],
-  "type": "event", // 'news' or 'event'
+  "type": "event", // 'news', 'event', or 'homily'
   "eventStartDate": "Firebase Timestamp",
   "eventEndDate": "Firebase Timestamp",
   "eventLocation": "St. John's Church Hall"

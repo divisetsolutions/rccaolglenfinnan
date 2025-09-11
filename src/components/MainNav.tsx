@@ -6,6 +6,9 @@ export function MainNav() {
       <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
         Home
       </Link>
+      <Link href="/about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
+        About Us
+      </Link>
       <Link href="/news" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
         News & Events
       </Link>

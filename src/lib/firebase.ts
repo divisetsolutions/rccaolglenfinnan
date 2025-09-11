@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, query, orderBy, limit, getDocs, where, doc, getDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
@@ -43,6 +43,30 @@ export async function getLatestNewsletter() {
     }
 
     return data;
+  }
+  return null;
+}
+
+export async function getLatestHomily() {
+  const newsRef = collection(db, 'news');
+  const q = query(newsRef, where('type', '==', 'homily'), orderBy('createdAt', 'desc'), limit(1));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    const doc = querySnapshot.docs[0];
+    const data = doc.data();
+    if (data.createdAt && data.createdAt.toDate) {
+      data.createdAt = data.createdAt.toDate().toISOString();
+    }
+    return { slug: doc.id, ...data };
+  }
+  return null;
+}
+
+export async function getArticle(slug: string) {
+  const docRef = doc(db, 'news', slug);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data();
   }
   return null;
 }

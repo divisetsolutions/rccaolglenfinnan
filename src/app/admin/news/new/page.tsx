@@ -3,13 +3,15 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useState } from 'react';
-import { db } from '@/lib/firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { db, storage } from '@/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 export default function NewNewsArticlePage() {
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
   const [type, setType] = useState('news');
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [eventStartDate, setEventStartDate] = useState('');
   const [eventEndDate, setEventEndDate] = useState('');
   const [eventLocation, setEventLocation] = useState('');
@@ -23,11 +25,24 @@ export default function NewNewsArticlePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!editor) {
+    if (!editor || !title) {
+      alert('Title is required.');
       return;
     }
 
     const content = editor.getHTML();
+
+    const slug = title
+      .toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[^\w-]+/g, '');
+
+    let featuredImageUrl = '';
+    if (imageFile) {
+      const imageRef = ref(storage, `news-images/${slug}/${imageFile.name}`);
+      await uploadBytes(imageRef, imageFile);
+      featuredImageUrl = await getDownloadURL(imageRef);
+    }
 
     const data: any = {
       title,
@@ -38,6 +53,7 @@ export default function NewNewsArticlePage() {
       status: 'published', // Or 'draft'
       parishTags: ['caol'], // Or based on user selection
       type,
+      featuredImageUrl,
     };
 
     if (type === 'event') {
@@ -46,7 +62,7 @@ export default function NewNewsArticlePage() {
       data.eventLocation = eventLocation;
     }
 
-    await addDoc(collection(db, 'news'), data);
+    await setDoc(doc(db, 'news', slug), data);
 
     // Redirect to the news list
     window.location.href = '/admin/news';
@@ -67,6 +83,7 @@ export default function NewNewsArticlePage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
             />
           </div>
           <div className="mb-4">
@@ -88,7 +105,17 @@ export default function NewNewsArticlePage() {
             >
               <option value="news">News</option>
               <option value="event">Event</option>
+              <option value="homily">Homily</option>
             </select>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="image" className="block text-sm font-bold mb-2">Featured Image</label>
+            <input
+              type="file"
+              id="image"
+              onChange={(e) => setImageFile(e.target.files ? e.target.files[0] : null)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
           </div>
           {type === 'event' && (
             <>

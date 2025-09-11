@@ -5,33 +5,33 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'News & Events',
-  description: 'Stay up to date with the latest news and events from the parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',
+  title: 'Sunday Homilies',
+  description: 'Read the latest Sunday Homilies from the parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',
 };
 
-async function getNews() {
+async function getHomilies() {
   const newsCollection = collection(db, 'news');
-    const q = query(newsCollection, where('status', '==', 'published'), where('type', 'in', ['News', 'Event']), orderBy('createdAt', 'desc'));
+    const q = query(newsCollection, where('status', '==', 'published'), where('type', '==', 'homily'), orderBy('createdAt', 'desc'));
   const newsSnapshot = await getDocs(q);
   const newsList = newsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   return newsList;
 }
 
-export default async function NewsPage() {
-  const news = await getNews();
+export default async function HomiliesPage() {
+  const homilies = await getHomilies();
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex max-w-[980px] flex-col items-start gap-2">
         <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          News & Events
+          Sunday Homilies
         </h1>
         <p className="max-w-[700px] text-lg text-muted-foreground">
-          Stay up to date with the latest news and events from both parishes.
+          Read the latest Sunday Homilies from both parishes.
         </p>
       </div>
       <div className="grid gap-8 md:grid-cols-2">
-        {news.map(article => (
+        {homilies.map(article => (
           <div key={article.id} className="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden h-full flex flex-col">
             {article.featuredImageUrl && (
               <div className="relative h-48">
@@ -45,12 +45,12 @@ export default async function NewsPage() {
             )}
             <div className="p-6 flex flex-col flex-grow">
               <h3 className="text-xl font-semibold mb-2">
-                <Link href={`/news/${article.slug}`}>
+                <Link href={`/homilies/${article.slug}`}>
                   <span className="hover:underline">{article.title}</span>
                 </Link>
               </h3>
               <p className="text-muted-foreground mb-4 flex-grow">{article.excerpt}</p>
-              <Link href={`/news/${article.slug}`}>
+              <Link href={`/homilies/${article.slug}`}>
                 <p className="text-sm font-medium text-blue-500 hover:underline">Read More</p>
               </Link>
             </div>

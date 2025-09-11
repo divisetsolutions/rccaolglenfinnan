@@ -22,7 +22,8 @@ const news = [
     updatedAt: new Date('2025-08-15T10:00:00Z'),
     status: 'published',
     featuredImageUrl: 'https://via.placeholder.com/800x400',
-    parishTags: ['caol', 'glenfinnan']
+    parishTags: ['caol', 'glenfinnan'],
+    type: 'event'
   },
   {
     title: 'Christmas Mass Times',
@@ -36,6 +37,19 @@ const news = [
     featuredImageUrl: 'https://via.placeholder.com/800x400',
     parishTags: ['caol', 'glenfinnan'],
     type: 'news'
+  },
+  {
+    title: 'Homily for the 23rd Sunday in Ordinary Time',
+    slug: 'homily-23rd-sunday-ordinary-time',
+    content: '<p>A reflection on the readings for the 23rd Sunday in Ordinary Time.</p>',
+    excerpt: 'A reflection on the readings...',
+    authorName: 'Fr. John Smith',
+    createdAt: new Date('2025-09-07T10:00:00Z'),
+    updatedAt: new Date('2025-09-07T10:00:00Z'),
+    status: 'published',
+    featuredImageUrl: 'https://via.placeholder.com/800x400',
+    parishTags: ['caol', 'glenfinnan'],
+    type: 'homily'
   }
 ];
 

@@ -3,8 +3,10 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useEffect, useState } from 'react';
-import { db } from '@/lib/firebase';
+import { db, storage } from '@/lib/firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import Image from 'next/image';
 
 import { generateSeoDescription } from '@/lib/gemini';
 
@@ -12,6 +14,8 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
   const [type, setType] = useState('news');
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [existingImageUrl, setExistingImageUrl] = useState('');
   const [eventStartDate, setEventStartDate] = useState('');
   const [eventEndDate, setEventEndDate] = useState('');
   const [eventLocation, setEventLocation] = useState('');
@@ -31,6 +35,7 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
         setTitle(data.title);
         setExcerpt(data.excerpt);
         setType(data.type || 'news');
+        setExistingImageUrl(data.featuredImageUrl || '');
         if (data.type === 'event') {
           setEventStartDate(data.eventStartDate?.toDate().toISOString().slice(0, 16) || '');
           setEventEndDate(data.eventEndDate?.toDate().toISOString().slice(0, 16) || '');
@@ -55,12 +60,21 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
     const content = editor.getHTML();
 
     const docRef = doc(db, 'news', params.slug);
+    
+    let featuredImageUrl = existingImageUrl;
+    if (imageFile) {
+      const imageRef = ref(storage, `news-images/${params.slug}/${imageFile.name}`);
+      await uploadBytes(imageRef, imageFile);
+      featuredImageUrl = await getDownloadURL(imageRef);
+    }
+
     const data: any = {
       title,
       excerpt,
       content,
       updatedAt: new Date(),
       type,
+      featuredImageUrl,
     };
 
     if (type === 'event') {
@@ -114,7 +128,9 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
           <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
               <label htmlFor="excerpt" className="block text-sm font-bold">Excerpt</label>
-              <button type="button" onClick={handleGenerateDescription} className="text-sm text-blue-500 hover:underline">Generate SEO Description</button>
+              <button type="button" onClick={handleGenerateDescription} className="text-sm text-blue-500 hover:underline" disabled={isGenerating}>
+                {isGenerating ? 'Generating...' : 'Generate SEO Description'}
+              </button>
             </div>
             <textarea
               id="excerpt"
@@ -133,7 +149,23 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
             >
               <option value="news">News</option>
               <option value="event">Event</option>
+              <option value="homily">Homily</option>
             </select>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="image" className="block text-sm font-bold mb-2">Featured Image</label>
+            {existingImageUrl && (
+              <div className="mb-2">
+                <Image src={existingImageUrl} alt="Existing featured image" width={200} height={100} className="object-cover" />
+              </div>
+            )}
+            <input
+              type="file"
+              id="image"
+              onChange={(e) => setImageFile(e.target.files ? e.target.files[0] : null)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+            <p className="text-sm text-gray-600 mt-1">Select a new file to replace the existing image.</p>
           </div>
           {type === 'event' && (
             <>
