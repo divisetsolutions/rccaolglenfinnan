@@ -7,12 +7,10 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-lg font-bold mb-4">Mass Times</h3>
-            <h4 className="font-semibold">Sunday Masses</h4>
-            <p>St John’s, Caol – 10:00 am</p>
-            <p>St Mary & St Finnan’s, Glenfinnan – 1:30 pm</p>
-            <h4 className="font-semibold mt-4">Weekday Masses (St John’s, Caol)</h4>
-            <p>Mon, Thurs, Fri – 10:00 am</p>
-            <p>Wed – 6:30 pm</p>
+            <p>For the most up-to-date Mass and service times, including special events, funerals, and any temporary changes, please view our full parish calendar.</p>
+            <Link href="/calendar">
+              <p className="text-blue-400 hover:underline mt-4">View Full Calendar</p>
+            </Link>
           </div>
           <div>
             <h3 className="text-lg font-bold mb-4">The Churches</h3>
