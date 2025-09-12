@@ -68,7 +68,19 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
       featuredImageUrl = await getDownloadURL(imageRef);
     }
 
-    const data: any = {
+    interface ArticleData {
+      title: string;
+      excerpt: string;
+      content: string;
+      updatedAt: Date;
+      type: string;
+      featuredImageUrl: string;
+      eventStartDate?: Date;
+      eventEndDate?: Date;
+      eventLocation?: string;
+    }
+
+    const data: ArticleData = {
       title,
       excerpt,
       content,

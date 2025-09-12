@@ -139,17 +139,39 @@ The site will be the **primary digital hub** for parishioners and visitors, prov
 \`\`\`  
 
 ### Users  
-\`\`\`json
+```json
 {
   "email": "priest@example.com",
   "displayName": "Fr. John Smith",
   "role": "admin"
 }
-\`\`\`  
+```
 
----
+### Galleries
+```json
+{
+  "title": "Summer Fete 2025",
+  "description": "Photos from our annual summer fete.",
+  "createdAt": "Firebase Timestamp",
+  "updatedAt": "Firebase Timestamp",
+  "coverImageUrl": "gs://bucket/image.webp",
+  "images": [
+    {
+      "url": "gs://bucket/image1.webp",
+      "caption": "Optional caption for image 1"
+    },
+    {
+      "url": "gs://bucket/image2.webp",
+      "caption": "Optional caption for image 2"
+    }
+  ]
+}
+```
+
+--- 
 
 ## 7. Security & Access Control  
+```  
 
 - **Admin Dashboard:** Firebase Auth with MFA.  
 - **Firestore Rules:**  

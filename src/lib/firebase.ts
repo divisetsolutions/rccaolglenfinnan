@@ -21,45 +21,61 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 
 export async function getLatestNewsletter() {
-  const newslettersRef = collection(db, 'newsletters');
-  const q = query(newslettersRef, orderBy('issueDate', 'desc'), limit(1));
-  const querySnapshot = await getDocs(q);
-  if (!querySnapshot.empty) {
-    const doc = querySnapshot.docs[0];
-    const data = doc.data();
+  console.log('Fetching latest newsletter...');
+  try {
+    const newslettersRef = collection(db, 'newsletters');
+    const q = query(newslettersRef, orderBy('issueDate', 'desc'), limit(1));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const doc = querySnapshot.docs[0];
+      const data = doc.data();
+      console.log('Latest newsletter data:', data);
 
-    if (data.issueDate && data.issueDate.toDate) {
-      data.issueDate = data.issueDate.toDate().toISOString();
-    }
-
-    if (data.fileUrl) {
-      try {
-        const downloadUrl = await getDownloadURL(ref(storage, data.fileUrl));
-        data.downloadUrl = downloadUrl;
-      } catch (error) {
-        console.error("Error getting download URL:", error);
-        data.downloadUrl = null;
+      if (data.issueDate && data.issueDate.toDate) {
+        data.issueDate = data.issueDate.toDate().toISOString();
       }
-    }
 
-    return data;
+      if (data.fileUrl) {
+        try {
+          const downloadUrl = await getDownloadURL(ref(storage, data.fileUrl));
+          data.downloadUrl = downloadUrl;
+        } catch (error) {
+          console.error("Error getting download URL:", error);
+          data.downloadUrl = null;
+        }
+      }
+
+      return data;
+    }
+    console.log('No newsletters found.');
+    return null;
+  } catch (error) {
+    console.error('Error fetching latest newsletter:', error);
+    return null;
   }
-  return null;
 }
 
 export async function getLatestHomily() {
-  const newsRef = collection(db, 'news');
-  const q = query(newsRef, where('type', '==', 'homily'), orderBy('createdAt', 'desc'), limit(1));
-  const querySnapshot = await getDocs(q);
-  if (!querySnapshot.empty) {
-    const doc = querySnapshot.docs[0];
-    const data = doc.data();
-    if (data.createdAt && data.createdAt.toDate) {
-      data.createdAt = data.createdAt.toDate().toISOString();
+  console.log('Fetching latest homily...');
+  try {
+    const newsRef = collection(db, 'news');
+    const q = query(newsRef, where('type', '==', 'homily'), orderBy('createdAt', 'desc'), limit(1));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const doc = querySnapshot.docs[0];
+      const data = doc.data();
+      console.log('Latest homily data:', data);
+      if (data.createdAt && data.createdAt.toDate) {
+        data.createdAt = data.createdAt.toDate().toISOString();
+      }
+      return { slug: doc.id, ...data };
     }
-    return { slug: doc.id, ...data };
+    console.log('No homilies found.');
+    return null;
+  } catch (error) {
+    console.error('Error fetching latest homily:', error);
+    return null;
   }
-  return null;
 }
 
 export async function getArticle(slug: string) {
@@ -69,6 +85,20 @@ export async function getArticle(slug: string) {
     return docSnap.data();
   }
   return null;
+}
+
+export async function getSchedule() {
+  const scheduleRef = collection(db, 'schedule');
+  const q = query(scheduleRef, orderBy('time'));
+  const querySnapshot = await getDocs(q);
+  const schedule = querySnapshot.docs.map(doc => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      ...data
+    };
+  });
+  return schedule;
 }
 
 export { app, db, auth, storage };
