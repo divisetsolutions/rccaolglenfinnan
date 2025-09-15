@@ -1,15 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { getNextService } from '@/lib/firebase';
+import { Calendar, Clock, MapPin } from 'lucide-react';
 
 interface ScheduleItem {
   id: string;
   title: string;
-  dayOfWeek: string;
+  dayOfWeek?: string;
   time: string;
   parishId: string;
+  specialDate?: string;
+  date?: Date;
 }
 
 const NextService = () => {
@@ -17,81 +19,71 @@ const NextService = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSchedule = async () => {
+    const fetchNextService = async () => {
       try {
-        const scheduleCollection = collection(db, 'schedule');
-        const q = query(scheduleCollection, orderBy('dayOfWeek'), orderBy('time'));
-        const scheduleSnapshot = await getDocs(q);
-        const scheduleList = scheduleSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as ScheduleItem[];
-
-        // Logic to determine the next service
-        const now = new Date();
-        const currentDay = now.getDay(); // Sunday = 0, Monday = 1, etc.
-        const currentTime = now.getHours() * 60 + now.getMinutes(); // Time in minutes
-
-        const daysOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-        let upcomingService: ScheduleItem | null = null;
-
-        // Find next service for the current day
-        for (const item of scheduleList) {
-          const itemDay = daysOrder.indexOf(item.dayOfWeek);
-          const itemTime = parseInt(item.time.split(':')[0]) * 60 + parseInt(item.time.split(':')[1]);
-
-          if (itemDay === currentDay && itemTime > currentTime) {
-            upcomingService = item;
-            break;
-          }
-        }
-
-        // If no service today, find for the next day
-        if (!upcomingService) {
-          for (let i = 1; i < 7; i++) {
-            const nextDay = (currentDay + i) % 7;
-            for (const item of scheduleList) {
-              const itemDay = daysOrder.indexOf(item.dayOfWeek);
-              if (itemDay === nextDay) {
-                upcomingService = item;
-                break;
-              }
-            }
-            if (upcomingService) break;
-          }
-        }
-        
-        // If still no service, take the first one of the week
-        if (!upcomingService && scheduleList.length > 0) {
-            upcomingService = scheduleList[0];
-        }
-
-        setNextService(upcomingService);
-
+        const service = await getNextService();
+        setNextService(service as ScheduleItem | null);
       } catch (error) {
-        console.error("Error fetching schedule:", error);
+        console.error("Error fetching next service:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchSchedule();
+    fetchNextService();
   }, []);
 
+  const formatDate = (service: ScheduleItem) => {
+    if (service.specialDate) {
+      const [year, month, day] = service.specialDate.split('-');
+      const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+      return date.toLocaleDateString('en-GB', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    }
+    if (service.date) {
+        return service.date.toLocaleDateString('en-GB', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    }
+    return service.dayOfWeek;
+  };
+
   return (
-    <section className="bg-blue-900 text-white py-8">
+    <section className="bg-blue-900 text-white py-12">
       <div className="container mx-auto text-center">
-        <h2 className="text-2xl font-bold mb-4">Next Service</h2>
+        <h2 className="text-3xl font-bold mb-6">Next Service</h2>
         {loading ? (
-          <p>Loading...</p>
+          <div className="animate-pulse">
+            <div className="h-8 bg-blue-800 rounded w-3/4 mx-auto"></div>
+            <div className="h-6 bg-blue-800 rounded w-1/2 mx-auto mt-4"></div>
+          </div>
         ) : nextService ? (
-          <div>
-            <p className="text-xl">{nextService.title} at {nextService.parishId}</p>
-            <p className="text-lg">{nextService.dayOfWeek} at {nextService.time}</p>
+          <div className="bg-white/10 rounded-lg p-8 max-w-2xl mx-auto">
+            <h3 className="text-4xl font-bold text-yellow-400 mb-4">{nextService.title}</h3>
+            <div className="flex items-center justify-center space-x-6 text-xl">
+              <div className="flex items-center">
+                <MapPin className="mr-2" />
+                <span>{nextService.parishId === 'caol' ? "St. John's, Caol" : "St. Mary & St. Finnan's, Glenfinnan"}</span>
+              </div>
+              <div className="flex items-center">
+                <Calendar className="mr-2" />
+                <span>{formatDate(nextService)}</span>
+              </div>
+              <div className="flex items-center">
+                <Clock className="mr-2" />
+                <span>{nextService.time}</span>
+              </div>
+            </div>
           </div>
         ) : (
-          <p>No upcoming services found.</p>
+          <p className="text-xl">Details of the next service will be available soon.</p>
         )}
       </div>
     </section>

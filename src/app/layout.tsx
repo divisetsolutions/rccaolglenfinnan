@@ -3,6 +3,7 @@ import { Lora, Lato } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { MainNav } from '@/components/MainNav';
+import { Footer } from '@/components/Footer';
 
 const lora = Lora({
   subsets: ['latin'],
@@ -34,16 +35,14 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <header className="bg-gray-100 p-4">
               <div className="container mx-auto flex justify-between items-center">
-                <p className="font-bold">RCCAOL Glenfinnan</p>
+                <p className="font-bold">Welcome to the Parishes of Caol and Glenfinnan</p>
                 <MainNav />
               </div>
             </header>
             <main className="flex-grow p-4">
               {children}
             </main>
-            <footer className="bg-gray-100 p-4 text-center">
-              <p>&copy; {new Date().getFullYear()} RCCAOL Glenfinnan</p>
-            </footer>
+            <Footer />
           </div>
         </AuthProvider>
       </body>

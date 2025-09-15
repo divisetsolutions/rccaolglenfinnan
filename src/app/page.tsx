@@ -24,7 +24,7 @@ export default async function Home() {
       <NextService />
       <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          <Link href="/schedule" className="group">
+          <Link href="/calendar" className="group">
             <div className="flex flex-col items-center text-center p-8 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors h-full">
               <Image src="/window.svg" alt="Mass Times" width={64} height={64} className="mb-4" />
               <h3 className="text-xl font-bold mb-2">Mass & Service Times</h3>
@@ -34,7 +34,7 @@ export default async function Home() {
           <Link href="/news" className="group">
             <div className="flex flex-col items-center text-center p-8 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors h-full">
               <Image src="/globe.svg" alt="Parish News" width={64} height={64} className="mb-4" />
-              <h3 className="text-xl font-bold mb-2">Parish News & Events</h3>
+              <h3 className="text-xl font-bold mb-2">News & Events</h3>
               <p className="text-gray-600">Read the latest announcements and upcoming events.</p>
             </div>
           </Link>

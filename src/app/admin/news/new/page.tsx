@@ -22,7 +22,7 @@ export default function NewNewsArticlePage() {
     immediatelyRender: false,
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!editor || !title) {
@@ -44,7 +44,22 @@ export default function NewNewsArticlePage() {
       featuredImageUrl = await getDownloadURL(imageRef);
     }
 
-    const data: any = {
+    interface ArticleData {
+      title: string;
+      excerpt: string;
+      content: string;
+      createdAt: Date;
+      updatedAt: Date;
+      status: string;
+      parishTags: string[];
+      type: string;
+      featuredImageUrl: string;
+      eventStartDate?: Date;
+      eventEndDate?: Date;
+      eventLocation?: string;
+    }
+
+    const data: ArticleData = {
       title,
       excerpt,
       content,

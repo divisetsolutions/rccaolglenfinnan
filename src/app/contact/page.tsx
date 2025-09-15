@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getFunctions, httpsCallable } from 'firebase/functions';
 import { Button } from '@/components/ui/button';
 
 export default function ContactPage() {
@@ -12,19 +11,34 @@ export default function ContactPage() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const functions = getFunctions();
-    const sendContactEmail = httpsCallable(functions, 'sendContactEmail');
+    setSubmitting(true);
+    setError(null);
 
     try {
-      await sendContactEmail({ name, email, message });
-      setSubmitted(true);
+      const response = await fetch('https://n8n.divisetsolutions.com/webhook/contact-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        setError('An error occurred while sending the message.');
+        console.error('Error sending email:', response);
+      }
     } catch (error) {
+      setError('An unknown error occurred.');
       console.error('Error sending email:', error);
-      // Handle error appropriately
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -62,6 +76,7 @@ export default function ContactPage() {
                 placeholder="Jane Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                required
               />
             </div>
             <div>
@@ -75,6 +90,7 @@ export default function ContactPage() {
                 placeholder="jane.doe@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div>
@@ -86,9 +102,15 @@ export default function ContactPage() {
                 id="message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                required
               />
             </div>
-            <Button type="submit">Send Message</Button>
+            {error && (
+              <p className="text-red-500">{error}</p>
+            )}
+            <Button type="submit" disabled={submitting}>
+              {submitting ? 'Sending...' : 'Send Message'}
+            </Button>
           </form>
         </div>
       </div>
