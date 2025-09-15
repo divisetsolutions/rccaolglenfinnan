@@ -124,7 +124,14 @@ export async function getNextService() {
   const currentDay = now.getDay();
   const currentTime = now.getHours() * 100 + now.getMinutes(); // e.g., 10:30 -> 1030
 
-  let nextRecurringEvent: any = null;
+  interface ScheduleItem {
+    id: string;
+    dayOfWeek: string;
+    time: string;
+    [key: string]: any;
+  }
+
+  let nextRecurringEvent: ScheduleItem | null = null;
 
   // Look for the next service in the next 7 days
   for (let i = 0; i < 7; i++) {

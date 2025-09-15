@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, Timestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 interface NewsArticle {
@@ -13,7 +13,7 @@ interface NewsArticle {
   excerpt: string;
   slug: string;
   featuredImageUrl?: string;
-  createdAt: any;
+  createdAt: Timestamp;
 }
 
 const NewsHighlights = () => {

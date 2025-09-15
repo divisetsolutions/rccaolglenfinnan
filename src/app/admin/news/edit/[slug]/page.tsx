@@ -4,7 +4,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useEffect, useState } from 'react';
 import { db, storage } from '@/lib/firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, Timestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Image from 'next/image';
 
@@ -17,8 +17,8 @@ interface ArticleData {
   updatedAt: Date;
   type: string;
   featuredImageUrl: string;
-  eventStartDate?: any; // Using any to avoid type issues with Firestore timestamps
-  eventEndDate?: any;
+  eventStartDate?: Timestamp;
+  eventEndDate?: Timestamp;
   eventLocation?: string;
 }
 
