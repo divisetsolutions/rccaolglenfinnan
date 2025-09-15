@@ -35,7 +35,7 @@ export default function ScheduleCalendar({ events }: ScheduleCalendarProps) {
 
   const [selectedEvent, setSelectedEvent] = useState<EventClickArg['event'] | null>(null);
 
-  const handleEventClick = (clickInfo: any) => {
+  const handleEventClick = (clickInfo: EventClickArg) => {
     setSelectedEvent(clickInfo.event);
     setIsModalOpen(true);
   };
