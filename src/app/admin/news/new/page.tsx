@@ -22,7 +22,7 @@ export default function NewNewsArticlePage() {
     immediatelyRender: false,
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!editor || !title) {

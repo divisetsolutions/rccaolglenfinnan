@@ -10,6 +10,18 @@ import Image from 'next/image';
 
 import { generateSeoDescription } from '@/lib/gemini';
 
+interface ArticleData {
+  title: string;
+  excerpt: string;
+  content: string;
+  updatedAt: Date;
+  type: string;
+  featuredImageUrl: string;
+  eventStartDate?: any; // Using any to avoid type issues with Firestore timestamps
+  eventEndDate?: any;
+  eventLocation?: string;
+}
+
 export default function EditNewsArticlePage({ params }: { params: { slug: string } }) {
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
@@ -19,7 +31,6 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
   const [eventStartDate, setEventStartDate] = useState('');
   const [eventEndDate, setEventEndDate] = useState('');
   const [eventLocation, setEventLocation] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -31,7 +42,7 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
       const docRef = doc(db, 'news', params.slug);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        const data = docSnap.data();
+        const data = docSnap.data() as ArticleData;
         setTitle(data.title);
         setExcerpt(data.excerpt);
         setType(data.type || 'news');
@@ -68,19 +79,7 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
       featuredImageUrl = await getDownloadURL(imageRef);
     }
 
-    interface ArticleData {
-      title: string;
-      excerpt: string;
-      content: string;
-      updatedAt: Date;
-      type: string;
-      featuredImageUrl: string;
-      eventStartDate?: Date;
-      eventEndDate?: Date;
-      eventLocation?: string;
-    }
-
-    const data: ArticleData = {
+    const data: Partial<ArticleData> = {
       title,
       excerpt,
       content,
@@ -107,7 +106,6 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
     }
 
     const content = editor.getText(); // Get text version of the content
-    setIsGenerating(true);
 
     try {
       const description = await generateSeoDescription(content);
@@ -115,8 +113,6 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
     } catch (error) {
       console.error('Error generating SEO description:', error);
       // Handle error appropriately
-    } finally {
-      setIsGenerating(false);
     }
   };
 
@@ -140,8 +136,8 @@ export default function EditNewsArticlePage({ params }: { params: { slug: string
           <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
               <label htmlFor="excerpt" className="block text-sm font-bold">Excerpt</label>
-              <button type="button" onClick={handleGenerateDescription} className="text-sm text-blue-500 hover:underline" disabled={isGenerating}>
-                {isGenerating ? 'Generating...' : 'Generate SEO Description'}
+              <button type="button" onClick={handleGenerateDescription} className="text-sm text-blue-500 hover:underline">
+                Generate SEO Description
               </button>
             </div>
             <textarea
