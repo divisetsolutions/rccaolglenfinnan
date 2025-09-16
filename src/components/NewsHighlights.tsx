@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+
 import { collection, getDocs, query, orderBy, limit, Timestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
@@ -13,7 +14,7 @@ interface NewsArticle {
   excerpt: string;
   slug: string;
   featuredImageUrl?: string;
-  createdAt: Timestamp;
+  createdAt: Timestamp | string; // Allow string for Vatican News
 }
 
 const NewsHighlights = () => {
@@ -23,14 +24,26 @@ const NewsHighlights = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
+        // Fetch Vatican News from API route
+        const response = await fetch('/api/vatican-news');
+        const vaticanArticle = await response.json();
+        let combinedNews: NewsArticle[] = [];
+
+        // Fetch Firestore News (limit to 2 if Vatican article exists, else 3)
         const newsCollection = collection(db, 'news');
-        const q = query(newsCollection, orderBy('createdAt', 'desc'), limit(3));
+        const q = query(newsCollection, orderBy('createdAt', 'desc'), limit(vaticanArticle ? 2 : 3));
         const newsSnapshot = await getDocs(q);
-        const newsList = newsSnapshot.docs.map(doc => ({
+        const firestoreNewsList = newsSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
         })) as NewsArticle[];
-        setNews(newsList);
+
+        if (vaticanArticle) {
+          combinedNews.push(vaticanArticle);
+        }
+        combinedNews = combinedNews.concat(firestoreNewsList);
+
+        setNews(combinedNews);
       } catch (error) {
         console.error("Error fetching news:", error);
       } finally {
@@ -62,7 +75,12 @@ const NewsHighlights = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {news.map((item) => (
-              <Link key={item.id} href={`/news/${item.slug || item.id}`} className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+              <Link 
+                key={item.id} 
+                href={item.id.startsWith('vatican-') ? item.slug : `/news/${item.slug || item.id}`} 
+                className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                {...(item.id.startsWith('vatican-') && { target: "_blank", rel: "noopener noreferrer" })} // Open Vatican links in new tab
+              >
                 <div className="relative h-48 w-full">
                   <Image
                     src={item.featuredImageUrl || '/hero-image.jpg'}
@@ -77,7 +95,7 @@ const NewsHighlights = () => {
                   {item.createdAt && (
                     <p className="text-sm text-muted-foreground">
                       <em>
-                        Published: {new Date(item.createdAt.toDate()).toLocaleDateString('en-GB', {
+                        Published: {new Date(typeof item.createdAt === 'string' ? item.createdAt : item.createdAt.toDate()).toLocaleDateString('en-GB', {
                           day: 'numeric',
                           month: 'long',
                           year: 'numeric',

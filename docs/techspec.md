@@ -223,4 +223,4 @@ The site will be the **primary digital hub** for parishioners and visitors, prov
 - Parish Calendar (Google Calendar integration).  
 - AI-assisted SEO descriptions (Gemini API).  
 - Multi-language support (Polish, Gaelic).  
-- Progressive Web App (offline Mass times & contacts).
+- Progressive Web App (offline Mass times & contacts).  
