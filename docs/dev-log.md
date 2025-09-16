@@ -1,3 +1,18 @@
+---
+
+### Session 9: Contact Form Integration & Deployment Stabilization
+
+*   **[2025-09-16]** Refactored the website's contact form to integrate with an n8n webhook, replacing the previous Firebase Cloud Function for improved flexibility and control over email sending.
+*   **[2025-09-16]** Successfully debugged and resolved Cross-Origin Resource Sharing (CORS) issues between the Next.js frontend and the n8n instance, ensuring proper communication.
+*   **[2025-09-16]** Addressed and fixed multiple Vercel deployment failures caused by pre-existing linting errors across various components, including:
+    *   `@typescript-eslint/no-explicit-any` violations (e.g., in `NewsHighlights.tsx`, `ScheduleCalendar.tsx`, `firebase.ts`, and admin news pages).
+    *   `@typescript-eslint/no-unused-vars` warnings (e.g., in `PhotoGallery.tsx`).
+*   **[2025-09-16]** Implemented robust date conversion logic in `src/app/news/[slug]/page.tsx` to correctly handle Firestore `Timestamp` and standard `Date` objects, resolving prerendering errors during static page generation.
+*   **[2025-09-16]** Temporarily excluded a problematic news article (`parish-summer-fete-2025-success`) from prerendering to unblock the Vercel build, confirming a data-related issue.
+*   **[2025-09-16]** Guided the user through deleting the problematic article from Firestore.
+*   **[2025-09-16]** Removed the temporary prerendering exclusion from the code after the data issue was resolved.
+*   **[2025-09-16]** Managed Git commits, pushes, and guided the user through the GitHub pull request and merge process to ensure all fixes were deployed to the `main` branch.
+*   **Next Action:** Await further instructions for the next development task.
 
 ---
 
