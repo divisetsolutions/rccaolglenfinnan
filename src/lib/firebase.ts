@@ -19,7 +19,7 @@ interface ScheduleItem {
   dayOfWeek: string;
   time: string;
   specialDate?: string;
-  [key: string]: any; // Index signature for other properties
+  [key: string]: unknown; // Index signature for other properties
 }
 
 // Initialize Firebase
