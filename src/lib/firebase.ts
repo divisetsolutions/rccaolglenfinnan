@@ -13,6 +13,15 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// Define the schedule item interface
+interface ScheduleItem {
+  id: string;
+  dayOfWeek: string;
+  time: string;
+  specialDate?: string;
+  [key: string]: any; // Index signature for other properties
+}
+
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
@@ -87,16 +96,15 @@ export async function getArticle(slug: string) {
   return null;
 }
 
-export async function getSchedule() {
+export async function getSchedule(): Promise<ScheduleItem[]> {
   const scheduleRef = collection(db, 'schedule');
   const q = query(scheduleRef, orderBy('time'));
   const querySnapshot = await getDocs(q);
   const schedule = querySnapshot.docs.map(doc => {
-    const data = doc.data();
     return {
       id: doc.id,
-      ...data
-    };
+      ...doc.data(),
+    } as ScheduleItem;
   });
   return schedule;
 }
@@ -123,13 +131,6 @@ export async function getNextService() {
   const daysOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const currentDay = now.getDay();
   const currentTime = now.getHours() * 100 + now.getMinutes(); // e.g., 10:30 -> 1030
-
-  interface ScheduleItem {
-    id: string;
-    dayOfWeek: string;
-    time: string;
-    [key: string]: any;
-  }
 
   let nextRecurringEvent: ScheduleItem | null = null;
 
