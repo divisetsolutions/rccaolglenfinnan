@@ -12,6 +12,12 @@
 *   **[2025-09-16]** Guided the user through deleting the problematic article from Firestore.
 *   **[2025-09-16]** Removed the temporary prerendering exclusion from the code after the data issue was resolved.
 *   **[2025-09-16]** Managed Git commits, pushes, and guided the user through the GitHub pull request and merge process to ensure all fixes were deployed to the `main` branch.
+*   **[2025-09-16]** Integrated Vatican News into the homepage's "Latest News" section:
+    *   Implemented a Next.js API route to proxy the Vatican News RSS feed, bypassing CORS restrictions.
+    *   Used `xml2js` for robust XML parsing of the RSS feed.
+    *   Configured `next.config.js` to allow images from `www.vaticannews.va`.
+    *   Ensured Vatican News appears as the first card and links open in a new tab.
+    *   Addressed various import and display issues during implementation.
 *   **Next Action:** Await further instructions for the next development task.
 
 ---
