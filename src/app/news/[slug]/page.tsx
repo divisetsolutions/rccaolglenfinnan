@@ -24,10 +24,10 @@ async function getNewsData(slug: string) {
 
   if (newsData) {
     // Convert Timestamps to strings
-    if (newsData.createdAt && newsData.createdAt.toDate) {
+    if (newsData.createdAt?.toDate) {
       newsData.createdAt = newsData.createdAt.toDate().toISOString();
     }
-    if (newsData.updatedAt && newsData.updatedAt.toDate) {
+    if (newsData.updatedAt?.toDate) {
       newsData.updatedAt = newsData.updatedAt.toDate().toISOString();
     }
   }
