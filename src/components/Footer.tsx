@@ -3,8 +3,8 @@ import Link from 'next/link';
 export function Footer() {
   return (
     <footer className="bg-gray-800 text-white">
-      <div className="container mx-auto py-12 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="container mx-auto py-8 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-lg font-bold mb-4">Mass Times</h3>
             <p>For the most up-to-date Mass and service times, including special events, funerals, and any temporary changes, please view our full parish calendar.</p>
@@ -12,16 +12,22 @@ export function Footer() {
               <p className="text-blue-400 hover:underline mt-4">View Full Calendar</p>
             </Link>
           </div>
-          <div>
-            <h3 className="text-lg font-bold mb-4">The Churches</h3>
-            <h4 className="font-semibold">St. John the Evangelist RC Church</h4>
-            <p>St Johns Road, Caol, Fort William PH33 7PR</p>
-            <p>Phone: 01397 719281</p>
-            <p>Email: caol@rcdai.org.uk</p>
-            <h4 className="font-semibold mt-4">St. Mary & St. Finnan Church</h4>
-            <p>Glenfinnan PH37 4LT</p>
-            <p>Email: glenfinnan@rcdai.org.uk</p>
-            <p>Clergy based at Caol</p>
+          <div className="md:col-span-2">
+            <h3 className="text-lg font-bold mb-4">The Parishes</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div>
+                <h4 className="font-semibold">St. John the Evangelist RC Church</h4>
+                <p>St Johns Road, Caol, Fort William PH33 7PR</p>
+                <p>Phone: 01397 719281</p>
+                <p>Email: caol@rcdai.org.uk</p>
+              </div>
+              <div>
+                <h4 className="font-semibold">St. Mary & St. Finnan Church</h4>
+                <p>Glenfinnan PH37 4LT</p>
+                <p>Email: glenfinnan@rcdai.org.uk</p>
+                <p>Clergy based at Caol</p>
+              </div>
+            </div>
           </div>
           <div>
             <h3 className="text-lg font-bold mb-4">Quick Links</h3>
@@ -34,7 +40,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm">
-          <p>Copyright © 2025 Parishes of Caol and Glenfinnan  | Web Design by Diviset Solutions  | Scottish Charity Registration Number: SC002876</p>
+          <p>Copyright © 2025 Parishes of Caol and Glenfinnan  | Web Design by <a href="https://divisetsolutions.com/" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-400">Diviset Solutions</a>  | Scottish Charity Registration Number: SC002876</p>
         </div>
       </div>
     </footer>
