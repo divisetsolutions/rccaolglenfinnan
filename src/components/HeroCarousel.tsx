@@ -14,6 +14,8 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog"
 
 const images = [
@@ -76,6 +78,9 @@ export function HeroCarousel() {
       </Carousel>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-4xl max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle className="sr-only">Image View</DialogTitle> {/* Visually hidden title */}
+          </DialogHeader>
           <Image
             src={selectedImage}
             alt="Selected image"
