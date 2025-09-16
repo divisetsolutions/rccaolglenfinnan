@@ -24,11 +24,15 @@ async function getNewsData(slug: string) {
 
   if (newsData) {
     // Convert Timestamps to strings
-    if (newsData.createdAt?.toDate) {
+    if (newsData.createdAt && typeof newsData.createdAt.toDate === 'function') {
       newsData.createdAt = newsData.createdAt.toDate().toISOString();
+    } else if (newsData.createdAt instanceof Date) {
+      newsData.createdAt = newsData.createdAt.toISOString();
     }
-    if (newsData.updatedAt?.toDate) {
+    if (newsData.updatedAt && typeof newsData.updatedAt.toDate === 'function') {
       newsData.updatedAt = newsData.updatedAt.toDate().toISOString();
+    } else if (newsData.updatedAt instanceof Date) {
+      newsData.updatedAt = newsData.updatedAt.toISOString();
     }
   }
 
