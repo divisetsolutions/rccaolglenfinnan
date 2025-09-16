@@ -13,11 +13,9 @@ export async function generateMetadata({ params: { slug } }: { params: { slug: s
 
 export async function generateStaticParams() {
   const newsSnapshot = await getDocs(collection(db, 'news'));
-  return newsSnapshot.docs
-    .filter((doc) => doc.id !== 'parish-summer-fete-2025-success') // Exclude the problematic slug
-    .map((doc) => ({
-      slug: doc.id,
-    }));
+  return newsSnapshot.docs.map((doc) => ({
+    slug: doc.id,
+  }));
 }
 
 async function getNewsData(slug: string) {
