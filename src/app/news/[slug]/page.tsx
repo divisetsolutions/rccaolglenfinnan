@@ -34,6 +34,18 @@ async function getNewsData(slug: string) {
     } else if (newsData.updatedAt instanceof Date) {
       newsData.updatedAt = newsData.updatedAt.toISOString();
     }
+
+    // Convert event Timestamps to strings
+    if (newsData.eventStartDate && typeof newsData.eventStartDate.toDate === 'function') {
+      newsData.eventStartDate = newsData.eventStartDate.toDate().toISOString();
+    } else if (newsData.eventStartDate instanceof Date) {
+      newsData.eventStartDate = newsData.eventStartDate.toISOString();
+    }
+    if (newsData.eventEndDate && typeof newsData.eventEndDate.toDate === 'function') {
+      newsData.eventEndDate = newsData.eventEndDate.toDate().toISOString();
+    } else if (newsData.eventEndDate instanceof Date) {
+      newsData.eventEndDate = newsData.eventEndDate.toISOString();
+    }
   }
 
   return newsData as Article | undefined;
