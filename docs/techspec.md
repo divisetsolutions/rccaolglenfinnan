@@ -1,6 +1,6 @@
 # Website Technical Specification  
 **Domain:** rccaolglenfinnan.org.uk (v2.0)  
-**Last updated:** 5 September 2025  
+**Last updated:** 16 September 2025  
 
 ---
 
@@ -62,13 +62,14 @@ The site will be the **primary digital hub** for parishioners and visitors, prov
   - **SSG** (default): Homepage, About, Sacraments, Contact.  
   - **ISR**: News & Events list page (regenerates every 15 minutes).  
 - **Data Fetching:** Firestore via Firebase Web SDK (v9+).  
+- **Backend:** Firebase (Firestore, Authentication, Storage) for core data; **n8n webhook** for contact form processing.  
 
 ---
 
 ## 5. Technology Stack  
 
 - **Frontend:** Next.js, React, TypeScript, TailwindCSS, shadcn/ui.  
-- **Backend:** Firebase (Firestore, Authentication, Cloud Functions, Storage).  
+- **Backend:** Firebase (Firestore, Authentication, Storage) for core data; **n8n** for workflow automation (e.g., contact form).  
 - **Rich Text:** TipTap (with backend sanitisation).  
 - **Image Optimisation:** next/image (frontend) + Firebase resize/convert (backend).  
 - **Donations:** Stripe & PayPal SDKs.  
@@ -79,7 +80,7 @@ The site will be the **primary digital hub** for parishioners and visitors, prov
 ## 6. Data Models (Firestore)  
 
 ### Parishes  
-\`\`\`json
+```json
 {
   "id": "caol",
   "name": "St. John the Evangelist",
@@ -92,10 +93,10 @@ The site will be the **primary digital hub** for parishioners and visitors, prov
   "aboutContent": "<p>Sanitized HTML...</p>",
   "clergyInfo": "<p>Sanitized HTML...</p>"
 }
-\`\`\`  
+```  
 
 ### Schedule  
-\`\`\`json
+```json
 {
   "title": "Sunday Mass",
   "dayOfWeek": "Sunday",
@@ -106,7 +107,7 @@ The site will be the **primary digital hub** for parishioners and visitors, prov
   "notes": "All welcome.",
   "specialDate": null
 }
-\`\`\`  
+```  
 
 ### News  
 ```json
@@ -129,14 +130,14 @@ The site will be the **primary digital hub** for parishioners and visitors, prov
 ```  
 
 ### Newsletters  
-\`\`\`json
+```json
 {
   "title": "Newsletter - 5th Sunday of Lent",
   "issueDate": "Firebase Timestamp",
   "fileUrl": "gs://bucket/newsletter.pdf",
   "parishTags": ["caol", "glenfinnan"]
 }
-\`\`\`  
+```  
 
 ### Users  
 ```json
@@ -168,19 +169,19 @@ The site will be the **primary digital hub** for parishioners and visitors, prov
 }
 ```
 
---- 
+---
 
 ## 7. Security & Access Control  
 ```  
 
 - **Admin Dashboard:** Firebase Auth with MFA.  
 - **Firestore Rules:**  
-  - Public read only for \`status == published\`.  
+  - Public read only for `status == published`.  
   - Write restricted to authenticated users with correct role.  
 - **Storage Rules:**  
   - Public read for specific folders (images/, newsletters/).  
   - Write restricted to admins.  
-- **Cloud Functions:** Secure with Auth token validation + App Check.  
+- **Cloud Functions:** Secure with Auth token validation + App Check (for functions still in use). Contact form processing is now handled by n8n.  
 - **Anti-Spam:** Cloudflare Turnstile or reCAPTCHA v3 (server-side validation).  
 - **Accounts:** Each admin/editor must use a unique parish email address (no shared logins).  
 
@@ -199,11 +200,12 @@ The site will be the **primary digital hub** for parishioners and visitors, prov
 ## 9. Deployment & Environments  
 
 - **Environments:**  
-  - \`rccaolglenfinnan-dev\` (staging).  
-  - \`rccaolglenfinnan-prod\` (production).  
+  - `rccaolglenfinnan-dev` (staging).  
+  - `rccaolglenfinnan-prod` (production).  
 - **CI/CD:**  
-  - \`develop\` branch → staging.  
-  - \`main\` branch → production.  
+  - **Build Stability:** Enhanced build process robustness by resolving numerous linting (e.g., 'any' types, unused variables) and prerendering errors, ensuring consistent deployments.  
+  - `develop` branch → staging.  
+  - `main` branch → production.  
 - **Secrets Management:** All API keys stored in Vercel environment variables.  
 - **Preview Deployments:** Enabled for feature branches.  
 
@@ -221,4 +223,4 @@ The site will be the **primary digital hub** for parishioners and visitors, prov
 - Parish Calendar (Google Calendar integration).  
 - AI-assisted SEO descriptions (Gemini API).  
 - Multi-language support (Polish, Gaelic).  
-- Progressive Web App (offline Mass times & contacts).  
+- Progressive Web App (offline Mass times & contacts).
