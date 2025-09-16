@@ -4,7 +4,17 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Church, Newspaper, Mail, BookMarked } from "lucide-react";
 
-export function InfoCards({ latestNewsletter, latestHomily }: { latestNewsletter: any, latestHomily: any }) {
+interface Newsletter {
+  downloadUrl?: string;
+  title?: string;
+}
+
+interface Homily {
+  slug?: string;
+  title?: string;
+}
+
+export function InfoCards({ latestNewsletter, latestHomily }: { latestNewsletter: Newsletter | null, latestHomily: Homily | null }) {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
