@@ -22,6 +22,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'www.vaticannews.va',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.rcdai.org.uk',
+      },
     ],
   },
 };

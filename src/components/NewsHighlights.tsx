@@ -25,13 +25,24 @@ const NewsHighlights = () => {
     const fetchNews = async () => {
       try {
         // Fetch Vatican News from API route
-        const response = await fetch('/api/vatican-news');
-        const vaticanArticle = await response.json();
+        const responseVatican = await fetch('/api/vatican-news');
+        const vaticanArticle = await responseVatican.json();
+
+        // Fetch Diocese News from API route
+        const responseDiocese = await fetch('/api/diocese-news');
+        const dioceseArticle = await responseDiocese.json();
+
         let combinedNews: NewsArticle[] = [];
 
-        // Fetch Firestore News (limit to 2 if Vatican article exists, else 3)
+        // Fetch Firestore News (limit to 1 if Vatican and Diocese articles exist, else adjust)
         const newsCollection = collection(db, 'news');
-        const q = query(newsCollection, orderBy('createdAt', 'desc'), limit(vaticanArticle ? 2 : 3));
+        let firestoreLimit = 3;
+        if (vaticanArticle && dioceseArticle) {
+          firestoreLimit = 1;
+        } else if (vaticanArticle || dioceseArticle) {
+          firestoreLimit = 2;
+        }
+        const q = query(newsCollection, orderBy('createdAt', 'desc'), limit(firestoreLimit));
         const newsSnapshot = await getDocs(q);
         const firestoreNewsList = newsSnapshot.docs.map(doc => ({
           id: doc.id,
@@ -40,6 +51,9 @@ const NewsHighlights = () => {
 
         if (vaticanArticle) {
           combinedNews.push(vaticanArticle);
+        }
+        if (dioceseArticle) {
+          combinedNews.push(dioceseArticle);
         }
         combinedNews = combinedNews.concat(firestoreNewsList);
 
@@ -77,7 +91,7 @@ const NewsHighlights = () => {
             {news.map((item) => (
               <Link 
                 key={item.id} 
-                href={item.id.startsWith('vatican-') ? item.slug : `/news/${item.slug || item.id}`} 
+                href={item.id.startsWith('vatican-') || (item.slug && (item.slug.startsWith('http://') || item.slug.startsWith('https://'))) ? item.slug : `/news/${item.slug || item.id}`} 
                 className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
                 {...(item.id.startsWith('vatican-') && { target: "_blank", rel: "noopener noreferrer" })} // Open Vatican links in new tab
               >
