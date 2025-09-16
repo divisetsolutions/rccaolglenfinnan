@@ -93,7 +93,7 @@ const NewsHighlights = () => {
                 key={item.id} 
                 href={item.id.startsWith('vatican-') || (item.slug && (item.slug.startsWith('http://') || item.slug.startsWith('https://'))) ? item.slug : `/news/${item.slug || item.id}`} 
                 className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
-                {...(item.id.startsWith('vatican-') && { target: "_blank", rel: "noopener noreferrer" })} // Open Vatican links in new tab
+                {...(item.id.startsWith('vatican-') || item.id.startsWith('diocese-') && { target: "_blank", rel: "noopener noreferrer" })} // Open Vatican and Diocese links in new tab
               >
                 <div className="relative h-48 w-full">
                   <Image
