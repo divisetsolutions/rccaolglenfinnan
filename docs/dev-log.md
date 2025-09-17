@@ -1,5 +1,23 @@
 ---
 
+### Session 10: UI Refinements and Data Serialization
+
+*   **[2025-09-17]** Enhanced the homepage UI/UX:
+    *   Added a tagline to the hero carousel slides.
+    *   Updated the text, styling, and alignment of the welcome section.
+    *   Enhanced the header and navigation UI for better user experience.
+    *   Enhanced homepage info cards and redesigned the footer.
+    *   Updated the color palette for a more professional aesthetic.
+*   **[2025-09-17]** Fixed data serialization issues:
+    *   Serialized dates for client components to fix prop-types issues.
+    *   Added specific types to the `InfoCards` component.
+*   **[2025-09-17]** Resolved accessibility and link behavior issues.
+*   **[2025-09-17]** Integrated Diocese news via an API route and updated the image configuration.
+*   **[2025-09-17]** Ensured external news links open in a new tab.
+*   **Next Action:** Await further instructions for the next development task.
+
+---
+
 ### Session 9: Contact Form Integration & Deployment Stabilization
 
 *   **[2025-09-16]** Refactored the website's contact form to integrate with an n8n webhook, replacing the previous Firebase Cloud Function for improved flexibility and control over email sending.
