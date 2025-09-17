@@ -34,8 +34,11 @@ export default function RootLayout({
         <AuthProvider>
           <div className="flex flex-col min-h-screen">
             <header className="bg-gray-100 p-4">
-              <div className="container mx-auto flex justify-between items-center">
-                <p className="font-bold">Welcome to the Parishes of Caol and Glenfinnan</p>
+              <div className="mx-auto flex justify-between items-center">
+                <div>
+                  <p className="font-bold text-lg">Welcome to the Parishes of Caol and Glenfinnan</p>
+                  <p className="text-base text-muted-foreground">Serving St John the Evangelist Church, Caol & St Mary & St Finnan Church, Glenfinnan</p>
+                </div>
                 <MainNav />
               </div>
             </header>
