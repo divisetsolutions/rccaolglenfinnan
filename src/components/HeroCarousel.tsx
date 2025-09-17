@@ -68,6 +68,9 @@ export function HeroCarousel() {
                   <h1 className="text-4xl font-extrabold leading-tight tracking-tighter md:text-6xl">
                     {image.caption}
                   </h1>
+                  <p className="text-lg md:text-xl font-medium mt-2">
+                    One Parish Family &middot; Two Cherished Churches &middot; United in Christ
+                  </p>
                 </div>
               </div>
             </CarouselItem>
