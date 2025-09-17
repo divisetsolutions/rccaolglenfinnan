@@ -14,6 +14,20 @@ export const metadata: Metadata = {
 export default async function Home() {
   const latestNewsletter = await getLatestNewsletter();
   const latestHomily = await getLatestHomily();
+
+  // Serialize the date objects to be passed to the client component
+  const serializableNewsletter = latestNewsletter ? {
+    ...latestNewsletter,
+    createdAt: (latestNewsletter.createdAt && typeof latestNewsletter.createdAt.toDate === 'function') ? latestNewsletter.createdAt.toDate().toISOString() : latestNewsletter.createdAt ?? null,
+    updatedAt: (latestNewsletter.updatedAt && typeof latestNewsletter.updatedAt.toDate === 'function') ? latestNewsletter.updatedAt.toDate().toISOString() : latestNewsletter.updatedAt ?? null,
+  } : null;
+
+  const serializableHomily = latestHomily ? {
+    ...latestHomily,
+    createdAt: (latestHomily.createdAt && typeof latestHomily.createdAt.toDate === 'function') ? latestHomily.createdAt.toDate().toISOString() : latestHomily.createdAt ?? null,
+    updatedAt: (latestHomily.updatedAt && typeof latestHomily.updatedAt.toDate === 'function') ? latestHomily.updatedAt.toDate().toISOString() : latestHomily.updatedAt ?? null,
+  } : null;
+
   return (
     <>
       <section>
@@ -21,7 +35,7 @@ export default async function Home() {
       </section>
       <WelcomeSection />
       <NextService />
-      <InfoCards latestNewsletter={latestNewsletter} latestHomily={latestHomily} />
+      <InfoCards latestNewsletter={serializableNewsletter} latestHomily={serializableHomily} />
       <NewsHighlights />
     </>
   );
