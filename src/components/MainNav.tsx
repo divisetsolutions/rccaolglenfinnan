@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 export function MainNav() {
   return (
-    <nav className="flex items-center flex-wrap gap-4 lg:gap-6 justify-end">
+    <nav className="flex items-center space-x-4 lg:space-x-6">
       <Link href="/" className="text-base font-medium transition-transform transition-colors duration-200 hover:text-primary hover:scale-105 inline-block">
         Home
       </Link>
@@ -25,18 +24,9 @@ export function MainNav() {
       <Link href="/sacraments" className="text-base font-medium text-muted-foreground transition-transform transition-colors duration-200 hover:text-primary hover:scale-105 inline-block">
         Sacraments
       </Link>
-      <Link href="/prayer-requests" className="text-base font-medium text-muted-foreground transition-transform transition-colors duration-200 hover:text-primary hover:scale-105 inline-block">
-        Prayer Requests
-      </Link>
-      <a href="https://universalis.com/europe.scotland.argyll/today.htm" target="_blank" rel="noopener noreferrer" className="text-base font-medium text-muted-foreground transition-transform transition-colors duration-200 hover:text-primary hover:scale-105 inline-block">
-        Today's Liturgy
-      </a>
       <Link href="/contact" className="text-base font-medium text-muted-foreground transition-transform transition-colors duration-200 hover:text-primary hover:scale-105 inline-block">
         Contact
       </Link>
-      <Button asChild>
-        <Link href="/donations">Donate</Link>
-      </Button>
     </nav>
   );
 }
