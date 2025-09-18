@@ -79,3 +79,63 @@
   clear: both;
   display: table;
 }
+
+@keyframes ken-burns-1 {
+  0% {
+    transform: scale(1) translate(0, 0);
+    transform-origin: 0 0;
+  }
+  100% {
+    transform: scale(1.25) translate(-10%, -5%);
+    transform-origin: 0 0;
+  }
+}
+
+@keyframes ken-burns-2 {
+  0% {
+    transform: scale(1) translate(0, 0);
+    transform-origin: 100% 0;
+  }
+  100% {
+    transform: scale(1.25) translate(10%, -5%);
+    transform-origin: 100% 0;
+  }
+}
+
+.ken-burns-1 {
+  animation: ken-burns-1 5s ease-out forwards;
+}
+
+.ken-burns-2 {
+  animation: ken-burns-2 5s ease-out forwards;
+}
+
+@keyframes ken-burns-3 {
+  0% {
+    transform: scale(1) translate(0, 0);
+    transform-origin: 0 50%;
+  }
+  100% {
+    transform: scale(1.25) translate(-15%, 0);
+    transform-origin: 0 50%;
+  }
+}
+
+.ken-burns-3 {
+  animation: ken-burns-3 5s ease-out forwards;
+}
+
+@keyframes ken-burns-4 {
+  0% {
+    transform: scale(1) translate(0, 0);
+    transform-origin: 100% 50%;
+  }
+  100% {
+    transform: scale(1.25) translate(15%, 0);
+    transform-origin: 100% 50%;
+  }
+}
+
+.ken-burns-4 {
+  animation: ken-burns-4 5s ease-out forwards;
+}
