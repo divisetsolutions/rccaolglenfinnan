@@ -11,12 +11,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { MainNav } from "@/components/MainNav";
 
 const images = [
   { src: "/hero-caol-1.jpg", alt: "St. John's, Caol, exterior", caption: "St John the Evangelist RC Church, Caol" },
@@ -45,17 +41,25 @@ export function HeroCarousel() {
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
+        <header className="absolute top-0 left-0 right-0 z-30 bg-black/50 p-4">
+          <div className="w-full flex justify-between items-center text-white px-4 relative">
+            <div className="text-left">
+              <p className="font-bold text-xl">Welcome to the Parishes of Caol and Glenfinnan</p>
+              <p className="text-lg">Serving St John the Evangelist Church, Caol & St Mary & St Finnan Church, Glenfinnan</p>
+            </div>
+            <div className="absolute left-1/2 -translate-x-1/2">
+              <Image src="/logo.png" alt="Parish Logo" width={120} height={120} />
+            </div>
+            <div className="text-right">
+              <MainNav />
+            </div>
+          </div>
+        </header>
+
         <CarouselContent>
           {images.map((image, index) => (
             <CarouselItem key={index} onClick={() => handleImageClick(image.src)}>
               <div className="relative h-[560px]">
-                <Image
-                  src="/logo.png"
-                  alt="Parish Logo"
-                  width={240}
-                  height={240}
-                  className="absolute top-4 left-4 z-20"
-                />
                 <Image
                   src={image.src}
                   alt={image.alt}
@@ -64,14 +68,6 @@ export function HeroCarousel() {
                   className="object-cover w-full h-full"
                 />
                 <div className="absolute inset-0 bg-black/30" />
-                <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white">
-                  <h1 className="text-4xl font-extrabold leading-tight tracking-tighter md:text-6xl">
-                    {image.caption}
-                  </h1>
-                  <p className="text-lg md:text-xl font-medium mt-2">
-                    One Parish Family &middot; Two Cherished Churches &middot; United in Christ
-                  </p>
-                </div>
               </div>
             </CarouselItem>
           ))}
