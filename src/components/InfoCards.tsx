@@ -4,17 +4,29 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Church, Newspaper, Mail, BookMarked } from "lucide-react";
 
+// Updated and more accurate interfaces
 interface Newsletter {
+  id: string;
   downloadUrl?: string;
   title?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Homily {
+  id: string;
   slug?: string;
   title?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export function InfoCards({ latestNewsletter, latestHomily }: { latestNewsletter: Newsletter | null, latestHomily: Homily | null }) {
+interface InfoCardsProps {
+  latestNewsletter: Newsletter | null;
+  latestHomily: Homily | null;
+}
+
+export function InfoCards({ latestNewsletter, latestHomily }: InfoCardsProps) {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
