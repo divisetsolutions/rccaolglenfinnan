@@ -44,5 +44,4 @@ next-env.d.ts
 # Service account key
 .serviceAccountKey.json
 
-# Custom
-src/components/Header.tsx
+
