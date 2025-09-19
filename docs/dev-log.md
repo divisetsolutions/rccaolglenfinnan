@@ -1,5 +1,15 @@
 ---
 
+### Session 11: Global Header & "About Us" Page Enhancements
+
+*   **[2025-09-19]** Implemented a global header component that appears on all pages *except* the homepage, ensuring a consistent user experience across the site. The new header has a solid background color similar to the footer.
+*   **[2025-09-19]** The homepage's unique header overlay on the hero carousel was preserved and remains unchanged.
+*   **[2025-09-19]** Redesigned the "About Us" page to be more visually engaging by incorporating images. This included adding a hero image, two-column layouts with text and images, and mini-galleries for each church.
+*   **[2025-09-19]** Updated the church addresses on the "About Us" page to link directly to their locations on Google Maps.
+*   **Next Action:** Address image display issues on the "About Us" page galleries.
+
+---
+
 ### Session 10: UI Refinements and Data Serialization
 
 *   **[2025-09-17]** Enhanced the homepage UI/UX:

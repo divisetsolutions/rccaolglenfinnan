@@ -1,6 +1,6 @@
 # Website Technical Specification  
 **Domain:** rccaolglenfinnan.org.uk (v2.0)  
-**Last updated:** 16 September 2025  
+**Last updated:** 19 September 2025  
 
 ---
 
