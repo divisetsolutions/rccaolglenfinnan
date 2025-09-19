@@ -69,13 +69,13 @@ export function HeroCarousel() {
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
-        <header className="absolute top-0 left-0 right-0 z-30 bg-black/50 p-4">
-          <div className="w-full flex justify-between items-center text-white px-4 relative">
+                  <header className="absolute top-0 left-0 right-0 z-30 bg-black/50 px-4">
+          <div className="w-full grid grid-cols-[1fr_auto_1fr] items-center text-white px-4">
             <div className="text-left">
               <p className="font-bold text-xl">Welcome to the Parishes of Caol and Glenfinnan</p>
               <p className="text-lg">Serving St John the Evangelist Church, Caol & St Mary & St Finnan Church, Glenfinnan</p>
             </div>
-            <div className="absolute left-1/2 -translate-x-1/2">
+            <div className="flex-shrink-0 mx-4">
               <div
                 className="relative w-[120px] h-[120px] rounded-full bg-white/20 p-2 cursor-pointer hover:bg-white/30 transition-colors duration-200"
                 onClick={() => handleImageClick('/logo.png')}

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Lora, Lato } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
-import { MainNav } from '@/components/MainNav';
+import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
 const lora = Lora({
@@ -33,7 +33,7 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <div className="flex flex-col min-h-screen">
-            
+            <Header />
             <main className="flex-grow p-4">
               {children}
             </main>
