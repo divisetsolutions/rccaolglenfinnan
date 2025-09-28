@@ -19,6 +19,7 @@ interface ScheduleItem {
   dayOfWeek: string;
   time: string;
   specialDate?: string;
+  date?: Date; // Added for recurring events
   [key: string]: unknown; // Index signature for other properties
 }
 
@@ -109,7 +110,7 @@ export async function getSchedule(): Promise<ScheduleItem[]> {
   return schedule;
 }
 
-export async function getNextService() {
+export async function getNextService(): Promise<ScheduleItem | null> {
   const now = new Date();
   const todayStr = now.toISOString().split('T')[0];
 
@@ -123,29 +124,24 @@ export async function getNextService() {
   );
   const specialEventsSnapshot = await getDocs(specialEventsQuery);
   const nextSpecialEvent = specialEventsSnapshot.docs.length > 0
-    ? { id: specialEventsSnapshot.docs[0].id, ...specialEventsSnapshot.docs[0].data() }
+    ? { id: specialEventsSnapshot.docs[0].id, ...specialEventsSnapshot.docs[0].data() } as ScheduleItem
     : null;
 
   // 2. Find the next recurring event
-  const schedule = await getSchedule(); // This function already exists
+  const schedule = await getSchedule();
   const daysOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const currentDay = now.getDay();
-  const currentTime = now.getHours() * 100 + now.getMinutes(); // e.g., 10:30 -> 1030
+  const currentTime = now.getHours() * 100 + now.getMinutes();
 
   let nextRecurringEvent: ScheduleItem | null = null;
 
-  // Look for the next service in the next 7 days
   for (let i = 0; i < 7; i++) {
     const dayIndex = (currentDay + i) % 7;
     const dayName = daysOrder[dayIndex];
 
     const servicesForDay = schedule
       .filter(s => s.dayOfWeek === dayName && !s.specialDate)
-      .sort((a, b) => {
-        const timeA = parseInt(a.time.replace(':', ''));
-        const timeB = parseInt(b.time.replace(':', ''));
-        return timeA - timeB;
-      });
+      .sort((a, b) => parseInt(a.time.replace(':', '')) - parseInt(b.time.replace(':', '')));
 
     for (const service of servicesForDay) {
       const serviceTime = parseInt(service.time.replace(':', ''));
@@ -161,7 +157,6 @@ export async function getNextService() {
     }
 
     if (nextRecurringEvent) {
-      // Add the actual date to the recurring event
       const nextDate = new Date();
       nextDate.setDate(now.getDate() + i);
       nextRecurringEvent.date = nextDate;
@@ -170,7 +165,7 @@ export async function getNextService() {
   }
   
   // 3. Compare and return the soonest event
-  if (nextSpecialEvent && nextRecurringEvent) {
+  if (nextSpecialEvent && nextRecurringEvent && nextRecurringEvent.date) {
     const specialEventDate = new Date(`${nextSpecialEvent.specialDate}T${nextSpecialEvent.time}`);
     if (specialEventDate < nextRecurringEvent.date) {
       return nextSpecialEvent;
@@ -181,5 +176,61 @@ export async function getNextService() {
 
   return nextSpecialEvent || nextRecurringEvent;
 }
+
+const timeStringToMinutes = (timeStr: string): number => {
+  if (!timeStr) return 0;
+  const upperTime = timeStr.toUpperCase();
+  const isPM = upperTime.includes('PM');
+  
+  const [hoursStr, minutesStr] = upperTime.replace('AM', '').replace('PM', '').trim().split(':');
+  let hours = parseInt(hoursStr);
+  let minutes = parseInt(minutesStr);
+
+  if (isNaN(hours)) hours = 0;
+  if (isNaN(minutes)) minutes = 0;
+
+  if (isPM && hours < 12) {
+    hours += 12;
+  }
+  if (!isPM && hours === 12) { // Handle 12 AM (midnight)
+    hours = 0;
+  }
+
+  return hours * 60 + minutes;
+};
+
+export async function getServicesForNextServiceDay(): Promise<ScheduleItem[]> {
+  const nextService = await getNextService();
+
+  if (!nextService) {
+    return [];
+  }
+
+  let servicesForDay: ScheduleItem[] = [];
+
+  if (nextService.specialDate) {
+    // It's a special event day
+    const q = query(
+      collection(db, 'schedule'),
+      where('specialDate', '==', nextService.specialDate)
+    );
+    const querySnapshot = await getDocs(q);
+    servicesForDay = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ScheduleItem));
+  } else if (nextService.date) {
+    // It's a recurring event day
+    const daysOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayName = daysOrder[nextService.date.getDay()];
+    
+    const schedule = await getSchedule();
+    servicesForDay = schedule.filter(s => s.dayOfWeek === dayName && !s.specialDate);
+    
+    // Add the correct date to each service for this day
+    servicesForDay.forEach(s => s.date = nextService.date);
+  }
+
+  // Sort the services by time
+  return servicesForDay.sort((a, b) => timeStringToMinutes(a.time) - timeStringToMinutes(b.time));
+}
+
 
 export { app, db, auth, storage };

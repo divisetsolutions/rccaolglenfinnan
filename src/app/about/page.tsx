@@ -56,9 +56,9 @@ export default function AboutPage() {
       </div>
 
       <div className="grid grid-cols-3 gap-4 mt-4">
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image src="/st-johns-gallery-1.jpg" alt="Gallery image of St. John's" layout="fill" objectFit="cover" /></div>
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image src="/st-johns-gallery-2.jpg" alt="Gallery image of St. John's" layout="fill" objectFit="cover" /></div>
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image src="/st-johns-gallery-3.jpg" alt="Gallery image of St. John's" layout="fill" objectFit="cover" /></div>
+        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-johns-1" src="/st-johns-gallery-1.jpg" alt="Gallery image of St. John's" layout="fill" objectFit="cover" /></div>
+        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-johns-2" src="/st-johns-gallery-2.jpg" alt="Gallery image of St. John's" layout="fill" objectFit="cover" /></div>
+        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-johns-3" src="/st-johns-gallery-3.jpg" alt="Gallery image of St. John's" layout="fill" objectFit="cover" /></div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-12 items-center mt-12">
@@ -80,9 +80,9 @@ export default function AboutPage() {
       </div>
 
       <div className="grid grid-cols-3 gap-4 mt-4">
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image src="/st-marys-gallery-1.jpg" alt="Gallery image of St. Mary's" layout="fill" objectFit="cover" /></div>
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image src="/st-marys-gallery-2.jpg" alt="Gallery image of St. Mary's" layout="fill" objectFit="cover" /></div>
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image src="/st-marys-gallery-3.jpg" alt="Gallery image of St. Mary's" layout="fill" objectFit="cover" /></div>
+        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-marys-1" src="/st-marys-gallery-1.jpg" alt="Gallery image of St. Mary's" layout="fill" objectFit="cover" /></div>
+        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-marys-2" src="/st-marys-gallery-2.jpg" alt="Gallery image of St. Mary's" layout="fill" objectFit="cover" /></div>
+        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-marys-3" src="/st-marys-gallery-3.jpg" alt="Gallery image of St. Mary's" layout="fill" objectFit="cover" /></div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-12 items-center mt-12">

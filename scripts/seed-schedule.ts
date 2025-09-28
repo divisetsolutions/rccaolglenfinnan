@@ -2,7 +2,7 @@ import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 
 // IMPORTANT: Replace with your service account key
-const serviceAccount = require('../.serviceAccountKey.json');
+import serviceAccount from '../.serviceAccountKey.json';
 
 initializeApp({
   credential: cert(serviceAccount)
