@@ -104,6 +104,7 @@ export const NAV = [
   { href: '/calendar', label: 'Mass times' },
   { href: '/about', label: 'Our parish' },
   { href: '/sacraments', label: 'Sacraments' },
+  { href: '/weddings', label: 'Weddings' },
   { href: '/news', label: 'News' },
   { href: '/homilies', label: 'Homilies' },
   { href: '/newsletters', label: 'Newsletter' },

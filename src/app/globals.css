@@ -129,6 +129,14 @@
       repeating-linear-gradient(90deg, hsl(var(--loch)) 0 30px, hsl(var(--heather)) 30px 56px, hsl(var(--gorse)) 56px 60px, hsl(var(--pine)) 60px 96px, hsl(var(--mist) / 0.55) 96px 99px, hsl(var(--loch)) 99px 132px);
   }
 
+  /* The same tartan run lengthwise, as the aisle on the weddings page */
+  .tartan-aisle {
+    width: 14px; border-radius: 7px;
+    background-image:
+      repeating-linear-gradient(90deg, transparent 0 3px, hsl(var(--loch-deep) / 0.5) 3px 5px, transparent 5px 9px, hsl(var(--gorse) / 0.6) 9px 10px, transparent 10px 14px),
+      repeating-linear-gradient(0deg, hsl(var(--loch)) 0 30px, hsl(var(--heather)) 30px 56px, hsl(var(--gorse)) 56px 60px, hsl(var(--pine)) 60px 96px, hsl(var(--mist) / 0.55) 96px 99px, hsl(var(--loch)) 99px 132px);
+  }
+
   .prose-parish { max-width: 68ch; }
   .prose-parish p { margin-top: 1.1em; }
   .prose-parish h2 { font-size: 1.7rem; margin-top: 2em; }

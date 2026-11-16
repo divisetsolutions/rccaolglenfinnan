@@ -53,13 +53,13 @@ export function SiteHeader() {
             </span>
           </Link>
 
-          <nav aria-label="Main" className="ml-auto hidden items-center gap-1 xl:flex">
+          <nav aria-label="Main" className="ml-auto hidden items-center gap-0.5 xl:flex 2xl:gap-1">
             {NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 aria-current={active(item.href) ? 'page' : undefined}
-                className={`rounded-full px-3.5 py-2 text-[0.98rem] font-bold transition-colors ${
+                className={`whitespace-nowrap rounded-full px-2.5 py-2 text-[0.93rem] font-bold transition-colors 2xl:px-3.5 2xl:text-[0.98rem] ${
                   active(item.href) ? 'bg-loch text-mist' : 'text-loch hover:bg-mist-2'
                 }`}
               >

@@ -55,9 +55,15 @@ export default function SacramentsPage() {
                 </ol>
               )}
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href={`/contact?about=${encodeURIComponent(s.title)}`} className="btn btn-loch">
-                  Ask about this
-                </Link>
+                {s.id === 'marriage' ? (
+                  <Link href="/weddings" className="btn btn-loch">
+                    Everything about weddings
+                  </Link>
+                ) : (
+                  <Link href={`/contact?about=${encodeURIComponent(s.title)}`} className="btn btn-loch">
+                    Ask about this
+                  </Link>
+                )}
                 <a href={PARISH.phoneHref} className="btn btn-ghost">
                   Call {PARISH.phone}
                 </a>

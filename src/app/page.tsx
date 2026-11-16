@@ -20,7 +20,7 @@ const sundayTime = (items: Awaited<ReturnType<typeof getSchedule>>, church: stri
 
 const paths = [
   { href: '/sacraments#baptism', title: 'Have a child baptised', text: 'How to arrange a baptism and what to prepare.' },
-  { href: '/sacraments#marriage', title: 'Get married here', text: 'Weddings at Caol and at Glenfinnan, step by step.' },
+  { href: '/weddings', title: 'Get married here', text: 'Weddings at Glenfinnan and at Caol, step by step.' },
   { href: '/sacraments#becoming-catholic', title: 'Become a Catholic', text: 'The RCIA, a gentle way in for the curious.' },
   { href: '/sacraments#funerals', title: 'Arrange a funeral', text: 'What to do when someone you love has died.' },
   { href: '/prayer-requests', title: 'Ask for prayers', text: 'Send us a name or an intention for Mass.' },

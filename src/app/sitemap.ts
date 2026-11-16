@@ -5,7 +5,7 @@ import { getArticles } from '@/lib/data';
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const pages = ['', '/calendar', '/about', '/caol', '/glenfinnan', '/sacraments', '/news', '/homilies', '/newsletters', '/gallery', '/contact', '/donations', '/prayer-requests', '/safeguarding'];
+  const pages = ['', '/calendar', '/about', '/caol', '/glenfinnan', '/sacraments', '/weddings', '/news', '/homilies', '/newsletters', '/gallery', '/contact', '/donations', '/prayer-requests', '/safeguarding'];
   const [news, homilies] = await Promise.all([getArticles('news'), getArticles('homily')]);
   return [
     ...pages.map((p) => ({ url: `${PARISH.url}${p}`, changeFrequency: 'weekly' as const, priority: p === '' || p === '/calendar' ? 1 : 0.7 })),
