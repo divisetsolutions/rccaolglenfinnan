@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArchPhoto, PageHeader, Section, SectionHeading } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
-import { CHURCHES, PARISH } from '@/lib/content';
+import { CHURCHES, PARISH, focus } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Our parish',
@@ -48,7 +48,7 @@ export default function AboutPage() {
             </div>
           </Reveal>
           <Reveal image className="relative aspect-[4/3] overflow-hidden rounded-[2rem]">
-            <Image src="/img/glenfinnan-prayer.jpg" alt="Parishioners at prayer in St Mary & St Finnan" fill sizes="(max-width: 768px) 100vw, 560px" className="object-cover" />
+            <Image src="/img/glenfinnan-prayer.jpg" alt="Parishioners at prayer in St Mary & St Finnan" fill sizes="(max-width: 768px) 100vw, 560px" style={focus('/img/glenfinnan-prayer.jpg')} className="object-cover" />
           </Reveal>
         </div>
       </Section>

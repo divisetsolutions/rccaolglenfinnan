@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { CHURCHES } from '@/lib/content';
+import { CHURCHES, focus } from '@/lib/content';
 
 const chapters = [
   { church: CHURCHES.caol, image: CHURCHES.caol.hero, alt: 'St John the Evangelist, Caol, under snow with Ben Nevis behind' },
@@ -49,6 +49,7 @@ export function TwoChurches() {
                 alt={c.alt}
                 fill
                 sizes="(max-width: 768px) 100vw, 480px"
+                style={focus(c.image)}
                 className={`object-cover transition-[opacity,transform] duration-[1100ms] ease-out ${active === i ? 'scale-100 opacity-100' : 'scale-110 opacity-0'}`}
               />
             ))}
@@ -73,7 +74,7 @@ export function TwoChurches() {
               className="flex flex-col justify-center py-10 md:min-h-[78vh] md:py-0"
             >
               <div className="arch relative mb-6 aspect-[4/5] w-full max-w-[340px] overflow-hidden md:hidden">
-                <Image src={chapters[b.i].image} alt={chapters[b.i].alt} fill sizes="340px" className="object-cover" />
+                <Image src={chapters[b.i].image} alt={chapters[b.i].alt} fill sizes="340px" style={focus(chapters[b.i].image)} className="object-cover" />
               </div>
               <p className="font-bold text-gorse">{b.church.place}</p>
               <h3 className="display-md mt-2">{b.heading}</h3>

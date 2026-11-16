@@ -170,8 +170,8 @@
 
 /* Slow breathing zoom on arch photographs */
 @keyframes drift {
-  from { transform: scale(1.04); }
-  to { transform: scale(1.16) translateY(-2%); }
+  from { transform: scale(1); }
+  to { transform: scale(1.07); }
 }
 .drift { animation: drift 16s ease-in-out infinite alternate; }
 

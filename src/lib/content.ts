@@ -202,3 +202,26 @@ export const RIBBON = [
   { src: '/img/caol-exterior.jpg', alt: 'St John’s, Caol, under snow' },
   { src: '/img/glenfinnan-nave.jpg', alt: 'The tartan aisle at Glenfinnan' },
 ];
+
+/**
+ * Where the subject sits in each photograph, as "across% down%".
+ * Frames that crop a photo (the arches especially) keep this point in view.
+ */
+export const FOCUS: Record<string, string> = {
+  '/img/caol-exterior.jpg': '45% 50%',
+  '/img/caol-interior.jpg': '53% 50%',
+  '/img/caol-nave.jpg': '53% 50%',
+  '/img/caol-altar.jpg': '50% 50%',
+  '/img/caol-cross.jpg': '55% 40%',
+  '/img/glenfinnan-exterior.jpg': '39% 50%',
+  '/img/glenfinnan-autumn.jpg': '61% 50%',
+  '/img/glenfinnan-interior.jpg': '50% 50%',
+  '/img/glenfinnan-nave.jpg': '42% 50%',
+  '/img/glenfinnan-prayer.jpg': '42% 50%',
+  '/img/glenfinnan-lady-chapel.jpg': '50% 66%',
+  '/img/glenfinnan-stations.jpg': '50% 45%',
+  '/img/fr-charles.jpg': '62% 50%',
+  '/img/loch.jpg': '44% 50%',
+};
+
+export const focus = (src: string) => ({ objectPosition: FOCUS[src] ?? '50% 50%' });

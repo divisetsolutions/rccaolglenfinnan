@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { PageHeader, Section, SectionHeading } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
-import type { Church } from '@/lib/content';
+import { focus, type Church } from '@/lib/content';
 import { getSchedule } from '@/lib/data';
 import { formatMinutes, weeklyPattern } from '@/lib/schedule';
 
@@ -67,7 +67,7 @@ export async function ChurchPage({ church }: { church: Church }) {
         <div className="columns-1 gap-5 sm:columns-2 lg:columns-3">
           {church.gallery.map((g, i) => (
             <Reveal image key={g.src} delay={(i % 3) * 100} className="mb-5 break-inside-avoid overflow-hidden rounded-3xl">
-              <Image src={g.src} alt={g.alt} width={900} height={i % 2 ? 1100 : 620} sizes="(max-width: 640px) 100vw, 400px" className={`w-full object-cover ${i % 2 ? 'aspect-[4/5]' : 'aspect-[3/2]'}`} />
+              <Image src={g.src} alt={g.alt} width={900} height={i % 2 ? 1100 : 620} sizes="(max-width: 640px) 100vw, 400px" style={focus(g.src)} className={`w-full object-cover ${i % 2 ? 'aspect-[4/5]' : 'aspect-[3/2]'}`} />
             </Reveal>
           ))}
         </div>

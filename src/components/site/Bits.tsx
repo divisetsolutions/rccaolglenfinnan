@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { ReactNode } from 'react';
-import { AWAY } from '@/lib/content';
+import { AWAY, focus } from '@/lib/content';
 import { Reveal } from './Reveal';
 
 /** The SVG shape behind every arched photograph. Rendered once in the layout. */
@@ -34,7 +34,7 @@ export function ArchPhoto({
 }) {
   return (
     <div className={`arch relative overflow-hidden bg-mist-2 ${className}`}>
-      <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className={`object-cover ${drift ? 'drift' : ''}`} />
+      <Image src={src} alt={alt} fill sizes={sizes} priority={priority} style={focus(src)} className={`object-cover ${drift ? 'drift' : ''}`} />
     </div>
   );
 }
@@ -115,7 +115,7 @@ export function PhotoRibbon({ photos }: { photos: readonly { src: string; alt: s
       <div className="ribbon-track gap-5">
         {loop.map((p, i) => (
           <div key={i} className={`relative h-56 shrink-0 overflow-hidden md:h-72 ${i % 2 === 0 ? 'arch w-44 md:w-56' : 'w-72 rounded-3xl md:w-96'}`} aria-hidden={i >= photos.length}>
-            <Image src={p.src} alt={i < photos.length ? p.alt : ''} fill sizes="384px" className="object-cover" />
+            <Image src={p.src} alt={i < photos.length ? p.alt : ''} fill sizes="384px" style={focus(p.src)} className="object-cover" />
           </div>
         ))}
       </div>

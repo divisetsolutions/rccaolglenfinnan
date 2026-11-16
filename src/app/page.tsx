@@ -68,13 +68,13 @@ export default async function Home() {
 
           <div className="grid grid-cols-2 items-end gap-4 md:gap-6">
             {[
-              { c: CHURCHES.caol, delay: 250, lift: 'md:mb-16', speed: 0.05 },
+              { c: CHURCHES.caol, delay: 250, lift: 'mb-10 md:mb-20', speed: 0.05 },
               { c: CHURCHES.glenfinnan, delay: 450, lift: '', speed: -0.05 },
             ].map(({ c, delay, lift, speed }) => (
               <Parallax key={c.id} speed={speed} className={lift}>
                 <Link href={c.slug} className="group block">
                   <div className="arch-rise" style={{ animationDelay: `${delay}ms` }}>
-                    <ArchPhoto src={c.hero} alt={`${c.name}, ${c.place}`} className="aspect-[9/16] md:aspect-[5/9]" priority drift sizes="(max-width: 768px) 46vw, 300px" />
+                    <ArchPhoto src={c.hero} alt={`${c.name}, ${c.place}`} className="aspect-[3/4] md:aspect-[4/5]" priority drift sizes="(max-width: 768px) 46vw, 300px" />
                   </div>
                   <p className="fade-up mt-4 font-display text-[1.25rem] font-semibold leading-tight md:text-[1.5rem]" style={{ animationDelay: `${delay + 600}ms` }}>
                     {c.short}
