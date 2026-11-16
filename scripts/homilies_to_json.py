@@ -83,16 +83,17 @@ def convert(path: Path):
     excerpt = first if len(first) <= 230 else re.sub(r'\s+\S*$', '', first[:230]).rstrip(',;:') + '…'
     return theme, excerpt, '\n'.join(body).replace('13thth', '13th'), body
 
-folder, out = Path(sys.argv[1]), sys.argv[2]
-items = []
-for date, occasion, name in MANIFEST:
-    p = folder / name
-    if not p.exists():
-        print('MISSING', name); continue
-    theme, excerpt, content, body = convert(p)
-    sid = f'homily-{date}' + ('-peter-paul' if 'Peter' in occasion else '')
-    items.append({'id': sid, 'date': date, 'occasion': f'{occasion}, Year A' if 'Sunday' in occasion and 'Easter Sunday' not in occasion and 'Palm' not in occasion and 'Pentecost' not in occasion else occasion,
-                  'title': theme or occasion, 'excerpt': excerpt, 'content': content})
-    print(f"{date} | {occasion[:34]:34} | {(theme or '(no theme)')[:44]:44} | {len(body):2} paras | lead-in: {text(body[0])[:50] if body else 'EMPTY'}")
-json.dump(items, open(out, 'w'), ensure_ascii=False, indent=1)
-print(len(items), 'homilies written')
+if __name__ == '__main__':
+    folder, out = Path(sys.argv[1]), sys.argv[2]
+    items = []
+    for date, occasion, name in MANIFEST:
+        p = folder / name
+        if not p.exists():
+            print('MISSING', name); continue
+        theme, excerpt, content, body = convert(p)
+        sid = f'homily-{date}' + ('-peter-paul' if 'Peter' in occasion else '')
+        items.append({'id': sid, 'date': date, 'occasion': f'{occasion}, Year A' if 'Sunday' in occasion and 'Easter Sunday' not in occasion and 'Palm' not in occasion and 'Pentecost' not in occasion else occasion,
+                      'title': theme or occasion, 'excerpt': excerpt, 'content': content})
+        print(f"{date} | {occasion[:34]:34} | {(theme or '(no theme)')[:44]:44} | {len(body):2} paras | lead-in: {text(body[0])[:50] if body else 'EMPTY'}")
+    json.dump(items, open(out, 'w'), ensure_ascii=False, indent=1)
+    print(len(items), 'homilies written')
