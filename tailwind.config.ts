@@ -9,7 +9,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: '',
   theme: {
     container: {
@@ -54,6 +54,29 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        // Heritage palette
+        ivory: 'hsl(var(--ivory))',
+        'ivory-soft': 'hsl(var(--ivory-soft))',
+        navy: 'hsl(var(--navy))',
+        'navy-deep': 'hsl(var(--navy-deep))',
+        gold: 'hsl(var(--gold))',
+        'gold-soft': 'hsl(var(--gold-soft))',
+        oxblood: 'hsl(var(--oxblood))',
+        ink: 'hsl(var(--ink))',
+        stone: 'hsl(var(--stone))',
+      },
+      fontFamily: {
+        sans: ['var(--font-inter-tight)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-fraunces)', 'ui-serif', 'Georgia', 'serif'],
+        display: ['var(--font-fraunces)', 'ui-serif', 'Georgia', 'serif'],
+      },
+      letterSpacing: {
+        smallcaps: '0.18em',
+        eyebrow: '0.22em',
+      },
+      boxShadow: {
+        editorial: '0 30px 60px -25px rgba(20, 34, 60, 0.35), 0 10px 20px -10px rgba(20, 34, 60, 0.18)',
+        ivoryLift: '0 12px 30px -16px rgba(20, 34, 60, 0.25)',
       },
       borderRadius: {
         lg: 'var(--radius)',

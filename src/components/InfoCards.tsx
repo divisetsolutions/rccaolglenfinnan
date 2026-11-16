@@ -1,10 +1,8 @@
 'use client';
 
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Church, Newspaper, Mail, BookMarked } from "lucide-react";
+import Link from 'next/link';
+import Image from 'next/image';
 
-// Updated and more accurate interfaces
 interface Newsletter {
   id: string;
   downloadUrl?: string;
@@ -27,71 +25,105 @@ interface InfoCardsProps {
 }
 
 export function InfoCards({ latestNewsletter, latestHomily }: InfoCardsProps) {
+  const items = [
+    {
+      image: '/st-johns-main.jpg',
+      title: 'Mass & Service Times',
+      description:
+        'The full weekly schedule for both churches, including weekday Masses, devotions and Holy Days.',
+      href: '/calendar',
+      cta: 'View the calendar',
+    },
+    {
+      image: '/parish-mission-community.jpg',
+      title: 'News & Events',
+      description:
+        'Announcements from the parish, the Diocese of Argyll and the Isles, and the wider Church.',
+      href: '/news',
+      cta: 'Read the latest',
+    },
+    {
+      image: '/st-marys-main.jpg',
+      title: 'Weekly Newsletter',
+      description:
+        'Sunday bulletins gathering Mass intentions, prayer requests and parish notices.',
+      href: '/newsletters',
+      cta: 'Download the newsletter',
+      footer:
+        latestNewsletter && latestNewsletter.downloadUrl ? (
+          <a
+            href={latestNewsletter.downloadUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="block mt-3 font-serif italic text-sm text-stone hover:text-gold"
+          >
+            Latest: {latestNewsletter.title}
+          </a>
+        ) : null,
+    },
+    {
+      image: '/parish-priest.jpg',
+      title: 'Sunday Homily',
+      description:
+        'Reflections preached at St John the Evangelist and St Mary & St Finnan each Lord’s Day.',
+      href: '/homilies',
+      cta: 'Read the homilies',
+      footer:
+        latestHomily && latestHomily.slug ? (
+          <Link
+            href={`/homilies/${latestHomily.slug}`}
+            onClick={(e) => e.stopPropagation()}
+            className="block mt-3 font-serif italic text-sm text-stone hover:text-gold"
+          >
+            Latest: {latestHomily.title}
+          </Link>
+        ) : null,
+    },
+  ];
+
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-        <Link href="/calendar" className="group">
-          <Card className="flex flex-col items-center text-center h-full bg-secondary border shadow-md hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-            <CardHeader className="p-0 mb-4">
-              <div className="bg-primary text-primary-foreground rounded-full p-3">
-                <Church className="h-8 w-8" />
-              </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <CardTitle className="text-xl font-bold mb-2">Mass & Service Times</CardTitle>
-              <p className="text-foreground">View the weekly schedule for both parishes.</p>
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href="/news" className="group">
-          <Card className="flex flex-col items-center text-center h-full bg-secondary border shadow-md hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-            <CardHeader className="p-0 mb-4">
-              <div className="bg-primary text-primary-foreground rounded-full p-3">
-                <Newspaper className="h-8 w-8" />
-              </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <CardTitle className="text-xl font-bold mb-2">News & Events</CardTitle>
-              <p className="text-foreground">Read the latest announcements and upcoming events.</p>
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href="/newsletters" className="group">
-          <Card className="flex flex-col items-center text-center h-full bg-secondary border shadow-md hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-            <CardHeader className="p-0 mb-4">
-              <div className="bg-primary text-primary-foreground rounded-full p-3">
-                <Mail className="h-8 w-8" />
-              </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <CardTitle className="text-xl font-bold mb-2">Weekly Newsletters</CardTitle>
-              <p className="text-foreground underline">Download and read the Parish Newsletters.</p>
-              {latestNewsletter && latestNewsletter.downloadUrl && (
-                <p className="text-sm text-muted-foreground mt-4">
-                  Latest: <a href={latestNewsletter.downloadUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-primary" onClick={(e) => e.stopPropagation()}>{latestNewsletter.title}</a>
+    <section className="bg-ivory-soft py-[72px] md:py-[108px] border-b border-gold/25">
+      <div className="mx-auto max-w-[1280px] px-6">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-9">
+          <h2 className="font-display text-navy text-[clamp(2rem,4.2vw,3.4rem)] tracking-[-0.015em] leading-[1.05]">
+            Where to begin.
+          </h2>
+          <p className="font-serif italic text-stone max-w-md text-[1.05rem] leading-snug">
+            Four ways into the life of the parish, for visitors and for those who pray with us each
+            week.
+          </p>
+        </div>
+
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-9">
+          {items.map((item) => (
+            <li key={item.title} className="group">
+              <Link href={item.href} className="block h-full">
+                <div className="relative aspect-[4/3] overflow-hidden ring-1 ring-gold/30">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  />
+                </div>
+                <h3 className="mt-5 font-display text-navy text-[1.4rem] leading-[1.15] group-hover:text-oxblood transition-colors">
+                  {item.title}
+                </h3>
+                <p className="mt-2 font-serif text-ink/85 text-[1rem] leading-[1.6]">
+                  {item.description}
                 </p>
-              )}
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href="/homilies" className="group">
-          <Card className="flex flex-col items-center text-center h-full bg-secondary border shadow-md hover:shadow-lg hover:-translate-y-1 transition-all p-6">
-            <CardHeader className="p-0 mb-4">
-              <div className="bg-primary text-primary-foreground rounded-full p-3">
-                <BookMarked className="h-8 w-8" />
-              </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <CardTitle className="text-xl font-bold mb-2">Sunday Homily</CardTitle>
-              <p className="text-foreground underline">Read the Sunday Homilies.</p>
-              {latestHomily && (
-                <p className="text-sm text-muted-foreground mt-4">
-                  Latest: <Link href={`/homilies/${latestHomily.slug}`} className="underline hover:text-primary" onClick={(e) => e.stopPropagation()}>{latestHomily.title}</Link>
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        </Link>
+                {item.footer}
+                <div className="mt-4">
+                  <span className="smallcaps text-navy nav-link" data-active="false">
+                    {item.cta} →
+                  </span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

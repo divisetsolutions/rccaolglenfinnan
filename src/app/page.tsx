@@ -2,6 +2,7 @@ import { HeroCarousel } from "@/components/HeroCarousel";
 import NextService from "@/components/NextService";
 import NewsHighlights from "@/components/NewsHighlights";
 import { WelcomeSection } from "@/components/WelcomeSection";
+import { Publications } from "@/components/Publications";
 import { getLatestNewsletter, getLatestHomily } from "@/lib/firebase";
 import { Metadata } from 'next';
 import { InfoCards } from "@/components/InfoCards";
@@ -34,6 +35,7 @@ export default async function Home() {
         <HeroCarousel />
       </section>
       <WelcomeSection />
+      <Publications latestNewsletter={serializableNewsletter} latestHomily={serializableHomily} />
       <NextService />
       <InfoCards latestNewsletter={serializableNewsletter} latestHomily={serializableHomily} />
       <NewsHighlights />

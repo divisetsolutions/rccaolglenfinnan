@@ -1,66 +1,92 @@
 'use client';
 
-import Image from "next/image";
-import { useState } from "react";
+import Image from 'next/image';
+import { useState } from 'react';
 
 export function WelcomeSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <section className="py-12 md:py-16 px-8">
-      
-      <div className="clearfix">
-        <div className="float-left mr-8 mb-4">
-          <Image
-            src="/parish-priest.jpg"
-            alt="Parish Priest"
-            width={300}
-            height={300}
-            className="rounded-lg object-cover cursor-pointer"
-            onClick={() => setIsModalOpen(true)}
-          />
-        </div>
-        <div className="space-y-4 text-xl">
-          <p className="font-semibold">Dear Friends,</p>
-          <p>
-            A very warm welcome to the Roman Catholic Parish of Caol and Glenfinnan, in the Diocese of Argyll and the Isles, Scottish Highlands. Whether you gather with us every Sunday, are returning after some time away, or are still searching for God’s presence in your life, know this: this is our home, and it can be your home too.
-          </p>
-          <p>
-            Our parish is one family serving two distinctive and deeply loved churches. St John’s in Caol is a vibrant and family-friendly church, nestled beneath majestic Ben Nevis, where prayer and daily life meet in simple, joyful ways. St Mary & St Finnan’s in Glenfinnan is a neo-Gothic treasure overlooking Loch Shiel, drawing people from all over the world to experience its beauty, history, and profound sense of the sacred.
-          </p>
-          <p>
-            Together, we are a worshipping, welcoming, and serving community — celebrating the sacraments with joy, valuing and supporting everyone who walks through our doors, reaching out with compassion to those in need.
-          </p>
-          <p>
-            No screen can baptise a child, no app can feed us with the Eucharist, and no post can whisper God’s mercy when we take our final breath. The Church carries us through every season of life — with hope, with love, with Christ.
-          </p>
-          <p>
-            So come and see. Bring your laughter, your questions, your struggles, your families, and your dreams. God is waiting with open arms. And so are we.
-          </p>
-          <p className="font-semibold">With joy in Christ,</p>
-          <p className="font-semibold">Revd Fr Charles Ijeoma Egbon, MSP (Missionary Society of St Paul)</p>
-          <p className="font-semibold">Parish Priest</p>
+    <section className="relative bg-ivory-soft border-y border-gold/25">
+      <div className="mx-auto max-w-[1040px] px-6 py-[72px] md:py-[108px]">
+        <div className="grid gap-10 md:gap-14 md:grid-cols-[300px_minmax(0,1fr)] items-start">
+          {/* Portrait column */}
+          <div className="md:sticky md:top-32">
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(true)}
+              className="group block w-full max-w-[300px] mx-auto md:mx-0"
+              aria-label="View portrait of the parish priest"
+            >
+              <div className="relative aspect-[3/4] overflow-hidden ring-1 ring-gold/40 shadow-editorial">
+                <Image
+                  src="/parish-priest.jpg"
+                  alt="Parish Priest"
+                  fill
+                  sizes="(max-width: 768px) 80vw, 300px"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+              </div>
+            </button>
+          </div>
+
+          {/* Letter column */}
+          <article className="font-serif text-ink">
+            <h2 className="font-display italic text-navy text-[clamp(1.6rem,2.6vw,2.1rem)] leading-[1.1]">
+              Dear Friends,
+            </h2>
+            <hr className="gold-rule mt-5 mb-8 max-w-[80px]" />
+            <p className="dropcap text-[1.2rem] leading-[1.75]">
+              A very warm welcome to our two churches. Whether you have worshipped here all your
+              life, or you have wandered in off the road and are not quite sure what brought you, I
+              am glad you have found us.
+            </p>
+
+            <p className="mt-6 text-[1.1rem] leading-[1.75]">
+              We are one parish family with two homes.{' '}
+              <span className="font-medium">St John the Evangelist</span> in Caol stands at the foot
+              of Ben Nevis, among the houses where most of us live and work.{' '}
+              <span className="font-medium">St Mary and St Finnan</span> in Glenfinnan keeps watch
+              over Loch Shiel, where visitors come from every corner of the world. The two could
+              hardly be more different, and it is the same Mass and the same welcome at both.
+            </p>
+
+            <p className="mt-6 text-[1.1rem] leading-[1.75]">
+              If you are new here, or coming back after a long time away, please do not stand at the
+              door wondering. Come in and sit where you like. Ask me anything. This is our home, and
+              it can be your home too.
+            </p>
+
+            <div className="mt-10 pt-8 border-t border-gold/30">
+              <p className="font-serif italic text-navy text-[1.05rem]">With joy in Christ,</p>
+              <p className="font-display text-navy text-2xl mt-2">
+                Fr Charles Egbon, MSP
+              </p>
+              <p className="smallcaps text-stone mt-1">Parish Priest</p>
+            </div>
+          </article>
         </div>
       </div>
 
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-navy-deep/85 backdrop-blur-sm p-6"
           onClick={() => setIsModalOpen(false)}
         >
-          <div className="relative">
+          <div className="relative max-w-3xl">
             <Image
               src="/parish-priest.jpg"
               alt="Parish Priest"
-              width={800}
-              height={800}
-              className="rounded-lg object-contain"
+              width={900}
+              height={1200}
+              className="object-contain ring-1 ring-gold/40"
             />
             <button
-              className="absolute top-4 right-4 text-white text-2xl font-bold"
+              className="absolute -top-3 -right-3 h-10 w-10 rounded-full bg-ivory text-navy text-xl font-medium shadow-editorial hover:bg-gold hover:text-ivory transition-colors"
               onClick={() => setIsModalOpen(false)}
+              aria-label="Close"
             >
-              &times;
+              ×
             </button>
           </div>
         </div>

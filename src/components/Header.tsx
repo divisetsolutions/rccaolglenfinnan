@@ -2,47 +2,88 @@
 
 import * as React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { MainNav } from '@/components/MainNav';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
   const [selectedImage, setSelectedImage] = React.useState('');
+  const [scrolled, setScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  if (pathname === '/') {
+    return null;
+  }
 
   const handleImageClick = (src: string) => {
     setSelectedImage(src);
     setOpen(true);
   };
 
-  if (pathname === '/') {
-    return null;
-  }
-
   return (
     <>
-      <header className="bg-gray-800 text-white shadow-md px-4">
-        <div className="w-full grid grid-cols-[1fr_auto_1fr] items-center px-4">
-          <div className="text-left">
-            <p className="font-bold text-xl">Welcome to the Parishes of Caol and Glenfinnan</p>
-            <p className="text-lg">Serving St John the Evangelist Church, Caol & St Mary & St Finnan Church, Glenfinnan</p>
+      <header
+        className={cn(
+          'sticky top-0 z-50 w-full transition-all duration-500',
+          scrolled ? 'shadow-ivoryLift' : ''
+        )}
+      >
+        {/* Eyebrow strip */}
+        <div className="bg-navy-deep text-ivory/80">
+          <div className="mx-auto max-w-[1400px] px-6 py-2 flex items-center justify-center">
+            <span className="smallcaps text-gold/90">
+              Parish of Caol and Glenfinnan
+              <span className="mx-3 text-gold/60">✦</span>
+              Diocese of Argyll and the Isles
+            </span>
           </div>
-          <div className="flex-shrink-0 mx-4">
-            <div
-              className="relative w-[120px] h-[120px] rounded-full bg-white/20 p-2 cursor-pointer hover:bg-white/30 transition-colors duration-200"
+        </div>
+
+        {/* Main bar */}
+        <div className="bg-ivory border-b border-gold/30">
+          <div className="mx-auto max-w-[1400px] px-6 py-5 flex items-center gap-6">
+            {/* Logo */}
+            <button
+              type="button"
               onClick={() => handleImageClick('/logo.png')}
+              className="relative shrink-0 h-[72px] w-[72px] rounded-full overflow-hidden ring-1 ring-gold/40 bg-ivory-soft transition-transform hover:scale-[1.03]"
+              aria-label="View parish crest"
             >
-              <Image src="/logo.png" alt="Parish Logo" layout="fill" objectFit="contain" />
-            </div>
+              <Image src="/logo.png" alt="Parish crest" fill className="object-contain p-1" />
+            </button>
+
+            {/* Wordmark */}
+            <Link href="/" className="flex-1 min-w-0">
+              <div className="font-display text-navy text-[1.55rem] md:text-[1.7rem] leading-[1.05] tracking-[-0.01em]">
+                St John the Evangelist
+                <span className="mx-2 text-gold/80">·</span>
+                St Mary and St Finnan
+              </div>
+              <div className="smallcaps text-stone mt-1">Caol and Glenfinnan</div>
+            </Link>
           </div>
-          <div className="text-right">
-            <MainNav />
+
+          {/* Nav row */}
+          <div className="border-t border-gold/20">
+            <div className="mx-auto max-w-[1400px] px-6 py-3">
+              <MainNav />
+            </div>
           </div>
         </div>
       </header>
+
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-2xl max-h-[80vh]">
+        <DialogContent className="max-w-2xl max-h-[80vh] bg-ivory">
           <DialogHeader>
             <DialogTitle className="sr-only">Image View</DialogTitle>
           </DialogHeader>

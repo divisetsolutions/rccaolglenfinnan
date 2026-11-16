@@ -1,26 +1,29 @@
 import type { Metadata } from 'next';
-import { Lora, Lato } from 'next/font/google';
+import { Fraunces, Inter_Tight } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
-const lora = Lora({
+const fraunces = Fraunces({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-lora',
+  variable: '--font-fraunces',
+  axes: ['opsz'],
+  style: ['normal', 'italic'],
 });
 
-const lato = Lato({
+const interTight = Inter_Tight({
   subsets: ['latin'],
-  weight: ['400', '700'],
   display: 'swap',
-  variable: '--font-lato',
+  variable: '--font-inter-tight',
+  weight: ['400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
-  title: 'RCCAOL Glenfinnan',
-  description: 'The official website of the Roman Catholic parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',
+  title: 'St John the Evangelist, Caol & St Mary & St Finnan, Glenfinnan',
+  description:
+    'The parishes of St John the Evangelist, Caol and St Mary and St Finnan, Glenfinnan, in the Diocese of Argyll and the Isles, Scottish Highlands.',
 };
 
 export default function RootLayout({
@@ -29,14 +32,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${lora.variable} ${lato.variable}`}>
-      <body>
+    <html lang="en" className={`${fraunces.variable} ${interTight.variable}`}>
+      <body className="font-sans bg-ivory text-ink antialiased">
         <AuthProvider>
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen relative">
             <Header />
-            <main className="flex-grow p-4">
-              {children}
-            </main>
+            <main className="flex-grow">{children}</main>
             <Footer />
           </div>
         </AuthProvider>

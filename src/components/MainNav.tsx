@@ -2,22 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/news", label: "News" },
+  { href: "/newsletters", label: "Newsletters" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/calendar", label: "Calendar" },
+  { href: "/sacraments", label: "Sacraments" },
+  { href: "/prayer-requests", label: "Prayer" },
+];
 
 export function MainNav() {
   const pathname = usePathname();
-
-  const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About Us" },
-    { href: "/news", label: "News & Events" },
-    { href: "/newsletters", label: "Newsletters" },
-    { href: "/gallery", label: "Gallery" },
-    { href: "/calendar", label: "Calendar" },
-    { href: "/sacraments", label: "Sacraments" },
-    { href: "/prayer-requests", label: "Prayer Requests" },
-  ];
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === href;
@@ -25,15 +23,13 @@ export function MainNav() {
   };
 
   return (
-    <nav className="flex items-center flex-wrap gap-4 lg:gap-6 justify-start">
+    <nav className="parish-nav flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
       {navItems.map((item) => (
         <Link
           key={item.label}
           href={item.href}
-          className={cn(
-            "text-base font-medium transition-transform transition-colors duration-200 hover:text-primary hover:scale-105 inline-block",
-            isActive(item.href) ? "" : "text-muted-foreground"
-          )}
+          data-active={isActive(item.href)}
+          className="nav-link smallcaps-nav"
         >
           {item.label}
         </Link>
@@ -42,22 +38,20 @@ export function MainNav() {
         href="https://universalis.com/europe.scotland.argyll/today.htm"
         target="_blank"
         rel="noopener noreferrer"
-        className="text-base font-medium text-muted-foreground transition-transform transition-colors duration-200 hover:text-primary hover:scale-105 inline-block"
+        className="nav-link smallcaps-nav"
       >
-        Liturgy of the Day
+        Liturgy
       </a>
       <Link
         href="/contact"
-        className={cn(
-          "text-base font-medium transition-transform transition-colors duration-200 hover:text-primary hover:scale-105 inline-block",
-          isActive("/contact") ? "" : "text-muted-foreground"
-        )}
+        data-active={isActive("/contact")}
+        className="nav-link smallcaps-nav"
       >
         Contact
       </Link>
-      <Button asChild>
-        <Link href="/donations">Donate</Link>
-      </Button>
+      <Link href="/donations" className="nav-give smallcaps-nav">
+        Give
+      </Link>
     </nav>
   );
 }
