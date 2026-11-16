@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import type { ReactNode } from 'react';
+import { AWAY } from '@/lib/content';
 import { Reveal } from './Reveal';
 
 /** The SVG shape behind every arched photograph. Rendered once in the layout. */
@@ -119,5 +120,25 @@ export function PhotoRibbon({ photos }: { photos: readonly { src: string; alt: s
         ))}
       </div>
     </div>
+  );
+}
+
+/** Who to ring while the parish priest is away. Controlled by AWAY in lib/content.ts. */
+export function AwayNotice({ className = '' }: { className?: string }) {
+  if (!AWAY.active || AWAY.contacts.length === 0) return null;
+  return (
+    <aside className={`rounded-[2rem] border-2 border-gorse bg-white p-6 md:p-8 ${className}`} aria-label="Urgent pastoral contacts">
+      <p className="font-display text-[1.5rem] font-semibold leading-snug">{AWAY.message}</p>
+      <ul className="mt-4 flex flex-wrap gap-3">
+        {AWAY.contacts.map((c) => (
+          <li key={c.phone}>
+            <a href={c.href} className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-loch px-5 font-bold text-mist hover:bg-heather">
+              {c.name}
+              <span className="font-normal tabular-nums text-mist/85">{c.phone}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </aside>
   );
 }

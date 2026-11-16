@@ -17,6 +17,7 @@ export function ArticleView({ article, back }: { article: Article; back: { href:
             </span>
           </h1>
           <p className="fade-up mt-5 text-mist/70" style={{ animationDelay: '250ms' }}>
+            {article.occasion ? `${article.occasion}. ` : ''}
             {longDate(article.date)}
             {article.eventLocation ? `, ${article.eventLocation}` : ''}
           </p>
@@ -28,7 +29,7 @@ export function ArticleView({ article, back }: { article: Article; back: { href:
             <Image src={article.featuredImageUrl} alt="" fill sizes="(max-width: 860px) 100vw, 860px" className="object-cover" priority />
           </div>
         )}
-        {article.excerpt && <p className="lede max-w-[60ch] font-display italic">{article.excerpt}</p>}
+        {article.excerpt && article.type !== 'homily' && <p className="lede max-w-[60ch] font-display italic">{article.excerpt}</p>}
         <div className="prose-parish mt-6 text-[1.14rem] leading-[1.8]" dangerouslySetInnerHTML={{ __html: article.content ?? '' }} />
         <Link href={back.href} className="btn btn-ghost mt-12">
           {back.label}
@@ -50,7 +51,7 @@ export function ArticleList({ articles, base, empty }: { articles: Article[]; ba
           <Image src={lead.featuredImageUrl || '/img/glenfinnan-autumn.jpg'} alt="" fill sizes="(max-width: 768px) 100vw, 560px" className="object-cover transition-transform duration-700 group-hover:scale-105" />
         </div>
         <div>
-          <p className="text-slate">{longDate(lead.date)}</p>
+          <p className="text-slate">{lead.occasion ? `${lead.occasion}. ` : ''}{longDate(lead.date)}</p>
           <h2 className="display-md mt-2 group-hover:text-heather">{lead.title}</h2>
           <p className="mt-4 text-slate">{lead.excerpt}</p>
           <span className="btn btn-loch mt-6">Read in full</span>
@@ -61,7 +62,10 @@ export function ArticleList({ articles, base, empty }: { articles: Article[]; ba
           {rest.map((a) => (
             <li key={a.id}>
               <Link href={`${base}/${a.id}`} className="group grid gap-2 border-t-2 border-line py-6 md:grid-cols-[11rem_1fr] md:gap-8">
-                <span className="text-slate">{longDate(a.date)}</span>
+                <span className="text-slate">
+                  {longDate(a.date)}
+                  {a.occasion && <span className="block text-[0.92rem]">{a.occasion}</span>}
+                </span>
                 <span>
                   <span className="block font-display text-[1.55rem] font-semibold leading-snug group-hover:text-heather">{a.title}</span>
                   {a.excerpt && <span className="mt-1 block max-w-[70ch] text-slate">{a.excerpt}</span>}

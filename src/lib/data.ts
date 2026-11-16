@@ -15,6 +15,8 @@ export interface Article {
   status?: string;
   date: string | null;
   eventLocation?: string;
+  /** For homilies: the Sunday or feast it was preached on. */
+  occasion?: string;
 }
 
 export interface Newsletter {
@@ -73,6 +75,7 @@ export async function getArticles(kind: 'news' | 'homily'): Promise<Article[]> {
           status: x.status ?? 'published',
           date: toIso(x.createdAt),
           eventLocation: x.eventLocation ?? '',
+          occasion: x.occasion ?? '',
         } as Article;
       })
       .filter((a) => a.status === 'published')
@@ -98,6 +101,7 @@ export async function getArticle(id: string): Promise<Article | null> {
       status: x.status ?? 'published',
       date: toIso(x.createdAt),
       eventLocation: x.eventLocation ?? '',
+          occasion: x.occasion ?? '',
     };
   } catch (error) {
     console.error('Could not load the article:', error);

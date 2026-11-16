@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArchPhoto, PhotoRibbon, Section, SectionHeading } from '@/components/site/Bits';
+import { ArchPhoto, AwayNotice, PhotoRibbon, Section, SectionHeading } from '@/components/site/Bits';
 import { Parallax, Reveal } from '@/components/site/Reveal';
 import { SeasonTag } from '@/components/site/SeasonTag';
 import { TwoChurches } from '@/components/site/TwoChurches';
@@ -92,6 +92,7 @@ export default async function Home() {
       <section id="this-week" className="scroll-mt-24 bg-mist-2 py-14 md:py-20">
         <div className="wrap">
           <SectionHeading title="This week in the parish" lede="Kept up to date from the parish office, so what you see here is what is happening." />
+          <AwayNotice className="mb-6" />
           <WeekAhead items={schedule} />
         </div>
       </section>

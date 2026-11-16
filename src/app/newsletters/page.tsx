@@ -28,7 +28,6 @@ export default async function NewslettersPage() {
               <div>
                 <p className="font-bold text-gorse">Latest issue</p>
                 <h2 className="display-lg mt-2">{latest.title}</h2>
-                <p className="mt-3 text-mist/70">{longDate(latest.date)}</p>
               </div>
               {latest.fileUrl && (
                 <a href={latest.fileUrl} target="_blank" rel="noopener noreferrer" className="btn btn-gorse">

@@ -14,6 +14,20 @@ export const PARISH = {
   dioceseDonate: 'https://www.rcdai.org.uk/donate/',
 };
 
+/**
+ * Shown on the homepage and Mass times page while the parish priest is away.
+ * Set `active` to false (or empty the list) when he is back.
+ */
+export const AWAY = {
+  active: true,
+  message: 'Fr Charles is not available at present. For urgent pastoral matters, please contact one of these priests.',
+  contacts: [
+    { name: 'Fr David', phone: '01397 702174', href: 'tel:+441397702174' },
+    { name: 'Fr Joe', phone: '01855 811203', href: 'tel:+441855811203' },
+    { name: 'Fr Danny', phone: '01397 712238', href: 'tel:+441397712238' },
+  ],
+};
+
 export const CHURCHES = {
   caol: {
     id: 'caol',

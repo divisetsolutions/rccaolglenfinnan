@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { PageHeader, Section, SectionHeading } from '@/components/site/Bits';
+import { AwayNotice, PageHeader, Section, SectionHeading } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
 import { WeekAhead } from '@/components/site/WeekAhead';
 import { CHURCHES, PARISH } from '@/lib/content';
@@ -30,6 +30,7 @@ export default async function MassTimesPage() {
 
       <Section tone="mist">
         <SectionHeading title="The next fourteen days" lede="Funerals, feast days and any weeks without weekday Mass are already included." />
+        <AwayNotice className="mb-6" />
         <WeekAhead items={schedule} days={14} />
       </Section>
 
