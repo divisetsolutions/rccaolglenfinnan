@@ -2,6 +2,9 @@ import { getSchedule } from '@/lib/firebase';
 import ScheduleCalendar from '@/components/ScheduleCalendar';
 import { Metadata } from 'next';
 
+// Re-read content from the database at most every 5 minutes
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   title: 'Parish Calendar',
   description: 'Upcoming events and activities in our parishes.',
@@ -57,7 +60,8 @@ const sortSchedule = (a: ScheduleItem, b: ScheduleItem) => {
 export default async function CalendarPage() {
   const schedule = await getSchedule();
 
-  const specialEvents = schedule.filter(item => item.specialDate);
+  const todayStr = new Date().toISOString().split('T')[0];
+  const specialEvents = schedule.filter(item => item.specialDate && (item.specialDate as string) >= todayStr);
   const recurringEvents = schedule.filter(item => !item.specialDate);
 
   interface CalendarEvent {

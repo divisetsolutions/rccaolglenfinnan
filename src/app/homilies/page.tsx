@@ -4,6 +4,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
 
+// Re-read content from the database at most every 5 minutes
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   title: 'Sunday Homilies',
   description: 'Read the latest Sunday Homilies from the parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',

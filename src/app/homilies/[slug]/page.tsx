@@ -3,6 +3,9 @@ import { collection, getDocs, doc, getDoc, query, where } from 'firebase/firesto
 import { Metadata } from 'next';
 import { ArticleShell, Article } from '@/components/ArticleShell';
 
+// Re-read content from the database at most every 5 minutes
+export const revalidate = 300;
+
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const homilyData = await getHomilyData(params.slug);
   return {

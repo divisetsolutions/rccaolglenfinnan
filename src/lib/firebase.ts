@@ -171,8 +171,9 @@ export async function getNextService() {
   
   // 3. Compare and return the soonest event
   if (nextSpecialEvent && nextRecurringEvent) {
-    const specialEventDate = new Date(`${nextSpecialEvent.specialDate}T${nextSpecialEvent.time}`);
-    if (specialEventDate < nextRecurringEvent.date) {
+    const d = nextRecurringEvent.date as Date;
+    const recurringDateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    if ((nextSpecialEvent as ScheduleItem).specialDate! <= recurringDateStr) {
       return nextSpecialEvent;
     } else {
       return nextRecurringEvent;

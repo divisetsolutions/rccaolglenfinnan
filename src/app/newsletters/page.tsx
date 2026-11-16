@@ -3,6 +3,9 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import Link from 'next/link';
 import { Metadata } from 'next';
 
+// Re-read content from the database at most every 5 minutes
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   title: 'Newsletters',
   description: 'Download the latest newsletters from the parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',
@@ -11,9 +14,14 @@ export const metadata: Metadata = {
 async function getNewsletters() {
   const newslettersCollection = collection(db, 'newsletters');
   const q = query(newslettersCollection, orderBy('issueDate', 'desc'));
-  const newslettersSnapshot = await getDocs(q);
-  const newslettersList = newslettersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  return newslettersList;
+  try {
+    const newslettersSnapshot = await getDocs(q);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return newslettersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as any[];
+  } catch (error) {
+    console.error('Could not load newsletters:', error);
+    return [];
+  }
 }
 
 export default async function NewslettersPage() {
@@ -29,6 +37,12 @@ export default async function NewslettersPage() {
           Download the latest newsletters from both parishes.
         </p>
       </div>
+      {newsletters.length === 0 && (
+        <p className="max-w-[700px]">
+          Printed copies of the newsletter are available at both churches each Sunday. The online
+          archive will return here shortly.
+        </p>
+      )}
       <div className="grid gap-4">
         {newsletters.map(newsletter => (
           <Link key={newsletter.id} href={newsletter.fileUrl} target="_blank" rel="noopener noreferrer">

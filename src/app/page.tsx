@@ -6,6 +6,9 @@ import { getLatestNewsletter, getLatestHomily } from "@/lib/firebase";
 import { Metadata } from 'next';
 import { InfoCards } from "@/components/InfoCards";
 
+// Re-read content from the database at most every 5 minutes
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   title: 'St John the Evangelist, Caol & St Mary & St Finnan, Glenfinnan',
   description: 'The primary digital hub for the Roman Catholic parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan, providing Mass times, news, sacraments information, and contact details.',
