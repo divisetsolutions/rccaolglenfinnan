@@ -7,8 +7,13 @@ export async function generateStaticParams() {
 }
 
 async function getParishData(parishId: string) {
-  const parishDoc = await getDoc(doc(db, 'parishes', parishId));
-  return parishDoc.data();
+  try {
+    const parishDoc = await getDoc(doc(db, 'parishes', parishId));
+    return parishDoc.data();
+  } catch (error) {
+    console.error('Could not load parish data:', error);
+    return undefined;
+  }
 }
 
 const photos = [

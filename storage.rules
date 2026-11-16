@@ -1,0 +1,16 @@
+rules_version = '2';
+
+// Newsletters and images are public to read; only the parish admin account may upload or delete.
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAdmin() {
+      return request.auth != null && request.auth.uid in ['raswqxSBVRdsj6LQy2hi71zUA1w2'];
+    }
+
+    match /{folder}/{allPaths=**} {
+      allow read: if folder in ['newsletters', 'news-images', 'galleries'];
+      allow write: if isAdmin() && folder in ['newsletters', 'news-images', 'galleries'];
+    }
+  }
+}

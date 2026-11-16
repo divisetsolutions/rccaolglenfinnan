@@ -3,6 +3,9 @@ import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { Metadata } from 'next';
 import { ArticleShell, Article } from '@/components/ArticleShell';
 
+// Re-read content from the database at most every 5 minutes
+export const revalidate = 300;
+
 export async function generateMetadata({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> {
   const newsData = await getNewsData(slug);
   return {
