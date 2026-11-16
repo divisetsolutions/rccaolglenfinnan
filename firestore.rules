@@ -1,0 +1,41 @@
+rules_version = '2';
+
+// Public pages read content; only the parish admin account may change it.
+// To add another editor, add their Firebase user ID to the list in isAdmin().
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null && request.auth.uid in ['raswqxSBVRdsj6LQy2hi71zUA1w2'];
+    }
+
+    match /schedule/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /news/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /newsletters/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /galleries/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /parishes/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
