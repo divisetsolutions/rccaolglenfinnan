@@ -1,38 +1,24 @@
-import { db } from '@/lib/firebase';
-import { collection, getDocs, doc, getDoc, query, where } from 'firebase/firestore';
-import { Metadata } from 'next';
-import { ArticleShell, Article } from '@/components/ArticleShell';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { ArticleView } from '@/components/site/ArticleView';
+import { getArticle, getArticles } from '@/lib/data';
 
 // Re-read content from the database at most every 5 minutes
 export const revalidate = 300;
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const homilyData = await getHomilyData(params.slug);
-  return {
-    title: homilyData?.title,
-    description: homilyData?.excerpt,
-  };
-}
+type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  const q = query(collection(db, 'news'), where('type', '==', 'homily'));
-  const homilySnapshot = await getDocs(q);
-  return homilySnapshot.docs.map((doc) => ({
-    slug: doc.id,
-  }));
+  return (await getArticles('homily')).map((a) => ({ slug: a.id }));
 }
 
-async function getHomilyData(slug: string) {
-  const homilyDoc = await getDoc(doc(db, 'news', slug));
-  return homilyDoc.data() as Article | undefined;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const article = await getArticle((await params).slug);
+  return article ? { title: article.title, description: article.excerpt, alternates: { canonical: `/homilies/${article.id}` } } : { title: 'Not found' };
 }
 
-export default async function HomilyArticlePage({ params }: { params: { slug: string } }) {
-  const homilyData = await getHomilyData(params.slug);
-
-  if (!homilyData) {
-    return <div>Article not found</div>;
-  }
-
-  return <ArticleShell article={homilyData} />;
+export default async function Page({ params }: Props) {
+  const article = await getArticle((await params).slug);
+  if (!article || article.status !== 'published') notFound();
+  return <ArticleView article={article} back={{ href: '/homilies', label: 'All homilies' }} />;
 }

@@ -1,45 +1,43 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import { PageHeader, Section } from '@/components/site/Bits';
+import { Reveal } from '@/components/site/Reveal';
+import { PARISH } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Giving',
-  description:
-    'How to support the parish of Caol and Glenfinnan through the Diocese of Argyll and the Isles.',
+  description: 'How to support the Catholic parish of Caol and Glenfinnan through the Diocese of Argyll and the Isles.',
+  alternates: { canonical: '/donations' },
 };
 
-export default function DonationsPage() {
+const ways = [
+  { title: 'Give online', text: 'Online gifts for every parish in the diocese are received by the Diocese of Argyll and the Isles and passed on to the parish you name. Please say that your gift is for Caol and Glenfinnan.', action: { href: PARISH.dioceseDonate, label: 'Give through the diocese' } },
+  { title: 'Give at Mass', text: 'The offertory collection at Sunday Mass keeps both churches open, heated and cared for. Envelopes are available in the porch.' },
+  { title: 'Standing order and Gift Aid', text: 'A regular gift helps the parish to plan. If you pay UK tax, Gift Aid adds a quarter to what you give at no cost to you. Ask the parish office for the forms.' },
+];
+
+export default function GivingPage() {
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[700px] flex-col items-start gap-4">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Giving to the Parish
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          Thank you for thinking of supporting St John the Evangelist, Caol and St Mary &amp; St
-          Finnan, Glenfinnan.
+    <>
+      <PageHeader title="Giving to the parish" lede="Two churches in a small Highland community are kept going by the generosity of parishioners and visitors. Thank you." image="/img/caol-altar.jpg" />
+      <Section>
+        <ul className="grid gap-6 md:grid-cols-3">
+          {ways.map((w, i) => (
+            <Reveal as="li" key={w.title} delay={i * 110} className={`flex flex-col rounded-[2rem] p-8 ${i === 0 ? 'bg-loch text-mist shadow-lift' : 'bg-white shadow-soft'}`}>
+              <h2 className="display-md">{w.title}</h2>
+              <p className={`mt-4 flex-grow ${i === 0 ? 'text-mist/80' : 'text-slate'}`}>{w.text}</p>
+              {w.action && (
+                <a href={w.action.href} target="_blank" rel="noopener noreferrer" className="btn btn-gorse mt-7 self-start">
+                  {w.action.label}
+                </a>
+              )}
+            </Reveal>
+          ))}
+        </ul>
+        <p className="mt-10 max-w-[70ch] text-slate">
+          Visitors from the United States can make a tax-deductible gift through the diocese’s page as well. The Roman Catholic Diocese of Argyll and
+          the Isles is a registered Scottish charity, {PARISH.charity}. Questions about giving: <a className="link" href={`mailto:${PARISH.email}`}>{PARISH.email}</a>.
         </p>
-        <p>
-          Online donations for every parish in the Diocese of Argyll and the Isles are received
-          through the diocese and passed on to the parish you name. When you give, please state
-          that your gift is for the parish of Caol and Glenfinnan.
-        </p>
-        <a
-          href="https://www.rcdai.org.uk/donate/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex rounded-md bg-primary px-5 py-3 font-medium text-primary-foreground hover:bg-primary/90"
-        >
-          Give through the Diocese
-        </a>
-        <p>
-          You are also welcome to give at Mass, or to speak to the parish office about standing
-          orders and Gift Aid: <a className="underline" href="mailto:caol@rcdai.org.uk">caol@rcdai.org.uk</a>,
-          01397 719281.
-        </p>
-        <p className="text-sm text-muted-foreground">
-          The Roman Catholic Diocese of Argyll and the Isles is a registered Scottish charity,
-          SC002876.
-        </p>
-      </div>
-    </section>
+      </Section>
+    </>
   );
 }

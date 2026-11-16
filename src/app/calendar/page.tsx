@@ -1,196 +1,83 @@
-import { getSchedule } from '@/lib/firebase';
-import ScheduleCalendar from '@/components/ScheduleCalendar';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { PageHeader, Section, SectionHeading } from '@/components/site/Bits';
+import { Reveal } from '@/components/site/Reveal';
+import { WeekAhead } from '@/components/site/WeekAhead';
+import { CHURCHES, PARISH } from '@/lib/content';
+import { getSchedule } from '@/lib/data';
+import { formatMinutes, weeklyPattern } from '@/lib/schedule';
 
 // Re-read content from the database at most every 5 minutes
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: 'Parish Calendar',
-  description: 'Upcoming events and activities in our parishes.',
+  title: 'Mass times',
+  description: 'Mass, confession and adoration times at St John the Evangelist, Caol (Fort William) and St Mary & St Finnan, Glenfinnan, with this week’s changes.',
+  alternates: { canonical: '/calendar' },
 };
 
-// Helper to get the next date for a given weekday
-const getNextDay = (dayOfWeek: number) => {
-  const today = new Date();
-  const resultDate = new Date(today.getTime());
-  resultDate.setDate(today.getDate() + (dayOfWeek + 7 - today.getDay()) % 7);
-  return resultDate;
-};
-
-const dayNameToNumber = (dayName: string) => {
-  const days: { [key: string]: number } = {
-    'Sunday': 0,
-    'Monday': 1,
-    'Tuesday': 2,
-    'Wednesday': 3,
-    'Thursday': 4,
-    'Friday': 5,
-    'Saturday': 6,
-  };
-  return days[dayName];
-}
-
-const dayOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-interface ScheduleItem {
-  id: string;
-  title: string;
-  parishId: string;
-  dayOfWeek: string;
-  time: string;
-  notes?: string;
-  specialDate?: string;
-}
-
-const sortSchedule = (a: ScheduleItem, b: ScheduleItem) => {
-  const dayIndexA = dayOrder.indexOf(a.dayOfWeek);
-  const dayIndexB = dayOrder.indexOf(b.dayOfWeek);
-
-  if (dayIndexA !== dayIndexB) {
-    return dayIndexA - dayIndexB;
-  }
-
-  // If days are the same, sort by time
-  const timeA = parseInt(a.time.replace(':', ''));
-  const timeB = parseInt(b.time.replace(':', ''));
-  return timeA - timeB;
-};
-
-export default async function CalendarPage() {
+export default async function MassTimesPage() {
   const schedule = await getSchedule();
 
-  const todayStr = new Date().toISOString().split('T')[0];
-  const specialEvents = schedule.filter(item => item.specialDate && (item.specialDate as string) >= todayStr);
-  const recurringEvents = schedule.filter(item => !item.specialDate);
-
-  interface CalendarEvent {
-  title: string;
-  start: string;
-  allDay: boolean;
-  extendedProps: {
-    special?: boolean;
-    notes?: string;
-  };
-}
-
-// ... (keep the existing code until the events array)
-
-  const events: CalendarEvent[] = [
-    ...specialEvents.map(item => {
-      const [year, month, day] = (item.specialDate as string).split('-');
-      const [hours, minutes] = item.time.split(':');
-      const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hours), parseInt(minutes));
-      return {
-        title: `${item.title} (${item.parishId})`,
-        start: date.toISOString(),
-        allDay: false,
-        extendedProps: {
-          special: true,
-          notes: item.notes,
-        }
-      };
-    }),
-    ...recurringEvents.map(item => {
-      if (!item.dayOfWeek || !item.time) {
-        return null;
-      }
-      const dayOfWeek = dayNameToNumber(item.dayOfWeek);
-      if (dayOfWeek === undefined) {
-        return null;
-      }
-
-      const nextDate = getNextDay(dayOfWeek);
-      const [hours, minutes] = item.time.split(':');
-      if (!hours || !minutes) {
-        return null;
-      }
-      nextDate.setHours(parseInt(hours), parseInt(minutes));
-
-      // Check if there is a special event on the same day and parish
-      const hasSpecialEvent = specialEvents.some(se => {
-        const [year, month, day] = (se.specialDate as string).split('-');
-        const specialDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-        return specialDate.getFullYear() === nextDate.getFullYear() &&
-               specialDate.getMonth() === nextDate.getMonth() &&
-               specialDate.getDate() === nextDate.getDate() &&
-               se.parishId === item.parishId;
-      });
-
-      if (hasSpecialEvent) {
-        return null;
-      }
-
-      return {
-        title: `${item.title} (${item.parishId})`,
-        start: nextDate.toISOString(),
-        allDay: false,
-        extendedProps: {
-          notes: item.notes,
-        }
-      };
-    }).filter(Boolean) as CalendarEvent[]
-  ];
-
-  const renderScheduleList = (parishId: string) => {
-    const parishSpecialEvents = specialEvents.filter(item => item.parishId === parishId);
-    const parishRecurringEvents = recurringEvents.filter(item => item.parishId === parishId);
-
-    const filteredRecurringEvents = parishRecurringEvents.filter(re => {
-      return !parishSpecialEvents.some(se => {
-        const dayOfWeek = dayNameToNumber(re.dayOfWeek);
-        const nextDate = getNextDay(dayOfWeek);
-        const [year, month, day] = (se.specialDate as string).split('-');
-        const specialDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-        return specialDate.getFullYear() === nextDate.getFullYear() &&
-               specialDate.getMonth() === nextDate.getMonth() &&
-               specialDate.getDate() === nextDate.getDate();
-      });
-    });
-
-    return (
-      <ul className="space-y-2">
-        {parishSpecialEvents.map(item => (
-          <li key={item.id} className="p-4 bg-blue-100 rounded-lg">
-            <p className="font-bold">{item.title}</p>
-            <p>{item.specialDate} at {item.time}</p>
-            {item.notes && <p className="text-sm text-gray-600">{item.notes}</p>}
-          </li>
-        ))}
-        {filteredRecurringEvents.sort(sortSchedule).map(item => (
-          <li key={item.id} className="p-4 bg-gray-100 rounded-lg">
-            <p className="font-bold">{item.title}</p>
-            <p>{item.dayOfWeek} at {item.time}</p>
-            {item.notes && <p className="text-sm text-gray-600">{item.notes}</p>}
-          </li>
-        ))}
-      </ul>
-    );
-  }
-
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Parish Calendar
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          Upcoming events and activities in our parishes.
-        </p>
-      </div>
-      <div className="grid gap-8 md:grid-cols-2">
-        <div>
-          <h2 className="text-2xl font-bold mb-4">St. John&apos;s, Caol</h2>
-          {renderScheduleList('caol')}
+    <>
+      <PageHeader
+        title="Mass times"
+        lede="The next two weeks as they will really happen, followed by the usual weekly pattern at each church."
+        image="/img/caol-altar.jpg"
+        imageAlt="Candles lit around the altar at St John’s, Caol"
+      />
+
+      <Section tone="mist">
+        <SectionHeading title="The next fourteen days" lede="Funerals, feast days and any weeks without weekday Mass are already included." />
+        <WeekAhead items={schedule} days={14} />
+      </Section>
+
+      <Section tone="white">
+        <SectionHeading title="A usual week" lede="When nothing out of the ordinary is happening, this is the pattern." />
+        <div className="grid gap-8 md:grid-cols-2">
+          {Object.values(CHURCHES).map((c, i) => {
+            const pattern = weeklyPattern(schedule, c.id);
+            return (
+              <Reveal key={c.id} delay={i * 120} className="rounded-[2rem] bg-mist p-7 md:p-10">
+                <h3 className="display-md">{c.name}</h3>
+                <p className="mt-1 text-slate">{c.place}</p>
+                {pattern.length === 0 ? (
+                  <p className="mt-6 text-slate">Times will be posted here shortly. Please ring {PARISH.phone}.</p>
+                ) : (
+                  <dl className="mt-6 divide-y-2 divide-line">
+                    {pattern.map((day) => (
+                      <div key={day.weekday} className="grid grid-cols-[7.5rem_1fr] gap-4 py-4">
+                        <dt className="font-display text-[1.3rem] font-semibold">{day.weekday}</dt>
+                        <dd className="space-y-2">
+                          {day.entries.map((e) => (
+                            <p key={e.id}>
+                              <span className="font-bold tabular-nums">{formatMinutes(e.minutes)}</span> {e.title}
+                            </p>
+                          ))}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+                <Link href={c.slug} className="link mt-6 inline-block">
+                  Directions to {c.short}
+                </Link>
+              </Reveal>
+            );
+          })}
         </div>
-        <div>
-          <h2 className="text-2xl font-bold mb-4">St. Mary & St. Finnan&apos;s, Glenfinnan</h2>
-          {renderScheduleList('glenfinnan')}
-        </div>
-      </div>
-      <div className="w-full mt-8">
-        <ScheduleCalendar events={events} />
-      </div>
-    </section>
+        <Reveal className="mt-10 rounded-[2rem] bg-heather-soft p-7 md:p-10">
+          <h3 className="display-md text-heather">Need a priest urgently?</h3>
+          <p className="mt-3 max-w-[60ch]">
+            For someone who is dying or seriously ill, ring the parish at any hour on{' '}
+            <a className="link" href={PARISH.phoneHref}>
+              {PARISH.phone}
+            </a>
+            . Confession is also available at any reasonable time by arrangement.
+          </p>
+        </Reveal>
+      </Section>
+    </>
   );
 }

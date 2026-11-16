@@ -1,44 +1,73 @@
-import type { Metadata } from 'next';
-import { Fraunces, Inter_Tight } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Alegreya, Atkinson_Hyperlegible } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
+import { SiteHeader } from '@/components/site/SiteHeader';
+import { SiteFooter } from '@/components/site/SiteFooter';
+import { ArchDefs } from '@/components/site/Bits';
+import { CHURCHES, PARISH } from '@/lib/content';
 
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-fraunces',
-  axes: ['opsz'],
-  style: ['normal', 'italic'],
-});
+// Alegreya: a calligraphic book face with real warmth at large sizes.
+const display = Alegreya({ subsets: ['latin'], display: 'swap', variable: '--font-display', style: ['normal', 'italic'] });
+// Atkinson Hyperlegible: designed by the Braille Institute so that every letter is unmistakable.
+const body = Atkinson_Hyperlegible({ subsets: ['latin'], display: 'swap', variable: '--font-body', weight: ['400', '700'], style: ['normal', 'italic'] });
 
-const interTight = Inter_Tight({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter-tight',
-  weight: ['400', '500', '600', '700'],
-});
+const description =
+  'Mass times, sacraments and parish life at St John the Evangelist, Caol (Fort William) and St Mary & St Finnan, Glenfinnan, in the Diocese of Argyll and the Isles.';
 
 export const metadata: Metadata = {
-  title: 'St John the Evangelist, Caol & St Mary & St Finnan, Glenfinnan',
-  description:
-    'The parishes of St John the Evangelist, Caol and St Mary and St Finnan, Glenfinnan, in the Diocese of Argyll and the Isles, Scottish Highlands.',
+  metadataBase: new URL(PARISH.url),
+  title: { default: 'Catholic Parish of Caol and Glenfinnan | Mass times in Fort William and Glenfinnan', template: '%s | Caol and Glenfinnan Parish' },
+  description,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    siteName: PARISH.full,
+    title: 'Catholic Parish of Caol and Glenfinnan',
+    description,
+    locale: 'en_GB',
+    images: [{ url: '/img/glenfinnan-exterior.jpg', width: 2200, height: 991, alt: 'St Mary & St Finnan above Loch Shiel' }],
+  },
+  twitter: { card: 'summary_large_image' },
+  icons: { icon: '/img/crest.png', apple: '/img/crest.png' },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = { themeColor: '#10323f' };
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': Object.values(CHURCHES).map((c) => ({
+    '@type': 'CatholicChurch',
+    name: `${c.name}, ${c.place}`,
+    url: `${PARISH.url}${c.slug}`,
+    image: `${PARISH.url}${c.hero}`,
+    telephone: '+441397719281',
+    email: c.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: c.address[0],
+      addressLocality: c.id === 'caol' ? 'Fort William' : 'Glenfinnan',
+      postalCode: c.address[c.address.length - 1],
+      addressCountry: 'GB',
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: c.lat, longitude: c.lng },
+    parentOrganization: { '@type': 'Organization', name: 'Roman Catholic Diocese of Argyll and the Isles', url: 'https://www.rcdai.org.uk' },
+  })),
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${interTight.variable}`}>
-      <body className="font-sans bg-ivory text-ink antialiased">
+    <html lang="en-GB" className={`${display.variable} ${body.variable}`} data-season="ordinary">
+      <body className="antialiased">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <ArchDefs />
         <AuthProvider>
-          <div className="flex flex-col min-h-screen relative">
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
+          <div className="flex min-h-screen flex-col">
+            <SiteHeader />
+            <main id="main" className="flex-grow">
+              {children}
+            </main>
+            <SiteFooter />
           </div>
         </AuthProvider>
       </body>

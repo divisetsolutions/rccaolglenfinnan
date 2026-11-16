@@ -1,78 +1,25 @@
-import { db } from '@/lib/firebase';
-import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import { ArticleList } from '@/components/site/ArticleView';
+import { PageHeader, Section } from '@/components/site/Bits';
+import { getArticles } from '@/lib/data';
 
 // Re-read content from the database at most every 5 minutes
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: 'News & Events',
-  description: 'Stay up to date with the latest news and events from the parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',
+  title: 'News',
+  description: 'News from the Catholic parish of Caol and Glenfinnan.',
+  alternates: { canonical: '/news' },
 };
 
-async function getNews() {
-  const newsCollection = collection(db, 'news');
-      const q = query(newsCollection, where('status', '==', 'published'), where('type', 'in', ['news', 'event']), orderBy('createdAt', 'desc'));
-  const newsSnapshot = await getDocs(q);
-  const newsList = newsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  return newsList;
-}
-
-export default async function NewsPage() {
-  const news = await getNews();
-
+export default async function Page() {
+  const articles = await getArticles('news');
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          News & Events
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          Stay up to date with the latest news and events from both parishes.
-        </p>
-      </div>
-      <div className="grid gap-8 md:grid-cols-2">
-        {news.map(article => (
-          <div key={article.id} className="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden h-full flex flex-col">
-            {article.featuredImageUrl && (
-              <Link href={`/news/${article.id}`}>
-                <div className="relative h-48">
-                  <Image
-                    src={article.featuredImageUrl}
-                    alt={article.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </Link>
-            )}
-            <div className="p-6 flex flex-col flex-grow">
-              <h3 className="text-xl font-semibold mb-2">
-                <Link href={`/news/${article.id}`}>
-                  <span className="hover:underline">{article.title}</span>
-                </Link>
-              </h3>
-              {article.createdAt && (
-                <p className="text-sm text-muted-foreground">
-                  <em>
-                    Published: {article.createdAt.toDate().toLocaleDateString('en-GB', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    })}
-                  </em>
-                </p>
-              )}
-              <p className="text-muted-foreground mb-4 flex-grow">{article.excerpt}</p>
-              <Link href={`/news/${article.id}`}>
-                <p className="text-sm font-medium text-blue-500 hover:underline">Read More</p>
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
+    <>
+      <PageHeader title="News" lede="What is happening in the parish, the deanery and the diocese." image="/img/glenfinnan-autumn.jpg" />
+      <Section>
+        <ArticleList articles={articles} base="/news" empty="There is no news posted at the moment. The weekly newsletter carries all current notices." />
+      </Section>
+    </>
   );
 }

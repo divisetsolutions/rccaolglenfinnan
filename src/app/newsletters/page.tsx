@@ -1,58 +1,60 @@
-import { db } from '@/lib/firebase';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
-import Link from 'next/link';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import { PageHeader, Section } from '@/components/site/Bits';
+import { Reveal } from '@/components/site/Reveal';
+import { getNewsletters, longDate } from '@/lib/data';
 
 // Re-read content from the database at most every 5 minutes
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: 'Newsletters',
-  description: 'Download the latest newsletters from the parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',
+  title: 'Newsletter',
+  description: 'The weekly newsletter of the Catholic parish of Caol and Glenfinnan.',
+  alternates: { canonical: '/newsletters' },
 };
-
-async function getNewsletters() {
-  const newslettersCollection = collection(db, 'newsletters');
-  const q = query(newslettersCollection, orderBy('issueDate', 'desc'));
-  try {
-    const newslettersSnapshot = await getDocs(q);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return newslettersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as any[];
-  } catch (error) {
-    console.error('Could not load newsletters:', error);
-    return [];
-  }
-}
 
 export default async function NewslettersPage() {
   const newsletters = await getNewsletters();
+  const [latest, ...older] = newsletters;
 
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Newsletters
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          Download the latest newsletters from both parishes.
-        </p>
-      </div>
-      {newsletters.length === 0 && (
-        <p className="max-w-[700px]">
-          Printed copies of the newsletter are available at both churches each Sunday. The online
-          archive will return here shortly.
-        </p>
-      )}
-      <div className="grid gap-4">
-        {newsletters.map(newsletter => (
-          <Link key={newsletter.id} href={newsletter.fileUrl} target="_blank" rel="noopener noreferrer">
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
-              <h3 className="text-xl font-semibold">{newsletter.title}</h3>
-              <p className="text-muted-foreground">{new Date(newsletter.issueDate.seconds * 1000).toLocaleDateString()}</p>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </section>
+    <>
+      <PageHeader title="Parish newsletter" lede="Published every weekend with the notices, anniversaries and the programme for the week ahead." image="/img/caol-nave.jpg" />
+      <Section>
+        {!latest ? (
+          <p className="lede max-w-[56ch]">Printed copies are available at both churches each Sunday. The online archive will return here shortly.</p>
+        ) : (
+          <>
+            <Reveal className="grid items-center gap-6 rounded-[2rem] bg-loch p-8 text-mist shadow-lift md:grid-cols-[1fr_auto] md:p-12">
+              <div>
+                <p className="font-bold text-gorse">Latest issue</p>
+                <h2 className="display-lg mt-2">{latest.title}</h2>
+                <p className="mt-3 text-mist/70">{longDate(latest.date)}</p>
+              </div>
+              {latest.fileUrl && (
+                <a href={latest.fileUrl} target="_blank" rel="noopener noreferrer" className="btn btn-gorse">
+                  Open the newsletter (PDF)
+                </a>
+              )}
+            </Reveal>
+            {older.length > 0 && (
+              <>
+                <h2 className="display-md mt-14">Earlier issues</h2>
+                <ul className="mt-4">
+                  {older.map((n) => (
+                    <li key={n.id}>
+                      <a href={n.fileUrl} target="_blank" rel="noopener noreferrer" className="group grid gap-1 border-t-2 border-line py-5 md:grid-cols-[11rem_1fr_auto] md:items-baseline md:gap-8">
+                        <span className="text-slate">{longDate(n.date)}</span>
+                        <span className="font-display text-[1.4rem] font-semibold group-hover:text-heather">{n.title}</span>
+                        <span className="font-bold text-heather">PDF</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </>
+        )}
+      </Section>
+    </>
   );
 }

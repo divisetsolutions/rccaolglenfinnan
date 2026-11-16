@@ -1,30 +1,46 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import { PageHeader, Section } from '@/components/site/Bits';
+import { Reveal } from '@/components/site/Reveal';
 
 export const metadata: Metadata = {
   title: 'Safeguarding',
-  description: 'Information about safeguarding in our parishes.',
+  description: 'Safeguarding in the parish of Caol and Glenfinnan and the Diocese of Argyll and the Isles, and who to contact with a concern.',
+  alternates: { canonical: '/safeguarding' },
 };
 
 export default function SafeguardingPage() {
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Safeguarding
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          The Diocese of Argyll and the Isles is committed to the highest standards of safeguarding to protect children and vulnerable adults.
-        </p>
-      </div>
-      <div className="max-w-[700px]">
-        <h2 className="text-2xl font-bold mt-8 mb-4">Diocesan Safeguarding Advisor</h2>
-        <p>Rev. Dr. Tony Livesey</p>
-        <p>Diocesan Office</p>
-        <p>Esplanade, Oban</p>
-        <p>PA34 5AB</p>
-        <p>Tel: 07938 253133</p>
-        <p>Email: Safeguardingadvisor@rcdai.org.uk</p>
-      </div>
-    </section>
+    <>
+      <PageHeader title="Safeguarding" lede="Every child and every vulnerable adult must be safe in the Church. The parish follows the safeguarding standards of the Catholic Church in Scotland." />
+      <Section>
+        <div className="grid gap-8 md:grid-cols-2">
+          <Reveal className="rounded-[2rem] bg-loch p-8 text-mist md:p-10">
+            <h2 className="display-md">If someone is in immediate danger</h2>
+            <p className="mt-4 font-display text-[2.4rem] leading-none text-gorse">Call 999</p>
+            <p className="mt-4 text-mist/80">For a concern that is not an emergency, contact Police Scotland on 101, or the diocesan safeguarding adviser.</p>
+          </Reveal>
+          <Reveal delay={120} className="rounded-[2rem] bg-white p-8 shadow-soft md:p-10">
+            <h2 className="display-md">Diocesan Safeguarding Adviser</h2>
+            <address className="mt-4 not-italic leading-relaxed">
+              Rev Dr Tony Livesey
+              <br />
+              Diocesan Office, Esplanade, Oban, PA34 5AB
+              <br />
+              <a className="link" href="tel:+447938253133">07938 253133</a>
+              <br />
+              <a className="link" href="mailto:safeguardingadvisor@rcdai.org.uk">safeguardingadvisor@rcdai.org.uk</a>
+            </address>
+            <p className="mt-5">
+              <a className="link" href="https://www.rcdai.org.uk/safeguarding/safeguarding-in-our-parishes/" target="_blank" rel="noopener noreferrer">
+                Safeguarding on the diocese website
+              </a>
+            </p>
+          </Reveal>
+        </div>
+        <Reveal className="mt-10 max-w-[68ch] text-[1.08rem]">
+          <p>You can speak to Fr Charles or to the parish safeguarding coordinator in confidence at any time. Anyone who works with children or vulnerable adults in the parish is checked and trained before they begin.</p>
+        </Reveal>
+      </Section>
+    </>
   );
 }

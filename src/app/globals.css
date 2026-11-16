@@ -1,315 +1,202 @@
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
+/*
+  Design language: "Loch and Heather"
+  Colours taken from the two places the parish lives in: the deep water of
+  Loch Shiel, Highland mist, heather on the hill, gorse in flower, Scots pine.
+  One recurring shape: the lancet arch of St Mary & St Finnan.
+*/
+
 @layer base {
   :root {
-    /* Heritage Editorial palette (HSL tuples for hsl(var(--token))) */
-    --ivory: 40 50% 92%;
-    --ivory-soft: 43 65% 95%;
-    --navy: 218 50% 16%;
-    --navy-deep: 220 56% 10%;
-    --gold: 40 48% 46%;
-    --gold-soft: 40 51% 58%;
-    --oxblood: 355 55% 27%;
-    --ink: 0 0% 11%;
-    --stone: 40 10% 38%;
+    --loch: 196 58% 15%;
+    --loch-deep: 198 62% 10%;
+    --mist: 160 20% 97%;
+    --mist-2: 168 22% 92%;
+    --heather: 312 32% 36%;
+    --heather-soft: 312 36% 93%;
+    --gorse: 42 86% 50%;
+    --pine: 152 33% 27%;
+    --slate: 198 18% 30%;
+    --line: 190 20% 82%;
 
-    /* shadcn token remap onto heritage palette */
-    --background: var(--ivory);
-    --foreground: var(--ink);
+    /* Liturgical season accent, set on <html data-season> by the layout */
+    --season: var(--pine);
 
-    --card: var(--ivory-soft);
-    --card-foreground: var(--ink);
-
-    --popover: var(--ivory-soft);
-    --popover-foreground: var(--ink);
-
-    --primary: var(--oxblood);
-    --primary-foreground: var(--ivory);
-
-    --secondary: var(--ivory-soft);
-    --secondary-foreground: var(--navy);
-
-    --muted: 40 25% 88%;
-    --muted-foreground: var(--stone);
-
-    --accent: var(--gold);
-    --accent-foreground: var(--ivory);
-
-    --destructive: 0 70% 38%;
-    --destructive-foreground: var(--ivory);
-
-    --border: 40 25% 80%;
-    --input: 40 25% 80%;
-    --ring: var(--gold);
-
-    --radius: 0.25rem;
+    /* shadcn tokens (used by the admin area) mapped onto the palette */
+    --background: var(--mist);
+    --foreground: var(--loch);
+    --card: 0 0% 100%;
+    --card-foreground: var(--loch);
+    --popover: 0 0% 100%;
+    --popover-foreground: var(--loch);
+    --primary: var(--loch);
+    --primary-foreground: var(--mist);
+    --secondary: var(--mist-2);
+    --secondary-foreground: var(--loch);
+    --muted: var(--mist-2);
+    --muted-foreground: var(--slate);
+    --accent: var(--heather-soft);
+    --accent-foreground: var(--heather);
+    --destructive: 0 70% 40%;
+    --destructive-foreground: 0 0% 100%;
+    --border: var(--line);
+    --input: var(--line);
+    --ring: var(--heather);
+    --radius: 0.75rem;
   }
 
-  .dark {
-    --background: var(--navy-deep);
-    --foreground: var(--ivory);
-    --card: var(--navy);
-    --card-foreground: var(--ivory);
-    --popover: var(--navy);
-    --popover-foreground: var(--ivory);
-    --primary: var(--gold);
-    --primary-foreground: var(--navy-deep);
-    --secondary: var(--navy);
-    --secondary-foreground: var(--ivory);
-    --muted: 218 30% 20%;
-    --muted-foreground: 40 15% 70%;
-    --accent: var(--gold);
-    --accent-foreground: var(--navy-deep);
-    --destructive: 0 70% 38%;
-    --destructive-foreground: var(--ivory);
-    --border: 218 30% 22%;
-    --input: 218 30% 22%;
-    --ring: var(--gold);
-  }
-}
+  html[data-season="advent"], html[data-season="lent"] { --season: 276 42% 38%; }
+  html[data-season="christmas"], html[data-season="easter"] { --season: 42 86% 50%; }
+  html[data-season="ordinary"] { --season: 152 40% 32%; }
 
-@layer base {
-  * {
-    border-color: hsl(var(--border));
-  }
+  * { border-color: hsl(var(--border)); }
 
   html {
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
   body {
-    font-family: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
-    background-color: hsl(var(--ivory));
-    color: hsl(var(--ink));
-    font-feature-settings: "ss01", "cv11";
+    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    background: hsl(var(--mist));
+    color: hsl(var(--loch));
+    font-size: 1.0625rem;
+    line-height: 1.65;
   }
 
-  h1, h2, h3, h4, h5 {
-    font-family: var(--font-fraunces), ui-serif, Georgia, serif;
-    font-optical-sizing: auto;
-    color: hsl(var(--navy));
-    letter-spacing: -0.01em;
+  h1, h2, h3, h4 {
+    font-family: var(--font-display), ui-serif, Georgia, serif;
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.012em;
+    text-wrap: balance;
   }
 
-  /* Subtle paper grain — fixed overlay, behind interactive content */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.05;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7'/><feColorMatrix type='matrix' values='0 0 0 0 0.1  0 0 0 0 0.08  0 0 0 0 0.05  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  p { text-wrap: pretty; }
+
+  :focus-visible {
+    outline: 3px solid hsl(var(--gorse));
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 
-  /* Make sure radix portals (dialogs, dropdowns) sit above the grain */
-  [data-radix-portal] {
-    position: relative;
-    z-index: 60;
-  }
+  ::selection { background: hsl(var(--gorse) / 0.45); }
 }
 
 @layer components {
-  .smallcaps {
-    font-family: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-weight: 500;
-    font-size: 0.78rem;
+  .wrap { width: 100%; max-width: 1240px; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 768px) { .wrap { padding-inline: 2.5rem; } }
+
+  .display-xl { font-size: clamp(2.6rem, 7.2vw, 6rem); line-height: 0.98; letter-spacing: -0.025em; }
+  .display-lg { font-size: clamp(2.1rem, 4.8vw, 3.9rem); }
+  .display-md { font-size: clamp(1.6rem, 2.8vw, 2.35rem); }
+  .lede { font-size: clamp(1.12rem, 1.5vw, 1.32rem); line-height: 1.6; color: hsl(var(--slate)); }
+
+  /* The lancet arch: used for photographs throughout */
+  .arch { clip-path: url(#lancet); }
+  .arch-soft { border-radius: 999px 999px 1.25rem 1.25rem / 42% 42% 1.25rem 1.25rem; overflow: hidden; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.85rem 1.5rem; border-radius: 999px; font-weight: 700; font-size: 1rem;
+    transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-gorse { background: hsl(var(--gorse)); color: hsl(var(--loch-deep)); box-shadow: 0 10px 24px -12px hsl(var(--gorse) / 0.9); }
+  .btn-gorse:hover { background: hsl(42 90% 56%); }
+  .btn-loch { background: hsl(var(--loch)); color: hsl(var(--mist)); }
+  .btn-loch:hover { background: hsl(var(--heather)); }
+  .btn-ghost { border: 2px solid hsl(var(--loch) / 0.25); color: hsl(var(--loch)); }
+  .btn-ghost:hover { border-color: hsl(var(--loch)); }
+  .btn-ghost-light { border: 2px solid hsl(var(--mist) / 0.4); color: hsl(var(--mist)); }
+  .btn-ghost-light:hover { border-color: hsl(var(--mist)); background: hsl(var(--mist) / 0.08); }
+
+  .link {
+    color: hsl(var(--heather)); font-weight: 700;
+    background: linear-gradient(hsl(var(--gorse)), hsl(var(--gorse))) no-repeat 0 100% / 100% 2px;
+    transition: background-size 0.3s ease, color 0.3s ease; padding-bottom: 2px;
+  }
+  .link:hover { background-size: 100% 45%; color: hsl(var(--loch-deep)); }
+
+  /* Tartan band: the aisle carpet at Glenfinnan, woven in the site palette */
+  .tartan {
+    height: 18px;
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 4px, hsl(var(--loch-deep) / 0.5) 4px 7px, transparent 7px 11px, hsl(var(--gorse) / 0.55) 11px 12px, transparent 12px 18px),
+      repeating-linear-gradient(90deg, hsl(var(--loch)) 0 30px, hsl(var(--heather)) 30px 56px, hsl(var(--gorse)) 56px 60px, hsl(var(--pine)) 60px 96px, hsl(var(--mist) / 0.55) 96px 99px, hsl(var(--loch)) 99px 132px);
   }
 
-  .smallcaps-lg {
-    font-family: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
+  .prose-parish { max-width: 68ch; }
+  .prose-parish p { margin-top: 1.1em; }
+  .prose-parish h2 { font-size: 1.7rem; margin-top: 2em; }
+  .prose-parish h3 { font-size: 1.3rem; margin-top: 1.6em; }
+  .prose-parish a { color: hsl(var(--heather)); font-weight: 700; text-decoration: underline; text-decoration-color: hsl(var(--gorse)); text-underline-offset: 3px; }
+  .prose-parish ul { list-style: disc; padding-left: 1.3em; margin-top: 1em; }
+  .prose-parish ol { list-style: decimal; padding-left: 1.3em; margin-top: 1em; }
+  .prose-parish li { margin-top: 0.4em; }
+  .prose-parish img { border-radius: 1rem; margin-top: 1.5em; }
 
-  .smallcaps-nav {
-    font-family: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    font-weight: 600;
-    font-size: 0.82rem;
+  .field {
+    width: 100%; background: white; border: 2px solid hsl(var(--line)); border-radius: 0.85rem;
+    padding: 0.8rem 1rem; font: inherit; color: inherit; transition: border-color 0.2s ease;
   }
-
-  .dropcap::first-letter {
-    font-family: var(--font-fraunces), ui-serif, Georgia, serif;
-    font-weight: 500;
-    float: left;
-    font-size: 3.6rem;
-    line-height: 0.9;
-    padding: 0.4rem 0.6rem 0 0;
-    color: hsl(var(--gold));
-    font-feature-settings: "ss01";
-  }
-
-  .gold-rule {
-    border: 0;
-    border-top: 1px solid hsl(var(--gold) / 0.55);
-    height: 0;
-  }
-
-  .gold-rule-thin {
-    border: 0;
-    border-top: 1px solid hsl(var(--gold) / 0.3);
-    height: 0;
-  }
-
-  .ornament {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: hsl(var(--gold));
-  }
-
-  .ornament-rule {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    color: hsl(var(--gold));
-  }
-
-  .ornament-rule::before,
-  .ornament-rule::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(
-      to right,
-      hsl(var(--gold) / 0),
-      hsl(var(--gold) / 0.6),
-      hsl(var(--gold) / 0)
-    );
-  }
-
-  /* Parish navigation — single source of truth for nav colours.
-     Default context is light (ivory header). .hero-nav flips to the dark palette. */
-  .parish-nav {
-    --nav-idle: hsl(var(--navy));
-    --nav-hover: hsl(var(--oxblood));
-    --nav-active: hsl(var(--oxblood));
-    --nav-rule: hsl(var(--gold));
-    --nav-give-fg: hsl(var(--oxblood));
-    --nav-give-border: hsl(var(--oxblood));
-    --nav-give-hover-bg: hsl(var(--oxblood));
-    --nav-give-hover-fg: hsl(var(--ivory));
-  }
-
-  .hero-nav .parish-nav {
-    --nav-idle: hsl(var(--ivory));
-    --nav-hover: hsl(var(--gold));
-    --nav-active: hsl(var(--gold));
-    --nav-rule: hsl(var(--gold));
-    --nav-give-fg: hsl(var(--gold));
-    --nav-give-border: hsl(var(--gold));
-    --nav-give-hover-bg: hsl(var(--gold));
-    --nav-give-hover-fg: hsl(var(--navy-deep));
-  }
-
-  .parish-nav .nav-link {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 0.35rem;
-    color: var(--nav-idle);
-    transition: color 0.25s ease;
-    text-decoration: none;
-  }
-
-  .parish-nav .nav-link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 1px;
-    background: var(--nav-rule);
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 0.35s ease;
-  }
-
-  .parish-nav .nav-link:hover {
-    color: var(--nav-hover);
-  }
-
-  .parish-nav .nav-link:hover::after,
-  .parish-nav .nav-link[data-active="true"]::after {
-    transform: scaleX(1);
-  }
-
-  .parish-nav .nav-link[data-active="true"] {
-    color: var(--nav-active);
-  }
-
-  .parish-nav .nav-give {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.55rem 1.25rem;
-    border: 1px solid var(--nav-give-border);
-    color: var(--nav-give-fg);
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-  }
-
-  .parish-nav .nav-give:hover {
-    background-color: var(--nav-give-hover-bg);
-    color: var(--nav-give-hover-fg);
-    border-color: var(--nav-give-hover-bg);
-  }
+  .field:focus { border-color: hsl(var(--heather)); outline: none; }
 }
 
-/* Reveal animation */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* ---------- Motion ---------- */
 
-.reveal {
-  opacity: 0;
-  animation: fadeUp 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+/* Hero: the two arches rise like windows being unveiled */
+@keyframes arch-rise {
+  from { clip-path: inset(100% 0 0 0); transform: translateY(40px); }
+  to { clip-path: inset(-4px); transform: translateY(0); }
 }
+.arch-rise { animation: arch-rise 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 
-.reveal-d1 { animation-delay: 0ms; }
-.reveal-d2 { animation-delay: 140ms; }
-.reveal-d3 { animation-delay: 280ms; }
-.reveal-d4 { animation-delay: 420ms; }
-.reveal-d5 { animation-delay: 560ms; }
-.reveal-d6 { animation-delay: 700ms; }
+@keyframes line-up {
+  from { transform: translateY(110%); }
+  to { transform: translateY(0); }
+}
+.line-mask { display: block; overflow: hidden; padding-bottom: 0.08em; }
+.line-mask > span { display: block; animation: line-up 0.95s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+.fade-up { animation: fade-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 
-@keyframes ken-burns-1 {
-  0% { transform: scale(1) translate(0, 0); transform-origin: 0 0; }
-  100% { transform: scale(1.2) translate(-8%, -4%); transform-origin: 0 0; }
+/* Slow breathing zoom on arch photographs */
+@keyframes drift {
+  from { transform: scale(1.04); }
+  to { transform: scale(1.16) translateY(-2%); }
 }
-@keyframes ken-burns-2 {
-  0% { transform: scale(1) translate(0, 0); transform-origin: 100% 0; }
-  100% { transform: scale(1.2) translate(8%, -4%); transform-origin: 100% 0; }
+.drift { animation: drift 16s ease-in-out infinite alternate; }
+
+/* Scroll reveal (class toggled by <Reveal>) */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal-img { opacity: 0; transform: translateY(46px) scale(0.94); transition: opacity 1s ease, transform 1.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.reveal-img.in { opacity: 1; transform: none; }
+
+/* Photo ribbon */
+@keyframes ribbon {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
-@keyframes ken-burns-3 {
-  0% { transform: scale(1) translate(0, 0); transform-origin: 0 50%; }
-  100% { transform: scale(1.2) translate(-12%, 0); transform-origin: 0 50%; }
+.ribbon-track { display: flex; width: max-content; animation: ribbon 70s linear infinite; }
+.ribbon:hover .ribbon-track { animation-play-state: paused; }
+
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--gorse) / 0.7); }
+  50% { box-shadow: 0 0 0 9px hsl(var(--gorse) / 0); }
 }
-@keyframes ken-burns-4 {
-  0% { transform: scale(1) translate(0, 0); transform-origin: 100% 50%; }
-  100% { transform: scale(1.2) translate(12%, 0); transform-origin: 100% 50%; }
+.pulse-dot { animation: pulse-dot 2.2s ease-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .arch-rise, .line-mask > span, .fade-up, .drift, .ribbon-track, .pulse-dot { animation: none !important; }
+  .reveal, .reveal-img { opacity: 1; transform: none; transition: none; }
 }
-.ken-burns-1 { animation: ken-burns-1 12s ease-out forwards; }
-.ken-burns-2 { animation: ken-burns-2 12s ease-out forwards; }
-.ken-burns-3 { animation: ken-burns-3 12s ease-out forwards; }
-.ken-burns-4 { animation: ken-burns-4 12s ease-out forwards; }

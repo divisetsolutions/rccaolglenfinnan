@@ -1,28 +1,33 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
+import type { Metadata } from 'next';
+import { Suspense } from 'react';
+import { PageHeader, Section } from '@/components/site/Bits';
+import { ContactForm } from '@/components/site/ContactForm';
+import { Reveal } from '@/components/site/Reveal';
 
 export const metadata: Metadata = {
-  title: 'Prayer Requests',
-  description: 'Ask the parish of Caol and Glenfinnan to pray for you or for someone you love.',
+  title: 'Ask for prayers',
+  description: 'Ask the parish of Caol and Glenfinnan to pray for you or for someone you love, or request a Mass intention.',
+  alternates: { canonical: '/prayer-requests' },
 };
 
 export default function PrayerRequestsPage() {
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[700px] flex-col items-start gap-4">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Prayer Requests
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          Our parish community is glad to pray for you and for those you love.
-        </p>
-        <p>
-          To ask for prayers, or to request a Mass intention, please write to the parish at{' '}
-          <a className="underline" href="mailto:caol@rcdai.org.uk">caol@rcdai.org.uk</a>, use the{' '}
-          <Link className="underline" href="/contact">contact form</Link>, or speak to Fr Charles
-          after Mass. Please tell us whether you would like the intention kept private.
-        </p>
-      </div>
-    </section>
+    <>
+      <PageHeader title="Ask for prayers" lede="Tell us who or what you would like us to pray for. You may also ask for a Mass to be offered for someone, living or departed." image="/img/glenfinnan-lady-chapel.jpg" />
+      <Section>
+        <div className="grid gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16">
+          <Reveal>
+            <Suspense fallback={null}>
+              <ContactForm />
+            </Suspense>
+          </Reveal>
+          <Reveal delay={120} className="self-start rounded-[2rem] bg-heather-soft p-8">
+            <h2 className="display-md text-heather">How we use your request</h2>
+            <p className="mt-4">Your message goes to the parish office. Please say whether the name may be read out or printed in the newsletter, or should be kept private.</p>
+            <p className="mt-4">Names of the sick and of those who have died are remembered at Mass in both churches.</p>
+          </Reveal>
+        </div>
+      </Section>
+    </>
   );
 }

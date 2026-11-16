@@ -1,147 +1,87 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
+import type { Metadata } from 'next';
 import Image from 'next/image';
-import { MapPin } from 'lucide-react';
+import Link from 'next/link';
+import { ArchPhoto, PageHeader, Section, SectionHeading } from '@/components/site/Bits';
+import { Reveal } from '@/components/site/Reveal';
+import { CHURCHES, PARISH } from '@/lib/content';
 
 export const metadata: Metadata = {
-  title: 'About Us',
-  description: 'Learn about the history, community, and life of the parishes of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',
+  title: 'Our parish',
+  description: 'The story and life of the Catholic parish of Caol and Glenfinnan: two churches in the West Highlands, one parish family.',
+  alternates: { canonical: '/about' },
 };
+
+const mission = [
+  { title: 'We worship', text: 'The Mass and the sacraments are the heart of everything we do, celebrated with reverence and with joy.' },
+  { title: 'We welcome', text: 'Everyone who comes through the door is valued, whether for one Sunday on holiday or for a lifetime.' },
+  { title: 'We serve', text: 'We look after the sick and the housebound, and we reach out to those in need at home and overseas.' },
+  { title: 'We hand on the faith', text: 'Children, couples and adult enquirers are prepared for the sacraments and helped to know Christ.' },
+];
 
 export default function AboutPage() {
   return (
-    <section className="container grid items-center gap-8 pb-8 pt-6 md:py-10">
-      <div className="relative h-64 rounded-lg overflow-hidden mb-8">
-        <Image
-          src="/about-hero.jpg"
-          alt="A beautiful view of the Glenfinnan landscape"
-          layout="fill"
-          objectFit="cover"
-        />
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <h1 className="text-4xl font-extrabold leading-tight tracking-tighter text-white md:text-5xl">
-            About Us
-          </h1>
+    <>
+      <PageHeader
+        title="Our parish"
+        lede="A Catholic community in Lochaber, in the Diocese of Argyll and the Isles. One priest, two churches, and a people who look out for one another."
+        image="/img/loch.jpg"
+        imageAlt="Still water and pine woods in the West Highlands"
+      />
+
+      <Section tone="white">
+        <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
+          <Reveal>
+            <h2 className="display-lg">A parish between the mountain and the loch</h2>
+            <div className="mt-6 max-w-[60ch] space-y-5 text-[1.12rem] leading-[1.75]">
+              <p>
+                Our parish stretches from the shore of Loch Linnhe at Caol, beside Fort William, out along the Road to the Isles to Glenfinnan. The
+                faith has been kept in these glens for many centuries, and it is alive here still.
+              </p>
+              <p>
+                Most parishioners live in and around Caol, where St John’s is the everyday home of the parish. Glenfinnan is smaller and quieter, a
+                scattered Highland community whose church is known and loved far beyond Scotland.
+              </p>
+              <p>
+                We belong to the Diocese of Argyll and the Isles, whose cathedral is in Oban. Our parish priest is {PARISH.priest}, a member of the
+                Missionary Society of St Paul.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal image className="relative aspect-[4/3] overflow-hidden rounded-[2rem]">
+            <Image src="/img/glenfinnan-prayer.jpg" alt="Parishioners at prayer in St Mary & St Finnan" fill sizes="(max-width: 768px) 100vw, 560px" className="object-cover" />
+          </Reveal>
         </div>
-      </div>
+      </Section>
 
-      <div className="text-center">
-        <h2 className="text-2xl font-bold tracking-tight text-primary">
-          Welcome to the Parish of Caol and Glenfinnan
-        </h2>
-        <p className="max-w-3xl mx-auto mt-4 text-lg text-muted-foreground">
-          Nestled in the breathtaking Scottish Highlands, the Roman Catholic Parish of Caol and Glenfinnan is a vibrant faith community within the Diocese of Argyll and the Isles. Though we are one parish family, we are blessed with two distinctive and deeply cherished churches — each with its own character, history, and beauty, yet united in Christ.
-        </p>
-      </div>
+      <Section>
+        <SectionHeading title="What we are here for" />
+        <ul className="grid gap-x-12 md:grid-cols-2">
+          {mission.map((m, i) => (
+            <Reveal as="li" key={m.title} delay={(i % 2) * 100} className="border-t-2 border-line py-7">
+              <h3 className="display-md">{m.title}</h3>
+              <p className="mt-2 max-w-[48ch] text-[1.08rem] text-slate">{m.text}</p>
+            </Reveal>
+          ))}
+        </ul>
+      </Section>
 
-      <div className="grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <h3 className="text-3xl font-bold tracking-tight mb-4">St John the Evangelist, Caol</h3>
-          <p className="text-xl font-semibold text-muted-foreground mb-4">A vibrant family church at the heart of the community</p>
-          <p className="text-muted-foreground">
-            Built in 1970 to serve the growing Catholic community in Caol, St John’s quickly became more than a church building — it became a true spiritual home. For generations, families have gathered here to worship, celebrate, and support one another in faith.
-          </p>
-          <p className="text-muted-foreground mt-2">
-            Today, St John’s continues to thrive as a lively parish centre filled with warmth, fellowship, and family spirit. Visitors are welcomed like old friends, children and young people are at the heart of parish life, and the liturgies are joyful and inclusive, enriched by music, prayer, and participation.
-          </p>
+      <Section tone="loch">
+        <SectionHeading title="The two churches" className="[&_h2]:text-mist" />
+        <div className="grid gap-10 md:grid-cols-2">
+          {Object.values(CHURCHES).map((c, i) => (
+            <Reveal key={c.id} delay={i * 140}>
+              <Link href={c.slug} className="group grid grid-cols-[130px_1fr] items-center gap-6 md:grid-cols-[180px_1fr]">
+                <ArchPhoto src={c.hero} alt={`${c.name}, ${c.place}`} className="aspect-[3/4]" sizes="180px" />
+                <span>
+                  <span className="block text-gorse">{c.setting}</span>
+                  <span className="mt-1 block font-display text-[1.7rem] font-semibold leading-tight group-hover:underline md:text-[2rem]">{c.name}</span>
+                  <span className="mt-3 block text-mist/75">{c.summary}</span>
+                </span>
+              </Link>
+            </Reveal>
+          ))}
         </div>
-        <div className="relative h-80 rounded-lg overflow-hidden">
-          <Image
-            src="/st-johns-main.jpg"
-            alt="Image of St. John's Church"
-            layout="fill"
-            objectFit="cover"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-3 gap-4 mt-4">
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-johns-1" src="/st-johns-gallery-1.jpg" alt="Gallery image of St. John's" layout="fill" objectFit="cover" /></div>
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-johns-2" src="/st-johns-gallery-2.jpg" alt="Gallery image of St. John's" layout="fill" objectFit="cover" /></div>
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-johns-3" src="/st-johns-gallery-3.jpg" alt="Gallery image of St. John's" layout="fill" objectFit="cover" /></div>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-12 items-center mt-12">
-        <div className="relative h-80 rounded-lg overflow-hidden order-last md:order-first">
-          <Image
-            src="/st-marys-main.jpg"
-            alt="Image of St. Mary & St. Finnan's Church"
-            layout="fill"
-            objectFit="cover"
-          />
-        </div>
-        <div>
-          <h3 className="text-3xl font-bold tracking-tight mb-4">St Mary & St Finnan, Glenfinnan</h3>
-          <p className="text-xl font-semibold text-muted-foreground mb-4">A sacred treasure overlooking Loch Shiel</p>
-          <p className="text-muted-foreground">
-            Perched on a hill above Loch Shiel and framed by dramatic Highland mountains, St Mary & St Finnan’s is one of Scotland’s most beautiful churches. Designed by the renowned architect Edward Welby Pugin and completed in 1873, it is a masterpiece of neo-Gothic architecture with soaring arches, stained glass, and an atmosphere of peace and reverence.
-          </p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-3 gap-4 mt-4">
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-marys-1" src="/st-marys-gallery-1.jpg" alt="Gallery image of St. Mary's" layout="fill" objectFit="cover" /></div>
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-marys-2" src="/st-marys-gallery-2.jpg" alt="Gallery image of St. Mary's" layout="fill" objectFit="cover" /></div>
-        <div className="relative h-40 rounded-lg overflow-hidden"><Image key="st-marys-3" src="/st-marys-gallery-3.jpg" alt="Gallery image of St. Mary's" layout="fill" objectFit="cover" /></div>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-12 items-center mt-12">
-        <div>
-          <h3 className="text-3xl font-bold tracking-tight mb-4">Our Parish Mission</h3>
-          <ul className="list-disc list-inside text-muted-foreground mt-2 space-y-2 text-lg">
-            <li>A <span className="font-semibold">worshipping community</span> – celebrating the Sacraments with reverence and joy.</li>
-            <li>A <span className="font-semibold">welcoming community</span> – where all are valued, supported, and embraced with Christ’s love.</li>
-            <li>A <span className="font-semibold">serving community</span> – reaching out with compassion to those in need, both locally and globally.</li>
-          </ul>
-        </div>
-        <div className="relative h-80 rounded-lg overflow-hidden">
-          <Image
-            src="/parish-mission-community.jpg"
-            alt="Image of the Parish Community"
-            layout="fill"
-            objectFit="cover"
-          />
-        </div>
-      </div>
-
-      <div className="text-center mt-12">
-        <h3 className="text-2xl font-bold tracking-tight">You Are Always Welcome</h3>
-        <p className="max-w-3xl mx-auto mt-4 text-lg text-muted-foreground">
-          Whether you are a local resident, a visitor to the Highlands, or someone seeking a spiritual home, you are warmly invited to be part of our parish life. Come and discover the lively community of St John’s in Caol and the timeless beauty of St Mary & St Finnan’s in Glenfinnan. Two churches. One parish. United in Christ.
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-8 text-muted-foreground mt-8">
-        <div className="flex items-start gap-2">
-          <MapPin className="h-5 w-5 mt-1" />
-          <div>
-            <p className="font-semibold">St John the Evangelist</p>
-            <a href="https://www.google.com/maps/place/Saint+John+the+Evangelist+R.C.+Church/@56.8369451,-5.100093,17z/data=!3m1!4b1!4m6!3m5!1s0x488eccbeffb1134b:0xea5c6bc9b28b2b87!8m2!3d56.8369452!4d-5.0952221!16s%2Fg%2F1thpwf25?entry=ttu&g_ep=EgoyMDI1MDkxNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className="hover:underline">
-              <p>St John’s Road, Caol, Fort William, PH33 7PR</p>
-            </a>
-          </div>
-        </div>
-        <div className="flex items-start gap-2">
-          <MapPin className="h-5 w-5 mt-1" />
-          <div>
-            <p className="font-semibold">St Mary & St Finnan</p>
-            <a href="https://www.google.com/maps/place/Saint+Mary+%26+Saint+Finnan+Church/@56.8714437,-5.4440628,17z/data=!3m1!4b1!4m6!3m5!1s0x488eb2354f4a1a35:0x7d175c19b2562883!8m2!3d56.8714437!4d-5.4414879!16s%2Fg%2F119w9qxjy?entry=ttu&g_ep=EgoyMDI1MDkxNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className="hover:underline">
-              <p>Glenfinnan, Inverness-shire, PH37 4LT</p>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-center gap-4 mt-4">
-        <Link href="/calendar" className="text-primary hover:underline">See Mass times →</Link>
-        <span className="text-muted-foreground">|</span>
-        <Link href="/contact" className="text-primary hover:underline">Contact us →</Link>
-      </div>
-
-      <blockquote className="border-l-4 border-primary pl-4 italic text-muted-foreground mt-8 max-w-2xl mx-auto text-center">
-        “A hidden treasure of peace, beauty, and welcome in the Scottish Highlands.”
-      </blockquote>
-
-    </section>
+      </Section>
+    </>
   );
 }
