@@ -9,11 +9,15 @@ const ENDPOINT = 'https://n8n.divisetsolutions.com/webhook/contact-form';
 export function ContactForm() {
   const about = useSearchParams().get('about') ?? '';
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
+  const [draft, setDraft] = useState('');
+  const [topic, setTopic] = useState('');
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     if (data.get('website')) return; // spam trap
+    setDraft(`${data.get('message')}\n\n${data.get('name')}`);
+    setTopic(String(data.get('subject') || '').trim() || 'Message from the parish website');
     setStatus('sending');
     try {
       const subject = String(data.get('subject') || '').trim();
@@ -66,9 +70,16 @@ export function ContactForm() {
         <input name="website" tabIndex={-1} autoComplete="off" />
       </label>
       {status === 'failed' && (
-        <p role="alert" className="rounded-2xl bg-white p-4 font-bold text-destructive">
-          The message could not be sent. Please email {PARISH.email} or ring {PARISH.phone}.
-        </p>
+        <div role="alert" className="rounded-2xl border-2 border-gorse bg-white p-5">
+          <p className="font-bold">Our form could not send this just now. Your words are not lost.</p>
+          <p className="mt-1">Press the button and the same text opens in your own email, ready to send to us.</p>
+          <a href={`mailto:${PARISH.email}?subject=${encodeURIComponent(topic)}&body=${encodeURIComponent(draft)}`} className="btn btn-gorse mt-4">
+            Send it by email
+          </a>
+          <p className="mt-3 text-[0.92rem] text-slate">
+            Or write to {PARISH.email} or ring {PARISH.phone}.
+          </p>
+        </div>
       )}
       <button type="submit" disabled={status === 'sending'} className="btn btn-loch disabled:opacity-60">
         {status === 'sending' ? 'Sending…' : 'Send message'}

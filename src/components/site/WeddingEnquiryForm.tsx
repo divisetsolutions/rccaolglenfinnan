@@ -5,6 +5,8 @@ import { PARISH } from '@/lib/content';
 
 const ENDPOINT = 'https://n8n.divisetsolutions.com/webhook/contact-form';
 
+const GLENFINNAN_EMAIL = 'glenfinnan@rcdai.org.uk';
+
 const FAITHS = ['Catholic', 'Another Christian church', 'Another faith', 'No religion'];
 
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
@@ -66,6 +68,7 @@ function Partner({ n }: { n: 1 | 2 }) {
 
 export function WeddingEnquiryForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
+  const [draft, setDraft] = useState('');
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -94,6 +97,7 @@ export function WeddingEnquiryForm() {
       v('message'),
     ].join('\n');
 
+    setDraft(message);
     setStatus('sending');
     try {
       const res = await fetch(ENDPOINT, {
@@ -192,9 +196,16 @@ export function WeddingEnquiryForm() {
       </label>
 
       {status === 'failed' && (
-        <p role="alert" className="rounded-2xl bg-white p-4 font-bold text-destructive">
-          The enquiry could not be sent. Please email {PARISH.email} or ring {PARISH.phone}.
-        </p>
+        <div role="alert" className="rounded-2xl border-2 border-gorse bg-white p-5">
+          <p className="font-bold">Our form could not send this just now. Your words are not lost.</p>
+          <p className="mt-1">Press the button and the same text opens in your own email, ready to send to us.</p>
+          <a href={`mailto:${GLENFINNAN_EMAIL}?subject=${encodeURIComponent('Wedding enquiry')}&body=${encodeURIComponent(draft)}`} className="btn btn-gorse mt-4">
+            Send it by email
+          </a>
+          <p className="mt-3 text-[0.92rem] text-slate">
+            Or write to {GLENFINNAN_EMAIL} or ring {PARISH.phone}.
+          </p>
+        </div>
       )}
       <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
         <button type="submit" disabled={status === 'sending'} className="btn btn-loch disabled:opacity-60">
