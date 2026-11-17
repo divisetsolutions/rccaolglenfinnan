@@ -18,6 +18,16 @@ export const BOOK = {
 /** The gift wording is shown in November and December and steps back by itself in January. */
 export const isChristmasSeason = (now = new Date()) => now.getUTCMonth() >= 10;
 
+/** Last order date for delivery in the UK before Christmas (Royal Mail and Bookvault timings). Update each year. */
+export const CHRISTMAS_LAST_ORDER = { date: '2026-12-10', label: 'Thursday 10 December' };
+
+/** 'before' until the end of the last order day, 'after' once it has passed, null if the date is for another year. */
+export function christmasOrderState(now = new Date()): 'before' | 'after' | null {
+  const last = new Date(`${CHRISTMAS_LAST_ORDER.date}T23:59:59Z`);
+  if (now.getUTCFullYear() !== last.getUTCFullYear()) return null;
+  return now <= last ? 'before' : 'after';
+}
+
 export const bookHeadline = (christmas: boolean) =>
   christmas ? 'A Christmas gift for the one who still prays for everyone' : 'A book for the one who still prays for everyone';
 

@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Section } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
-import { BOOK, BOOK_PRAISE, bookHeadline, isChristmasSeason } from '@/lib/book';
+import { BOOK, BOOK_PRAISE, CHRISTMAS_LAST_ORDER, bookHeadline, christmasOrderState, isChristmasSeason } from '@/lib/book';
 
-export const revalidate = 86400;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'What Remains, a book by Fr Charles Egbon',
@@ -22,6 +22,7 @@ const OrderButton = ({ className = 'btn-gorse' }: { className?: string }) => (
 
 export default function BookPage() {
   const christmas = isChristmasSeason();
+  const orderState = christmasOrderState();
   const ld = {
     '@context': 'https://schema.org',
     '@type': 'Book',
@@ -100,7 +101,21 @@ export default function BookPage() {
               </li>
               {christmas && (
                 <li>
-                  <span className="font-bold">Please order early.</span> Printing and the Christmas post both take time.
+                  {orderState === 'before' ? (
+                    <>
+                      <span className="font-bold">Order by {CHRISTMAS_LAST_ORDER.label}</span> for delivery in the UK before Christmas. For addresses outside the UK,
+                      please order sooner.
+                    </>
+                  ) : orderState === 'after' ? (
+                    <>
+                      <span className="font-bold">Ordering now?</span> The last date for delivery before Christmas has passed, so your copy may arrive after Christmas
+                      Day.
+                    </>
+                  ) : (
+                    <>
+                      <span className="font-bold">Please order early.</span> Printing and the Christmas post both take time.
+                    </>
+                  )}
                 </li>
               )}
               <li>
