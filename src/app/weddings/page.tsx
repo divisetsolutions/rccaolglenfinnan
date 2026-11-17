@@ -77,8 +77,8 @@ export default function WeddingsPage() {
       <PageHeader
         title="Getting married at Glenfinnan"
         lede="Couples come from all over the world to make their vows in the church above Loch Shiel. This page tells you whether you can marry here, what you will need, and how to begin."
-        image="/img/glenfinnan-interior.jpg"
-        imageAlt="The rose window above the altar at St Mary & St Finnan, framed by stone arches"
+        image="/img/glenfinnan-church-wedding-aisle-rose-window.jpg"
+        imageAlt="The tartan aisle at St Mary & St Finnan dressed for a wedding, with the rose window above the altar"
       >
         <a href="#your-path" className="btn btn-gorse">
           Find your path
@@ -132,8 +132,8 @@ export default function WeddingsPage() {
             </Reveal>
             <Reveal image delay={140}>
               <ArchPhoto
-                src="/img/glenfinnan-nave.jpg"
-                alt="The tartan aisle leading to the altar at St Mary & St Finnan"
+                src="/img/glenfinnan-interior.jpg"
+                alt="Stone arches and the rose window inside the church"
                 className="aspect-[3/4]"
                 sizes="(max-width: 768px) 45vw, 260px"
               />
