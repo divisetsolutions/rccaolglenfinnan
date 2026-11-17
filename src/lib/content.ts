@@ -211,7 +211,7 @@ export const RIBBON = [
  * Frames that crop a photo (the arches especially) keep this point in view.
  */
 export const FOCUS: Record<string, string> = {
-  '/img/caol-exterior.jpg': '45% 50%',
+  '/img/caol-exterior.jpg': '57% 50%', // cross centred under the arch tip
   '/img/caol-interior.jpg': '53% 50%',
   '/img/caol-nave.jpg': '53% 50%',
   '/img/caol-altar.jpg': '50% 50%',
