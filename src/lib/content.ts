@@ -222,6 +222,8 @@ export const FOCUS: Record<string, string> = {
   '/img/glenfinnan-lady-chapel.jpg': '50% 66%',
   '/img/glenfinnan-stations.jpg': '50% 45%',
   '/img/fr-charles.jpg': '62% 50%',
+  '/img/glenfinnan-church-wedding-bride-groom-altar.jpg': '60% 50%',
+  '/img/glenfinnan-church-wedding-signing-register.jpg': '48% 55%',
   '/img/loch.jpg': '44% 50%',
 };
 

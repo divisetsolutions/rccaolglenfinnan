@@ -8,8 +8,19 @@ export const REGISTRAR = {
   guide: 'https://www.nrscotland.gov.uk/registration/registering-a-marriage-or-civil-partnership/',
 };
 
-/** Wedding photographs, shown as a ribbon once there are at least four. Add a focal point in FOCUS (content.ts) for each. */
-export const WEDDING_PHOTOS: { src: string; alt: string }[] = [];
+/** Wedding photographs. Up to three are shown side by side, four or more as a moving ribbon. Add a focal point in FOCUS (content.ts) for each. */
+export const WEDDING_PHOTOS: { src: string; alt: string; caption: string }[] = [
+  {
+    src: '/img/glenfinnan-church-wedding-bride-groom-altar.jpg',
+    alt: 'A bride and groom kneel before the altar during their wedding Mass at St Mary & St Finnan Catholic church, Glenfinnan',
+    caption: 'The nuptial Mass',
+  },
+  {
+    src: '/img/glenfinnan-church-wedding-signing-register.jpg',
+    alt: 'A bride and groom sign the register with their witnesses after their wedding at St Mary & St Finnan Catholic church, Glenfinnan',
+    caption: 'Signing with the witnesses after the ceremony',
+  },
+];
 
 export type SituationId = 'catholic' | 'mixed' | 'unbaptised' | 'civil' | 'neither';
 export type HomeId = 'parish' | 'scotland' | 'abroad';

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArchPhoto,
@@ -10,7 +11,7 @@ import {
 import { PathFinder } from "@/components/site/PathFinder";
 import { Reveal } from "@/components/site/Reveal";
 import { WeddingEnquiryForm } from "@/components/site/WeddingEnquiryForm";
-import { CHURCHES, PARISH } from "@/lib/content";
+import { CHURCHES, PARISH, focus } from "@/lib/content";
 import { easter } from "@/lib/liturgy";
 import {
   REGISTRAR,
@@ -26,6 +27,7 @@ export const metadata: Metadata = {
   description:
     "How to be married at St Mary & St Finnan, Glenfinnan, the Catholic church above Loch Shiel: who can marry here, the papers you need, the Scottish civil forms, and how to send an enquiry.",
   alternates: { canonical: "/weddings" },
+  openGraph: { images: [{ url: "/img/glenfinnan-church-wedding-bride-groom-altar.jpg", width: 1280, height: 720, alt: "A wedding at St Mary & St Finnan, Glenfinnan" }] },
 };
 
 const DAY = 86400000;
@@ -141,6 +143,22 @@ export default function WeddingsPage() {
       </Section>
 
       {WEDDING_PHOTOS.length >= 4 && <PhotoRibbon photos={WEDDING_PHOTOS} />}
+      {WEDDING_PHOTOS.length > 0 && WEDDING_PHOTOS.length < 4 && (
+        <section className="bg-white pb-16 md:pb-24">
+          <div className="wrap grid items-start gap-6 md:grid-cols-[1.25fr_1fr] md:gap-8">
+            {WEDDING_PHOTOS.map((p, i) => (
+              <Reveal as="div" image key={p.src} delay={i * 140} className={i % 2 ? 'md:mt-20' : ''}>
+                <figure>
+                  <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem] bg-mist-2">
+                    <Image src={p.src} alt={p.alt} fill sizes="(max-width: 768px) 100vw, 640px" style={focus(p.src)} className="object-cover" />
+                  </div>
+                  <figcaption className="mt-3 font-display text-[1.2rem] italic text-slate">{p.caption}</figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ---------- Path finder ---------- */}
       <section id="your-path" className="scroll-mt-24 bg-mist py-16 md:py-24">
