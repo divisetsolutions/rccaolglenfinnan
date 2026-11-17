@@ -11,12 +11,12 @@ export const REGISTRAR = {
 /** Wedding photographs. Up to three are shown side by side, four or more as a moving ribbon. Add a focal point in FOCUS (content.ts) for each. */
 export const WEDDING_PHOTOS: { src: string; alt: string; caption: string }[] = [
   {
-    src: '/img/glenfinnan-church-wedding-bride-groom-altar.jpg',
+    src: '/img/weddings/glenfinnan-church-wedding-bride-groom-altar.jpg',
     alt: 'A bride and groom kneel before the altar during their wedding Mass at St Mary & St Finnan Catholic church, Glenfinnan',
     caption: 'The nuptial Mass',
   },
   {
-    src: '/img/glenfinnan-church-wedding-signing-register.jpg',
+    src: '/img/weddings/glenfinnan-church-wedding-signing-register.jpg',
     alt: 'A bride and groom sign the register with their witnesses after their wedding at St Mary & St Finnan Catholic church, Glenfinnan',
     caption: 'Signing with the witnesses after the ceremony',
   },

@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   description:
     "How to be married at St Mary & St Finnan, Glenfinnan, the Catholic church above Loch Shiel: who can marry here, the papers you need, the Scottish civil forms, and how to send an enquiry.",
   alternates: { canonical: "/weddings" },
-  openGraph: { images: [{ url: "/img/glenfinnan-church-wedding-bride-groom-altar.jpg", width: 1280, height: 720, alt: "A wedding at St Mary & St Finnan, Glenfinnan" }] },
+  openGraph: { images: [{ url: "/img/weddings/glenfinnan-church-wedding-bride-groom-altar.jpg", width: 1280, height: 720, alt: "A wedding at St Mary & St Finnan, Glenfinnan" }] },
 };
 
 const DAY = 86400000;
@@ -77,8 +77,8 @@ export default function WeddingsPage() {
       <PageHeader
         title="Getting married at Glenfinnan"
         lede="Couples come from all over the world to make their vows in the church above Loch Shiel. This page tells you whether you can marry here, what you will need, and how to begin."
-        image="/img/glenfinnan-church-wedding-aisle-rose-window.jpg"
-        imageAlt="The tartan aisle at St Mary & St Finnan dressed for a wedding, with the rose window above the altar"
+        image="/img/weddings/glenfinnan-church-wedding-sanctuary-rose-window.jpg"
+        imageAlt="The sanctuary of St Mary & St Finnan, Glenfinnan, prepared for a wedding, with two chairs for the couple below the rose window"
       >
         <a href="#your-path" className="btn btn-gorse">
           Find your path

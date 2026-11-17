@@ -28,6 +28,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Wedding photos moved into their own folder; old links keep working.
+  async redirects() {
+    return [
+      {
+        source: '/img/glenfinnan-church-wedding-:name.jpg',
+        destination: '/img/weddings/glenfinnan-church-wedding-:name.jpg',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
