@@ -107,7 +107,7 @@ export function WeddingEnquiryForm() {
       const res = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ name: `${d.get('p1name')} and ${d.get('p2name')}`, email: d.get('email'), message }),
+        body: JSON.stringify({ _subject: `Wedding enquiry from ${d.get('p1name')} and ${d.get('p2name')}`, name: `${d.get('p1name')} and ${d.get('p2name')}`, email: d.get('email'), message }),
       });
       setStatus(res.ok ? 'sent' : 'failed');
     } catch {

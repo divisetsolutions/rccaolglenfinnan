@@ -29,6 +29,7 @@ export function ContactForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
+          _subject: `${subject || 'Message'} from ${data.get('name')} (parish website)`,
           name: data.get('name'),
           email: data.get('email'),
           message: `${subject ? `[${subject}] ` : ''}${data.get('message')}`,
