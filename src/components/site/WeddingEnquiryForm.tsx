@@ -81,6 +81,7 @@ export function WeddingEnquiryForm() {
       '',
       partner(2),
       '',
+      `Reply to: ${v('email')}`,
       `Phone: ${v('phone')}`,
       `Where we live: ${v('live')}`,
       `Church: ${v('church')}`,
