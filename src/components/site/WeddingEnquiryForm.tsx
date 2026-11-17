@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { PARISH } from '@/lib/content';
 
-const ENDPOINT = 'https://n8n.divisetsolutions.com/webhook/contact-form';
+const ENDPOINT = PARISH.formEndpoint;
 
 const GLENFINNAN_EMAIL = 'glenfinnan@rcdai.org.uk';
 
@@ -98,11 +98,15 @@ export function WeddingEnquiryForm() {
     ].join('\n');
 
     setDraft(message);
+    if (!ENDPOINT) {
+      setStatus('failed');
+      return;
+    }
     setStatus('sending');
     try {
       const res = await fetch(ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ name: `${d.get('p1name')} and ${d.get('p2name')}`, email: d.get('email'), message }),
       });
       setStatus(res.ok ? 'sent' : 'failed');
@@ -197,8 +201,8 @@ export function WeddingEnquiryForm() {
 
       {status === 'failed' && (
         <div role="alert" className="rounded-2xl border-2 border-gorse bg-white p-5">
-          <p className="font-bold">Our form could not send this just now. Your words are not lost.</p>
-          <p className="mt-1">Press the button and the same text opens in your own email, ready to send to us.</p>
+          <p className="font-bold">One more step to send this.</p>
+          <p className="mt-1">Press the button and your words open in your own email, ready to send to us.</p>
           <a href={`mailto:${GLENFINNAN_EMAIL}?subject=${encodeURIComponent('Wedding enquiry')}&body=${encodeURIComponent(draft)}`} className="btn btn-gorse mt-4">
             Send it by email
           </a>

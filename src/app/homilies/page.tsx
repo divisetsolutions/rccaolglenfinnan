@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArticleList } from '@/components/site/ArticleView';
+import { BookFeature } from '@/components/site/BookFeature';
 import { PageHeader, Section } from '@/components/site/Bits';
 import { getArticles } from '@/lib/data';
 
@@ -20,6 +21,7 @@ export default async function Page() {
       <Section>
         <ArticleList articles={articles} base="/homilies" empty="Homilies will appear here each week." />
       </Section>
+      <BookFeature />
     </>
   );
 }

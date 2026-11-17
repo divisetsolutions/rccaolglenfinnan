@@ -11,6 +11,8 @@ export const PARISH = {
   charity: 'SC002876',
   url: 'https://www.rccaolglenfinnan.org.uk',
   liturgyToday: 'https://universalis.com/europe.scotland.argyll/today.htm',
+  /** Where the website forms are delivered. Empty means visitors are offered their own email instead. */
+  formEndpoint: '',
   dioceseDonate: 'https://www.rcdai.org.uk/donate/',
 };
 

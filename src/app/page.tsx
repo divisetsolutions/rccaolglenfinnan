@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { BookFeature } from '@/components/site/BookFeature';
 import { ArchPhoto, AwayNotice, PhotoRibbon, Section, SectionHeading } from '@/components/site/Bits';
 import { Parallax, Reveal } from '@/components/site/Reveal';
 import { SeasonTag } from '@/components/site/SeasonTag';
@@ -206,6 +207,8 @@ export default async function Home() {
           </div>
         )}
       </Section>
+
+      <BookFeature />
 
       <PhotoRibbon photos={RIBBON} />
 

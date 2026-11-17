@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { PARISH } from '@/lib/content';
 
-const ENDPOINT = 'https://n8n.divisetsolutions.com/webhook/contact-form';
+const ENDPOINT = PARISH.formEndpoint;
 
 export function ContactForm() {
   const about = useSearchParams().get('about') ?? '';
@@ -18,12 +18,16 @@ export function ContactForm() {
     if (data.get('website')) return; // spam trap
     setDraft(`${data.get('message')}\n\n${data.get('name')}`);
     setTopic(String(data.get('subject') || '').trim() || 'Message from the parish website');
+    if (!ENDPOINT) {
+      setStatus('failed');
+      return;
+    }
     setStatus('sending');
     try {
       const subject = String(data.get('subject') || '').trim();
       const res = await fetch(ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           name: data.get('name'),
           email: data.get('email'),
@@ -71,8 +75,8 @@ export function ContactForm() {
       </label>
       {status === 'failed' && (
         <div role="alert" className="rounded-2xl border-2 border-gorse bg-white p-5">
-          <p className="font-bold">Our form could not send this just now. Your words are not lost.</p>
-          <p className="mt-1">Press the button and the same text opens in your own email, ready to send to us.</p>
+          <p className="font-bold">One more step to send this.</p>
+          <p className="mt-1">Press the button and your words open in your own email, ready to send to us.</p>
           <a href={`mailto:${PARISH.email}?subject=${encodeURIComponent(topic)}&body=${encodeURIComponent(draft)}`} className="btn btn-gorse mt-4">
             Send it by email
           </a>
