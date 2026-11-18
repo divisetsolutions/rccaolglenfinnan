@@ -8,6 +8,8 @@ import { TwoChurches } from '@/components/site/TwoChurches';
 import { WeekAhead } from '@/components/site/WeekAhead';
 import { CHURCHES, PARISH, RIBBON } from '@/lib/content';
 import { getArticles, getNewsletters, getSchedule, longDate } from '@/lib/data';
+import { ChurchNews, FALLBACK, type NewsCard } from '@/components/site/FeedSections';
+import { getDioceseNews, getScotlandNews, getVaticanNews } from '@/lib/feeds';
 import { formatMinutes, weeklyPattern } from '@/lib/schedule';
 
 // Re-read content from the database at most every 5 minutes
@@ -29,7 +31,27 @@ const paths = [
 ];
 
 export default async function Home() {
-  const [schedule, homilies, news, newsletters] = await Promise.all([getSchedule(), getArticles('homily'), getArticles('news'), getNewsletters()]);
+  const [schedule, homilies, news, newsletters, diocese, scotland, rome] = await Promise.all([
+    getSchedule(),
+    getArticles('homily'),
+    getArticles('news'),
+    getNewsletters(),
+    getDioceseNews(),
+    getScotlandNews(1),
+    getVaticanNews(1),
+  ]);
+  // Church News: a real parish news story from the last two weeks (only if one was posted), then diocese, Scotland and Rome.
+  // The homily and newsletter already have their own cards just above, so they are not repeated here.
+  const twoWeeks = (iso: string | null) => !!iso && Date.now() - new Date(iso).getTime() <= 14 * 86_400_000;
+  const parishItem = news.find((a) => twoWeeks(a.date));
+  const churchNews: NewsCard[] = [
+    ...(parishItem
+      ? [{ label: 'Parish', internal: true, item: { title: parishItem.title, summary: parishItem.excerpt ?? '', link: `/${parishItem.type === 'homily' ? 'homilies' : 'news'}/${parishItem.id}`, date: parishItem.date as string, image: parishItem.featuredImageUrl || FALLBACK.parish } }]
+      : []),
+    ...(diocese[0] ? [{ label: 'Diocese', item: { ...diocese[0], image: diocese[0].image || FALLBACK.diocese } }] : []),
+    ...(scotland[0] ? [{ label: 'Scotland', item: { ...scotland[0], image: scotland[0].image || FALLBACK.scotland } }] : []),
+    ...(rome[0] ? [{ label: 'Rome', item: rome[0] }] : []),
+  ];
   const homily = homilies[0];
   const newsletter = newsletters[0];
 
@@ -183,27 +205,9 @@ export default async function Home() {
           </Reveal>
         </div>
 
-        {news.length > 0 && (
+        {churchNews.length > 0 && (
           <div className="mt-14">
-            <div className="flex items-end justify-between gap-6">
-              <h2 className="display-md">Parish news</h2>
-              <Link href="/news" className="link">
-                All news
-              </Link>
-            </div>
-            <ul className="mt-6 grid gap-6 md:grid-cols-3">
-              {news.slice(0, 3).map((a, i) => (
-                <Reveal as="li" key={a.id} delay={i * 90}>
-                  <Link href={`/news/${a.id}`} className="group block">
-                    <div className="relative aspect-[3/2] overflow-hidden rounded-3xl bg-mist-2">
-                      <Image src={a.featuredImageUrl || '/img/loch.jpg'} alt="" fill sizes="(max-width: 768px) 100vw, 380px" className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                    </div>
-                    <p className="mt-4 text-[0.92rem] text-slate">{longDate(a.date)}</p>
-                    <h3 className="mt-1 font-display text-[1.45rem] font-semibold leading-snug group-hover:text-heather">{a.title}</h3>
-                  </Link>
-                </Reveal>
-              ))}
-            </ul>
+            <ChurchNews cards={churchNews} />
           </div>
         )}
       </Section>

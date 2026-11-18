@@ -86,3 +86,41 @@ export async function getDioceseNews(): Promise<FeedItem[]> {
     return [];
   }
 }
+
+const MONTHS: Record<string, number> = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+/** Daily Mass videos, the daily Gospel and photo reposts are left out; only real news stories are shown. */
+const NOT_NEWS = [/^holy mass\b/i, /^gospel\b/i, /^photos? from\b/i, /’s post$|'s post$/i, /^today the church celebrates\b/i];
+
+/** The latest news from the Bishops' Conference of Scotland (bcos.org.uk), read from its news list. */
+export async function getScotlandNews(limit = 1): Promise<FeedItem[]> {
+  try {
+    const res = await fetch('https://www.bcos.org.uk/', { next: { revalidate: HOUR } });
+    if (!res.ok) return [];
+    const page = await res.text();
+    return page
+      .split('class="list-post"')
+      .slice(1)
+      .map((block) => {
+        const a = block.match(/<h3 class="list-title">\s*<a href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/);
+        const d = block.match(/<\/svg>\s*(\d{1,2}) ([A-Z][a-z]{2}), (\d{4})/);
+        // Facebook-hosted pictures expire after a few days, so only pictures on the Conference's own site are used.
+        const img = block.match(/<div class="list-gallery">[\s\S]*?<img[^>]+src="([^"]+)"/)?.[1];
+        const ownImage = img && !/fbcdn\.net|facebook\.com/.test(img) ? img : undefined;
+        const desc = block.match(/<div class="list-description">([\s\S]*?)<\/div>/)?.[1] ?? '';
+        if (!a || !d) return null;
+        const title = decode(a[2]).normalize('NFKC');
+        return {
+          title,
+          summary: decode(desc).normalize('NFKC').replace(title, '').replace(/^[\s.,:;|]+/, '').trim(),
+          link: a[1],
+          date: new Date(Date.UTC(+d[3], MONTHS[d[2]] ?? 0, +d[1], 12)).toISOString(),
+          image: ownImage ? new URL(ownImage, 'https://www.bcos.org.uk/').toString() : undefined,
+        } as FeedItem;
+      })
+      .filter((i): i is FeedItem => !!i && i.link.startsWith('https://www.bcos.org.uk/') && !NOT_NEWS.some((r) => r.test(i.title)) && fresh(i.date))
+      .slice(0, limit);
+  } catch (error) {
+    console.error('Could not load Scotland news:', error);
+    return [];
+  }
+}
