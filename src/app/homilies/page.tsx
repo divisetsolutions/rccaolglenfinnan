@@ -9,7 +9,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'Homilies',
-  description: 'Homilies from the Catholic parish of Caol and Glenfinnan.',
+  description: 'Sunday and feast-day homilies by Fr Charles Egbon, parish priest of Caol (Fort William) and Glenfinnan, to read again during the week or share with someone who could not be at Mass.',
   alternates: { canonical: '/homilies' },
 };
 

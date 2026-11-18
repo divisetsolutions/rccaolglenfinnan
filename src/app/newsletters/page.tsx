@@ -8,7 +8,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'Newsletter',
-  description: 'The weekly newsletter of the Catholic parish of Caol and Glenfinnan.',
+  description: 'Read or download the weekly newsletter of the Catholic parish of Caol and Glenfinnan: Mass intentions, notices and the week ahead at St John’s, Caol and St Mary & St Finnan, Glenfinnan.',
   alternates: { canonical: '/newsletters' },
 };
 

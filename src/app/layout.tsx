@@ -5,7 +5,8 @@ import { AuthProvider } from '@/context/AuthContext';
 import { SiteHeader } from '@/components/site/SiteHeader';
 import { SiteFooter } from '@/components/site/SiteFooter';
 import { ArchDefs } from '@/components/site/Bits';
-import { CHURCHES, PARISH } from '@/lib/content';
+import { PARISH } from '@/lib/content';
+import { siteGraph } from '@/lib/structured-data';
 
 // Alegreya: a calligraphic book face with real warmth at large sizes.
 const display = Alegreya({ subsets: ['latin'], display: 'swap', variable: '--font-display', style: ['normal', 'italic'] });
@@ -34,26 +35,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: '#10323f' };
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@graph': Object.values(CHURCHES).map((c) => ({
-    '@type': 'CatholicChurch',
-    name: `${c.name}, ${c.place}`,
-    url: `${PARISH.url}${c.slug}`,
-    image: `${PARISH.url}${c.hero}`,
-    telephone: '+441397719281',
-    email: c.email,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: c.address[0],
-      addressLocality: c.id === 'caol' ? 'Fort William' : 'Glenfinnan',
-      postalCode: c.address[c.address.length - 1],
-      addressCountry: 'GB',
-    },
-    geo: { '@type': 'GeoCoordinates', latitude: c.lat, longitude: c.lng },
-    parentOrganization: { '@type': 'Organization', name: 'Roman Catholic Diocese of Argyll and the Isles', url: 'https://www.rcdai.org.uk' },
-  })),
-};
+const jsonLd = siteGraph();
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

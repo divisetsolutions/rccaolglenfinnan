@@ -8,7 +8,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'News',
-  description: 'News from the Catholic parish of Caol and Glenfinnan.',
+  description: 'News from the Catholic parish of Caol and Glenfinnan, with stories from the Diocese of Argyll and the Isles and the wider Church.',
   alternates: { canonical: '/news' },
 };
 

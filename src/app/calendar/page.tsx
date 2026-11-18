@@ -6,24 +6,33 @@ import { WeekAhead } from '@/components/site/WeekAhead';
 import { CHURCHES, PARISH } from '@/lib/content';
 import { getSchedule } from '@/lib/data';
 import { formatMinutes, weeklyPattern } from '@/lib/schedule';
+import { massTimesGraph, sundayMassTimes } from '@/lib/structured-data';
 
 // Re-read content from the database at most every 5 minutes
 export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'Mass times',
-  description: 'Mass, confession and adoration times at St John the Evangelist, Caol (Fort William) and St Mary & St Finnan, Glenfinnan, with this week’s changes.',
+  description: 'Catholic Mass times in Fort William and Glenfinnan: Sunday and weekday Mass, confession and adoration at St John’s, Caol and St Mary & St Finnan, with this week’s changes.',
   alternates: { canonical: '/calendar' },
 };
 
 export default async function MassTimesPage() {
   const schedule = await getSchedule();
+  const caol = sundayMassTimes(schedule, 'caol');
+  const glen = sundayMassTimes(schedule, 'glenfinnan');
+  // A one-sentence answer first, for people and for search engines; falls back if the times are missing.
+  const answer =
+    caol.length && glen.length
+      ? `Sunday Mass is at ${caol.join(' and ')} at St John’s, Caol (Fort William) and ${glen.join(' and ')} at St Mary & St Finnan, Glenfinnan, every Sunday. Below are the next two weeks as they will really happen, then the usual weekly pattern.`
+      : 'The next two weeks as they will really happen, followed by the usual weekly pattern at each church.';
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(massTimesGraph(schedule)) }} />
       <PageHeader
         title="Mass times"
-        lede="The next two weeks as they will really happen, followed by the usual weekly pattern at each church."
+        lede={answer}
         image="/img/caol-altar.jpg"
         imageAlt="Candles lit around the altar at St John’s, Caol"
       />
