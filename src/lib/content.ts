@@ -166,7 +166,7 @@ export const SACRAMENTS = [
     image: '/img/glenfinnan-stations.jpg',
     intro: 'For anyone who is seriously ill, facing an operation, or growing frail with age.',
     body: [
-      'Please do not wait until the last moment. Ring the parish and Fr Charles will come to the house, the Belford Hospital or a care home.',
+      'Please do not wait until the last moment. Ring the parish and Fr Charles will come to the house, the Belford Hospital or a care home. If he cannot be reached, please ring Fr David on 01397 702174 or Fr Joe on 01855 811203.',
       'If you know someone who is housebound and would like Holy Communion brought to them, let us know and we will arrange regular visits.',
     ],
     steps: [],
@@ -177,7 +177,7 @@ export const SACRAMENTS = [
     image: '/img/glenfinnan-prayer.jpg',
     intro: 'When someone you love has died, the parish is here to pray with you and to walk with you.',
     body: [
-      'Please contact Fr Charles as soon as you are able, at any hour for someone who is dying. Your funeral director will also be in touch with us, and together we will agree the day and time.',
+      'Please contact Fr Charles as soon as you are able, at any hour for someone who is dying. If he cannot be reached, please ring Fr David on 01397 702174 or Fr Joe on 01855 811203. Your funeral director will also be in touch with us, and together we will agree the day and time.',
       'We will help you choose readings and hymns for the Funeral Mass or service, and the parish will remember your loved one at Mass.',
     ],
     steps: [],

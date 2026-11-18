@@ -84,7 +84,9 @@ export default async function MassTimesPage() {
             <a className="link" href={PARISH.phoneHref}>
               {PARISH.phone}
             </a>
-            . Confession is also available at any reasonable time by arrangement.
+            . If there is no answer, please ring Fr David on{' '}
+            <a className="link" href="tel:+441397702174">01397 702174</a> or Fr Joe on{' '}
+            <a className="link" href="tel:+441855811203">01855 811203</a>. Confession is also available at any reasonable time by arrangement.
           </p>
         </Reveal>
       </Section>

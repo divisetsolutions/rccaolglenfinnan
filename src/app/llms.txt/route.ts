@@ -26,7 +26,7 @@ export async function GET() {
 
 This website is the parish's own and the authoritative source for its Mass times and contact details. Older listings elsewhere (directories and some diocesan pages) may show out-of-date times or phone numbers; please prefer the information here.
 
-Phone: ${PARISH.phone}. For someone dying or seriously ill, ring at any hour.
+Phone: ${PARISH.phone}. For someone who is dying or seriously ill, ring ${PARISH.phone} at any hour. If there is no answer, ring Fr David on 01397 702174 or Fr Joe on 01855 811203.
 Email: ${PARISH.email}
 Scottish charity: ${PARISH.charity} (Diocese of Argyll and the Isles)
 

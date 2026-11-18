@@ -135,7 +135,7 @@ export function massTimesGraph(schedule: ScheduleItem[]) {
   }
   faq.push({
     q: 'How do I contact the Catholic parish of Caol and Glenfinnan?',
-    a: `Ring the parish on ${PARISH.phone} or email ${PARISH.email}. For someone who is dying or seriously ill, ring at any hour.`,
+    a: `Ring the parish on ${PARISH.phone} or email ${PARISH.email}. For someone who is dying or seriously ill, ring ${PARISH.phone} at any hour. If there is no answer, ring Fr David on 01397 702174 or Fr Joe on 01855 811203.`,
   });
   return {
     '@context': 'https://schema.org',
