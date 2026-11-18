@@ -58,6 +58,9 @@ export async function ChurchPage({ church }: { church: Church }) {
                 {church.email}
               </a>
             </address>
+            <a href={church.give} target="_blank" rel="noopener noreferrer" className="btn btn-gorse mt-6">
+              Support this church
+            </a>
           </Reveal>
         </div>
       </Section>

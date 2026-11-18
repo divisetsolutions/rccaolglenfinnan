@@ -30,6 +30,9 @@ export const AWAY = {
   ],
 };
 
+/** Online giving through the diocese (MyGivingHub). Each church has its own account; the reference picks it. */
+const GIVE_BASE = 'https://www.mygivinghub.com/detailed/donate?encoded=1&encoded_params=eyJpdiI6IjhZZlpRbTJyRThwWTAraktZU0hWR1E9PSIsInZhbHVlIjoiYXd3L00rZHZZTS9XZU9WTlVoSFArMFh1T1dKbU91blBmUytyYkxPbHJLeXROOSs2QWRzQ3prSHBJZEhwTWIzcWFMbDk3azdZdHM3SHR4dmJvdzdwZWhGZ0phNGlzVGliMVR5MGo2c2VzWldOV1dXZlZ2YUN0dklDR0tYM0VXSjRjSmViWTNYbkhaSWdxVEZ0MmpJbmo2RSt5cTRyL1dlN2xVMW9EV0NTeDkwMk5UUFJUNVdxdUM3UGdsZjM5RGUzdmpvRjVNdGpEMVFaZ2NDYXNsZllmcVZGY1JTSmlRK2FkV1lNalBqKytSQWJDR21aaVVZeXFtQlZuYnNuZ1NrZS9BcGJtZDlVZk9nRWFMTWRmVDNrdFFTQU9pcU50T0pLMDljVEp3ZmRHUGNtdXRRNlhwY3g4SDF5aGVRSzN1aENHTU9YclZUZXpCVkJheDRvK3o1SDhLUGovR01taXQ3SDRYWmdUL3VEMzNHVmNhZFpLS1BFak1vamMyZG1yc25obFRxbDNxa1ZvZjFRQm96T1MyNFA2ZWVLVFVwU0QzMVVXMFdlaXBsQ2ZIM1pYdVBYM0RlT1IvUEpYWXRWOGd2SCIsIm1hYyI6IjllZWMwYzM0NDFjZDA1N2FkNTMxMWNlM2Q5N2UyMDQ3ZDE4ZDg4M2YyZmQ2OWExODczMTBkMzhiMTczMjg0ZTEiLCJ0YWciOiIifQ%3D%3D&reference=';
+
 export const CHURCHES = {
   caol: {
     id: 'caol',
@@ -41,6 +44,9 @@ export const CHURCHES = {
     address: ['St John’s Road', 'Caol', 'Fort William', 'PH33 7PR'],
     email: 'caol@rcdai.org.uk',
     map: 'https://www.google.com/maps/search/?api=1&query=Saint+John+the+Evangelist+R.C.+Church+Caol+Fort+William',
+    give: `${GIVE_BASE}CAOL`,
+    giveText:
+      'Built in 1970, St John’s stands among the homes of Caol, where most of our parish lives, and local families gather here for Mass every week. The building and its heating now need ongoing repair, so the gifts of parishioners and friends are what keep this busy church warm and its doors open.',
     lat: 56.8369,
     lng: -5.1005,
     hero: '/img/caol-exterior.jpg',
@@ -74,6 +80,9 @@ export const CHURCHES = {
     address: ['Glenfinnan', 'Inverness-shire', 'PH37 4LT'],
     email: 'glenfinnan@rcdai.org.uk',
     map: 'https://www.google.com/maps/search/?api=1&query=Saint+Mary+and+Saint+Finnan+Church+Glenfinnan',
+    give: `${GIVE_BASE}GLNFN`,
+    giveText:
+      'Completed in 1873, this old stone church costs a great deal to heat, light and keep open, and the building itself needs constant care. The Sunday collection is often only £40 or £70, so the gifts of visitors and friends are what keep its doors open.',
     lat: 56.8714,
     lng: -5.4441,
     hero: '/img/glenfinnan-exterior.jpg',
