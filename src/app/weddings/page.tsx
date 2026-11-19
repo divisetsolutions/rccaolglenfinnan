@@ -19,6 +19,7 @@ import {
   WEDDING_PHOTOS,
   WEDDING_STEPS,
 } from "@/lib/weddings";
+import { getWeddingDates, weddingDay } from "@/lib/wedding-dates";
 
 export const revalidate = 86400;
 
@@ -54,9 +55,11 @@ function comingLents() {
     }));
 }
 
-export default function WeddingsPage() {
+export default async function WeddingsPage() {
   const g = CHURCHES.glenfinnan;
   const lents = comingLents();
+  const booked = await getWeddingDates();
+  const years = [...new Set(booked.map((w) => new Date(w.start).getUTCFullYear()))];
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -299,6 +302,55 @@ export default function WeddingsPage() {
           </Reveal>
         </div>
       </Section>
+
+      {/* ---------- Dates already booked ---------- */}
+      {booked.length > 0 && (
+        <section id="booked-dates" className="scroll-mt-24 bg-white py-16 md:py-24">
+          <div className="wrap">
+            <SectionHeading
+              title="Dates already booked"
+              lede="Weddings already in the church diary, so you can see at a glance which days are taken. A provisional date is held for a couple who have not yet settled it."
+            />
+            <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+              {years.map((y) => {
+                return (
+                <Reveal key={y}>
+                  <h3 className="font-display text-[2rem] font-semibold text-heather">{y}</h3>
+                  <ul className="mt-4 divide-y-2 divide-line border-y-2 border-line">
+                    {booked
+                      .filter((w) => new Date(w.start).getUTCFullYear() === y)
+                      .map((w) => (
+                        <li key={w.start} className="grid gap-x-6 gap-y-1 py-4 sm:grid-cols-[1fr_auto] sm:items-center">
+                          <div>
+                            <p className="text-[1.12rem] font-bold">{weddingDay(w)}</p>
+                            <p className="text-slate">
+                              {w.church}
+                              {w.country ? ` · ${w.country}` : ""}
+                            </p>
+                          </div>
+                          <span
+                            className={`justify-self-start rounded-full px-4 py-1 text-[0.95rem] font-bold sm:justify-self-end ${
+                              w.status === "Provisional" ? "bg-gorse/30 text-loch" : "bg-loch text-mist"
+                            }`}
+                          >
+                            {w.status}
+                          </span>
+                        </li>
+                      ))}
+                  </ul>
+                </Reveal>
+                );
+              })}
+            </div>
+            <p className="mt-8 max-w-[60ch] text-slate">
+              A day missing from this list may still be unavailable because of
+              the Church’s calendar or parish commitments. Fr Charles confirms
+              every date personally.{" "}
+              <a href="#enquire" className="link">Ask about your date</a>.
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* ---------- Questions ---------- */}
       <Section>
