@@ -86,11 +86,14 @@ export function SiteHeader() {
             {open ? 'Close' : 'Menu'}
           </button>
         </div>
+      </header>
 
-        <div
+      {/* Kept outside <header>: the header's backdrop-blur would otherwise become the
+          containing block for this fixed panel and collapse it to zero height. */}
+      <div
           id="mobile-menu"
           hidden={!open}
-          className="fixed inset-x-0 bottom-0 top-[72px] overflow-y-auto bg-loch text-mist xl:hidden"
+          className="fixed inset-x-0 bottom-0 top-[72px] z-40 overflow-y-auto bg-loch text-mist xl:hidden"
         >
           <nav aria-label="Main" className="wrap flex flex-col py-6">
             {NAV.map((item, i) => (
@@ -115,7 +118,6 @@ export function SiteHeader() {
             </div>
           </nav>
         </div>
-      </header>
     </>
   );
 }
