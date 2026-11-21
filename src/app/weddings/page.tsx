@@ -323,10 +323,7 @@ export default async function WeddingsPage() {
                         <li key={w.start} className="grid gap-x-6 gap-y-1 py-4 sm:grid-cols-[1fr_auto] sm:items-center">
                           <div>
                             <p className="text-[1.12rem] font-bold">{weddingDay(w)}</p>
-                            <p className="text-slate">
-                              {w.church}
-                              {w.country ? ` · ${w.country}` : ""}
-                            </p>
+                            <p className="text-slate">{w.church}</p>
                           </div>
                           <span
                             className={`justify-self-start rounded-full px-4 py-1 text-[0.95rem] font-bold sm:justify-self-end ${

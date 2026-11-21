@@ -5,8 +5,9 @@
  * read through its secret iCal address in the env var WEDDING_CALENDAR_ICS.
  * That address is a secret: never put it in code (the repo is public).
  *
- * Only these facts leave the calendar: date, time, church, home country and
- * status. Names, towns, celebrants and notes are never shown.
+ * Only these facts leave the calendar: date, time, church and status.
+ * Names, home countries, towns, celebrants and notes are never shown
+ * (countries removed 21 Nov 2026 at Fr Charles's request, for privacy).
  * Events whose title does not start with "Wedding", and any marked
  * "Status: Undated", are left out.
  */
@@ -15,7 +16,6 @@ export type WeddingDate = {
   start: number; // ms since epoch
   allDay: boolean;
   church: string;
-  country: string | null;
   status: 'Booked' | 'Provisional';
 };
 
@@ -108,13 +108,10 @@ function toWedding(ev: Record<string, { params: string; value: string }>, now: n
   // Keep a wedding on the list until the end of its day.
   if (s.start + 86400000 < now) return null;
 
-  const from = desc.match(/^From:\s*(.+)$/im)?.[1]?.trim() ?? '';
-  const country = from && !/not recorded/i.test(from) ? from.replace(/\s*\(.*$/, '').trim() : null;
-
   const location = unescape(ev.LOCATION?.value ?? '');
   const church = /caol|st john/i.test(location) ? 'St John’s, Caol' : 'St Mary & St Finnan, Glenfinnan';
 
-  return { start: s.start, allDay: s.allDay, church, country, status };
+  return { start: s.start, allDay: s.allDay, church, status };
 }
 
 /** Fetch and parse the calendar. Returns [] if the address is missing or the fetch fails. */
