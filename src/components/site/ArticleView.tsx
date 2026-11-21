@@ -25,9 +25,14 @@ export function ArticleView({ article, back }: { article: Article; back: { href:
       </header>
       <div className="wrap max-w-[860px] py-12 md:py-16">
         {article.featuredImageUrl && (
-          <div className="relative -mt-24 mb-10 aspect-[16/9] overflow-hidden rounded-[2rem] shadow-lift md:-mt-28">
-            <Image src={article.featuredImageUrl} alt="" fill sizes="(max-width: 860px) 100vw, 860px" className="object-cover" priority />
-          </div>
+          <figure className="-mt-24 mb-10 md:-mt-28">
+            <div className="relative aspect-[16/9] overflow-hidden rounded-[2rem] shadow-lift">
+              <Image src={article.featuredImageUrl} alt={article.featuredImageCaption || ''} fill sizes="(max-width: 860px) 100vw, 860px" className="object-cover" priority />
+            </div>
+            {article.featuredImageCaption && (
+              <figcaption className="mt-3 px-2 text-[0.95rem] italic text-slate">{article.featuredImageCaption}</figcaption>
+            )}
+          </figure>
         )}
         {article.excerpt && article.type !== 'homily' && <p className="lede max-w-[60ch] font-display italic">{article.excerpt}</p>}
         <div className="prose-parish mt-6 text-[1.14rem] leading-[1.8]" dangerouslySetInnerHTML={{ __html: article.content ?? '' }} />

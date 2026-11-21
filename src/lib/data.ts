@@ -11,6 +11,8 @@ export interface Article {
   excerpt?: string;
   content?: string;
   featuredImageUrl?: string;
+  /** Shown under the photo: where and when it was taken, and who took it. */
+  featuredImageCaption?: string;
   type?: 'news' | 'event' | 'homily' | string;
   status?: string;
   date: string | null;
@@ -97,11 +99,12 @@ export async function getArticle(id: string): Promise<Article | null> {
       excerpt: x.excerpt ?? '',
       content: x.content ?? '',
       featuredImageUrl: usableImage(x.featuredImageUrl),
+      featuredImageCaption: x.featuredImageCaption ?? '',
       type: x.type ?? 'news',
       status: x.status ?? 'published',
       date: toIso(x.createdAt),
       eventLocation: x.eventLocation ?? '',
-          occasion: x.occasion ?? '',
+      occasion: x.occasion ?? '',
     };
   } catch (error) {
     console.error('Could not load the article:', error);
