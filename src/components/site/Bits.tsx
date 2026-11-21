@@ -126,6 +126,8 @@ export function PhotoRibbon({ photos }: { photos: readonly { src: string; alt: s
 /** Who to ring while the parish priest is away. Controlled by AWAY in lib/content.ts. */
 export function AwayNotice({ className = '' }: { className?: string }) {
   if (!AWAY.active || AWAY.contacts.length === 0) return null;
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(new Date());
+  if (AWAY.until && today >= AWAY.until) return null;
   return (
     <aside className={`rounded-[2rem] border-2 border-gorse bg-white p-6 md:p-8 ${className}`} aria-label="Urgent pastoral contacts">
       <p className="font-display text-[1.5rem] font-semibold leading-snug">{AWAY.message}</p>

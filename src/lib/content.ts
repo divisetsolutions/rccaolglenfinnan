@@ -22,7 +22,9 @@ export const PARISH = {
  */
 export const AWAY = {
   active: true,
-  message: 'Fr Charles is not available at present. For urgent pastoral matters, please contact one of these priests.',
+  /** First day back (Europe/London). From this day the notice hides itself. Empty string = no end date. */
+  until: '2026-11-26',
+  message: 'Fr Charles is not available at present and returns on Thursday 26 November. For urgent pastoral matters, please contact one of these priests.',
   contacts: [
     { name: 'Fr David', phone: '01397 702174', href: 'tel:+441397702174' },
     { name: 'Fr Joe', phone: '01855 811203', href: 'tel:+441855811203' },
