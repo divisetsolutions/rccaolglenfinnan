@@ -1,12 +1,13 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { useState } from 'react';
 import { PARISH } from '@/lib/content';
 
 const ENDPOINT = PARISH.formEndpoint;
 
-export function ContactForm() {
+export function ContactForm({ prayer = false }: { prayer?: boolean }) {
   const about = useSearchParams().get('about') ?? '';
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
   const [draft, setDraft] = useState('');
@@ -89,7 +90,10 @@ export function ContactForm() {
       <button type="submit" disabled={status === 'sending'} className="btn btn-loch disabled:opacity-60">
         {status === 'sending' ? 'Sending…' : 'Send message'}
       </button>
-      <p className="text-[0.92rem] text-slate">We use your details only to reply to you.</p>
+      <p className="text-[0.92rem] text-slate">
+        We use your details only to reply to you{prayer ? ' and to pray for those you name' : ''}.{' '}
+        <Link href="/privacy" className="link">Read our privacy notice.</Link>
+      </p>
     </form>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { PARISH } from '@/lib/content';
 
@@ -95,6 +96,8 @@ export function WeddingEnquiryForm() {
       '',
       'Anything else:',
       v('message'),
+      '',
+      `Consent to use these details (privacy notice): ${v('consent') || 'No'}`,
     ].join('\n');
 
     setDraft(message);
@@ -211,6 +214,17 @@ export function WeddingEnquiryForm() {
           </p>
         </div>
       )}
+      <label className="flex items-start gap-3 rounded-[1.75rem] bg-white p-6 shadow-soft md:p-7">
+        <input name="consent" type="checkbox" required value="Yes" className="mt-1.5 h-5 w-5 shrink-0 accent-loch" />
+        <span className="leading-relaxed">
+          We agree that the parish may use the details on this form, including our religious background and any previous marriage, to answer our
+          enquiry and prepare for our wedding.{' '}
+          <Link href="/privacy" className="link" target="_blank">
+            Read our privacy notice.
+          </Link>
+        </span>
+      </label>
+
       <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
         <button type="submit" disabled={status === 'sending'} className="btn btn-loch disabled:opacity-60">
           {status === 'sending' ? 'Sending…' : 'Send enquiry'}

@@ -12,6 +12,7 @@ const links = [
   { href: '/donations', label: 'Give to the parish' },
   { href: '/what-remains', label: 'Fr Charles’s book' },
   { href: '/safeguarding', label: 'Safeguarding' },
+  { href: '/privacy', label: 'Your privacy' },
   { href: '/contact', label: 'Contact us' },
 ];
 

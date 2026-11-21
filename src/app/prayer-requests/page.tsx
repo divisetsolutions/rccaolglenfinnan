@@ -18,7 +18,7 @@ export default function PrayerRequestsPage() {
         <div className="grid gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16">
           <Reveal>
             <Suspense fallback={null}>
-              <ContactForm />
+              <ContactForm prayer />
             </Suspense>
           </Reveal>
           <Reveal delay={120} className="self-start rounded-[2rem] bg-heather-soft p-8">
