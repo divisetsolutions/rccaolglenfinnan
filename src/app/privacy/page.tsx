@@ -1,13 +1,15 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import { PageHeader, Section } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
 import { PARISH } from '@/lib/content';
 
-// Wording approved by Fr Charles on 21 November 2026. Change only with his approval.
+// Wording approved by Fr Charles on 21 November 2026 (priest references made generic 25 November 2026). Change only with his approval.
 export const metadata: Metadata = {
   title: 'Your privacy',
   description: 'What happens to the details you share with the parish of Caol and Glenfinnan through this website, and your rights.',
   alternates: { canonical: '/privacy' },
+  openGraph: shareCard('/privacy', sharePhoto('/img/glenfinnan-exterior.jpg', 'St Mary & St Finnan above Loch Shiel')),
 };
 
 const ext = { target: '_blank', rel: 'noopener noreferrer', className: 'link' } as const;
@@ -44,11 +46,11 @@ export default function PrivacyPage() {
           <Part title="What we collect, and why">
             <ul className="space-y-4">
               <li>
-                <strong>Contact form and prayer requests:</strong> your name and email address with your message, so that Fr Charles can reply and pray for
+                <strong>Contact form and prayer requests:</strong> your name and email address with your message, so that the parish priest can reply and pray for
                 the people you name. A name is read out or printed in the newsletter only when you tell us that we may.
               </li>
               <li>
-                <strong>Wedding enquiries:</strong> your names, your contact details and the facts Fr Charles needs to prepare a Catholic wedding, such as
+                <strong>Wedding enquiries:</strong> your names, your contact details and the facts the priest needs to prepare a Catholic wedding, such as
                 baptism, religion and any previous marriage. Because these details reveal religious belief, we ask your permission before you send them.
               </li>
               <li>

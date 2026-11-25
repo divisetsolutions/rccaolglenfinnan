@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArchPhoto, PageHeader, Section, SectionHeading } from '@/components/site/Bits';
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
   title: 'Our parish',
   description: 'The story and life of the Catholic parish of Caol and Glenfinnan: two churches in the West Highlands, one parish family.',
   alternates: { canonical: '/about' },
+  openGraph: shareCard('/about', sharePhoto('/img/glenfinnan-autumn.jpg', 'St Mary & St Finnan in autumn, with the hills of Loch Shiel behind')),
 };
 
 const mission = [

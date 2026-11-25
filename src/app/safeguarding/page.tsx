@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import { PageHeader, Section } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
 
@@ -6,6 +7,7 @@ export const metadata: Metadata = {
   title: 'Safeguarding',
   description: 'Safeguarding in the parish of Caol and Glenfinnan and the Diocese of Argyll and the Isles, and who to contact with a concern.',
   alternates: { canonical: '/safeguarding' },
+  openGraph: shareCard('/safeguarding', sharePhoto('/img/caol-exterior.jpg', 'St John the Evangelist, Caol')),
 };
 
 export default function SafeguardingPage() {
@@ -38,7 +40,7 @@ export default function SafeguardingPage() {
           </Reveal>
         </div>
         <Reveal className="mt-10 max-w-[68ch] text-[1.08rem]">
-          <p>You can speak to Fr Charles or to the parish safeguarding coordinator in confidence at any time. Anyone who works with children or vulnerable adults in the parish is checked and trained before they begin.</p>
+          <p>You can speak to the parish priest or to the parish safeguarding coordinator in confidence at any time. Anyone who works with children or vulnerable adults in the parish is checked and trained before they begin.</p>
         </Reveal>
       </Section>
     </>

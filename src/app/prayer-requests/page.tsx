@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import { Suspense } from 'react';
 import { PageHeader, Section } from '@/components/site/Bits';
 import { ContactForm } from '@/components/site/ContactForm';
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Ask for prayers',
   description: 'Ask the parish of Caol and Glenfinnan to pray for you or for someone you love, or request a Mass intention.',
   alternates: { canonical: '/prayer-requests' },
+  openGraph: shareCard('/prayer-requests', sharePhoto('/img/glenfinnan-prayer.jpg', 'Parishioners at prayer in St Mary & St Finnan')),
 };
 
 export default function PrayerRequestsPage() {

@@ -132,10 +132,10 @@ export const SACRAMENTS = [
     image: '/img/glenfinnan-lady-chapel.jpg',
     intro: 'Baptism is the doorway into the life of Christ and the family of the Church.',
     body: [
-      'We are delighted to baptise the children of families who live in the parish or have a connection with it. Please get in touch with Fr Charles before you set a date or book a venue, so that we can meet you and help you prepare.',
+      'We are delighted to baptise the children of families who live in the parish or have a connection with it. Please get in touch with the parish priest before you set a date or book a venue, so that we can meet you and help you prepare.',
       'Adults who would like to be baptised are just as welcome. The usual path is the RCIA, described further down this page.',
     ],
-    steps: ['Contact the parish to introduce yourselves.', 'Meet Fr Charles for a short preparation.', 'Choose godparents. At least one must be a confirmed, practising Catholic.', 'Agree a date, usually during or after Sunday Mass.'],
+    steps: ['Contact the parish to introduce yourselves.', 'Meet the priest for a short preparation.', 'Choose godparents. At least one must be a confirmed, practising Catholic.', 'Agree a date, usually during or after Sunday Mass.'],
   },
   {
     id: 'confession',
@@ -155,7 +155,7 @@ export const SACRAMENTS = [
     intro: 'Children are prepared for these sacraments in the parish, together with their families and school.',
     body: [
       'If your child is of an age to receive First Reconciliation, First Holy Communion or Confirmation, please let the parish know early in the school year so that they can join the preparation.',
-      'Adults who were never confirmed can be prepared at any time. Speak to Fr Charles.',
+      'Adults who were never confirmed can be prepared at any time. Speak to the parish priest.',
     ],
     steps: [],
   },
@@ -165,11 +165,11 @@ export const SACRAMENTS = [
     image: '/img/glenfinnan-nave.jpg',
     intro: 'Couples marry in both our churches, and many travel a long way to be married at Glenfinnan.',
     body: [
-      'Congratulations on your engagement. Please contact Fr Charles as early as you can, and before you confirm a date with anyone else. A Catholic wedding needs time for preparation and paperwork, especially if you live outside the parish or one of you is not Catholic.',
+      'Congratulations on your engagement. Please contact the parish priest as early as you can, and before you confirm a date with anyone else. A Catholic wedding needs time for preparation and paperwork, especially if you live outside the parish or one of you is not Catholic.',
       'There are two sides to the paperwork. The Church asks for a marriage preparation course and a set of documents gathered with the help of your own parish priest. Scottish civil law asks each of you to send a Marriage Notice form (M10) to the registrar, no earlier than three months and no later than 29 days before the wedding.',
-      'If you are not Catholic and would simply love a blessing in this place, write to us as well. We will gladly talk through what is possible.',
+      'If neither of you is Catholic, at least one of you is a Christian, and you would love a blessing in this place, write to us as well. We will gladly talk through what is possible. Ceremonies in the church and on its grounds are kept for Christian worship, and photographs on the grounds are welcome.',
     ],
-    steps: ['Write to the parish with your names, where you live and the date you hope for.', 'Fr Charles confirms whether the church is free and what your situation requires.', 'Complete marriage preparation and the Church papers through your home parish.', 'Send your M10 forms to the registrar within the legal window.', 'Bring the Marriage Schedule from the registrar on the day.'],
+    steps: ['Write to the parish with your names, where you live and the date you hope for.', 'The parish priest confirms whether the church is free and what your situation requires.', 'Complete marriage preparation and the Church papers through your home parish.', 'Send your M10 forms to the registrar within the legal window.', 'Bring the Marriage Schedule from the registrar on the day.'],
   },
   {
     id: 'anointing',
@@ -177,7 +177,7 @@ export const SACRAMENTS = [
     image: '/img/glenfinnan-stations.jpg',
     intro: 'For anyone who is seriously ill, facing an operation, or growing frail with age.',
     body: [
-      'Please do not wait until the last moment. Ring the parish and Fr Charles will come to the house, the Belford Hospital or a care home. If he cannot be reached, please ring Fr David on 01397 702174 or Fr Joe on 01855 811203.',
+      'Please do not wait until the last moment. Ring the parish and the priest will come to the house, the Belford Hospital or a care home. If he cannot be reached, please ring Fr David on 01397 702174 or Fr Joe on 01855 811203.',
       'If you know someone who is housebound and would like Holy Communion brought to them, let us know and we will arrange regular visits.',
     ],
     steps: [],
@@ -188,7 +188,7 @@ export const SACRAMENTS = [
     image: '/img/glenfinnan-prayer.jpg',
     intro: 'When someone you love has died, the parish is here to pray with you and to walk with you.',
     body: [
-      'Please contact Fr Charles as soon as you are able, at any hour for someone who is dying. If he cannot be reached, please ring Fr David on 01397 702174 or Fr Joe on 01855 811203. Your funeral director will also be in touch with us, and together we will agree the day and time.',
+      'Please contact the parish priest as soon as you are able, at any hour for someone who is dying. If he cannot be reached, please ring Fr David on 01397 702174 or Fr Joe on 01855 811203. Your funeral director will also be in touch with us, and together we will agree the day and time.',
       'We will help you choose readings and hymns for the Funeral Mass or service, and the parish will remember your loved one at Mass.',
     ],
     steps: [],

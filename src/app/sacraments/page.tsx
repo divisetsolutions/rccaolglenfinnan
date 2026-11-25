@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import Link from 'next/link';
 import { ArchPhoto, PageHeader } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Sacraments',
   description: 'Baptism, confession, First Communion, Confirmation, marriage, anointing of the sick, funerals and becoming Catholic in the parish of Caol and Glenfinnan.',
   alternates: { canonical: '/sacraments' },
+  openGraph: shareCard('/sacraments', sharePhoto('/img/caol-interior.jpg', 'The folded timber ceiling above the nave of St John’s, Caol')),
 };
 
 export default function SacramentsPage() {

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { PageHeader, Section } from '@/components/site/Bits';
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
   title: 'Contact',
   description: 'Contact the Catholic parish of Caol and Glenfinnan: phone, email, addresses and a message form.',
   alternates: { canonical: '/contact' },
+  openGraph: shareCard('/contact', sharePhoto('/img/caol-nave.jpg', 'Looking down the nave of St John’s, Caol towards the sanctuary')),
 };
 
 export default function ContactPage() {

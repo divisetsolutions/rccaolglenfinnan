@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import { ArticleList } from '@/components/site/ArticleView';
 import { PageHeader, Section } from '@/components/site/Bits';
 import { getArticles } from '@/lib/data';
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
   title: 'News',
   description: 'News from the Catholic parish of Caol and Glenfinnan, with stories from the Diocese of Argyll and the Isles and the wider Church.',
   alternates: { canonical: '/news' },
+  openGraph: shareCard('/news', sharePhoto('/img/loch.jpg', 'Still water and pine woods in the West Highlands')),
 };
 
 export default async function Page() {

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard } from '@/lib/share';
 import Image from 'next/image';
 import { Section } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   description:
     'What Remains: Faith at the Edge of Scotland. A book for parents and grandparents who pray for children who no longer come to Mass, written in Glenfinnan by Fr Charles Egbon. A thoughtful Christmas gift.',
   alternates: { canonical: '/what-remains' },
-  openGraph: { images: [{ url: BOOK.cover, width: 599, height: 945, alt: BOOK.coverAlt }] },
+  openGraph: shareCard('/what-remains', { url: BOOK.cover, width: 599, height: 945, alt: BOOK.coverAlt }),
 };
 
 const OrderButton = ({ className = 'btn-gorse' }: { className?: string }) => (

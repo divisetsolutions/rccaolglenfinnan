@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import { notFound } from 'next/navigation';
 import { ArticleView } from '@/components/site/ArticleView';
 import { getArticle, getArticles } from '@/lib/data';
@@ -16,7 +17,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticle((await params).slug);
-  return article ? { title: article.title, description: article.excerpt || plainSummary(article.content), alternates: { canonical: `/homilies/${article.id}` } } : { title: 'Not found' };
+  return article ? { title: article.title, description: article.excerpt || plainSummary(article.content), alternates: { canonical: `/homilies/${article.id}` }, openGraph: shareCard(`/homilies/${article.id}`, sharePhoto('/img/fr-charles.jpg', 'Fr Charles Egbon in green vestments above Loch Shiel'), 'article') } : { title: 'Not found' };
 }
 
 export default async function Page({ params }: Props) {

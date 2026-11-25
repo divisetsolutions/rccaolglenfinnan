@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import { PageHeader, Section } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
 import { getNewsletters, longDate } from '@/lib/data';
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
   title: 'Newsletter',
   description: 'Read or download the weekly newsletter of the Catholic parish of Caol and Glenfinnan: Mass intentions, notices and the week ahead at St John’s, Caol and St Mary & St Finnan, Glenfinnan.',
   alternates: { canonical: '/newsletters' },
+  openGraph: shareCard('/newsletters', sharePhoto('/img/caol-exterior.jpg', 'St John the Evangelist, Caol')),
 };
 
 export default async function NewslettersPage() {

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import { PageHeader, Section } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
 import { CHURCHES, PARISH } from '@/lib/content';
@@ -7,6 +8,7 @@ export const metadata: Metadata = {
   title: 'Giving',
   description: 'Give to St Mary & St Finnan, Glenfinnan or St John the Evangelist, Caol. Each church keeps its own account, and every gift goes to the church you choose.',
   alternates: { canonical: '/donations' },
+  openGraph: shareCard('/donations', sharePhoto('/img/glenfinnan-nave.jpg', 'The tartan aisle carpet leading to the altar at Glenfinnan')),
 };
 
 const ways: { title: string; text: string }[] = [

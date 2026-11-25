@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import Image from 'next/image';
 import { PageHeader, Section, SectionHeading } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Gallery',
   description: 'Photographs of St John the Evangelist, Caol and St Mary & St Finnan, Glenfinnan.',
   alternates: { canonical: '/gallery' },
+  openGraph: shareCard('/gallery', sharePhoto('/img/glenfinnan-interior.jpg', 'Gothic arches and the rose window inside St Mary & St Finnan')),
 };
 
 export default function GalleryPage() {

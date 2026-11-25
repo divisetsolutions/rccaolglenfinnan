@@ -123,7 +123,7 @@ export function WeddingEnquiryForm() {
       <div className="rounded-[2rem] bg-white p-8 shadow-soft md:p-10" role="status">
         <h3 className="display-md text-heather">Enquiry sent</h3>
         <p className="mt-3 max-w-[56ch] text-[1.1rem] leading-relaxed">
-          Thank you, and congratulations on your engagement. Fr Charles will read your enquiry and reply by email. Please do not book anything else until you have heard from him.
+          Thank you, and congratulations on your engagement. The parish priest will read your enquiry and reply by email. Please do not book anything else until you have heard from him.
         </p>
       </div>
     );

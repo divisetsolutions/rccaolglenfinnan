@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import { notFound } from 'next/navigation';
 import { ArticleView } from '@/components/site/ArticleView';
 import { getArticle, getArticles } from '@/lib/data';
@@ -16,7 +17,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticle((await params).slug);
-  return article ? { title: article.title, description: article.excerpt || plainSummary(article.content), alternates: { canonical: `/news/${article.id}` } } : { title: 'Not found' };
+  return article ? { title: article.title, description: article.excerpt || plainSummary(article.content), alternates: { canonical: `/news/${article.id}` }, openGraph: shareCard(`/news/${article.id}`, article.featuredImageUrl ? { url: article.featuredImageUrl, alt: article.featuredImageCaption || article.title } : sharePhoto('/img/loch.jpg', 'Still water and pine woods in the West Highlands'), 'article') } : { title: 'Not found' };
 }
 
 export default async function Page({ params }: Props) {

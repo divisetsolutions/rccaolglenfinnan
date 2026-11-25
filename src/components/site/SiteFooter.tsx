@@ -10,7 +10,7 @@ const links = [
   { href: '/sacraments', label: 'Sacraments' },
   { href: '/prayer-requests', label: 'Ask for prayers' },
   { href: '/donations', label: 'Give to the parish' },
-  { href: '/what-remains', label: 'Fr Charles’s book' },
+  { href: '/what-remains', label: 'What Remains, a book' },
   { href: '/safeguarding', label: 'Safeguarding' },
   { href: '/privacy', label: 'Your privacy' },
   { href: '/contact', label: 'Contact us' },

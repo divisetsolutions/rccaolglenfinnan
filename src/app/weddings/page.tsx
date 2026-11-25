@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { shareCard } from "@/lib/share";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
   description:
     "How to be married at St Mary & St Finnan, Glenfinnan, the Catholic church above Loch Shiel: who can marry here, the papers you need, the Scottish civil forms, and how to send an enquiry.",
   alternates: { canonical: "/weddings" },
-  openGraph: { images: [{ url: "/img/weddings/glenfinnan-church-wedding-bride-groom-altar.jpg", width: 1280, height: 720, alt: "A wedding at St Mary & St Finnan, Glenfinnan" }] },
+  openGraph: shareCard("/weddings", { url: "/img/weddings/glenfinnan-church-wedding-bride-groom-altar.jpg", width: 1280, height: 720, alt: "A wedding at St Mary & St Finnan, Glenfinnan" }),
 };
 
 const DAY = 86400000;
@@ -51,6 +52,13 @@ function comingLents() {
       year: x.year,
       from: day(x.easter - 46 * DAY),
       holyWeek: day(x.easter - 7 * DAY),
+      /** The Saturday before the Fifth Sunday of Lent: weddings close from that Sunday until Easter. */
+      lastWedding: new Date(x.easter - 15 * DAY).toLocaleDateString("en-GB", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        timeZone: "UTC",
+      }),
       easter: day(x.easter),
     }));
 }
@@ -182,11 +190,12 @@ export default async function WeddingsPage() {
         />
         <div className="grid items-start gap-12 lg:grid-cols-[1fr_280px] lg:gap-16">
           <div>
-            <ol className="relative max-w-[820px]">
+            <div className="relative max-w-[820px]">
               <span
                 aria-hidden
                 className="tartan-aisle absolute bottom-3 left-0 top-3 md:left-[13.5rem]"
               />
+              <ol className="relative">
               {WEDDING_STEPS.map((s, i) => (
                 <Reveal
                   as="li"
@@ -207,7 +216,8 @@ export default async function WeddingsPage() {
                   </div>
                 </Reveal>
               ))}
-            </ol>
+              </ol>
+            </div>
             <Reveal className="mt-12 max-w-[820px] rounded-[2rem] bg-heather-soft p-7 md:p-9">
               <h3 className="display-md">The registrar</h3>
               <p className="mt-3 max-w-[60ch] leading-relaxed">
@@ -262,8 +272,8 @@ export default async function WeddingsPage() {
                       {l.year}
                     </dt>
                     <dd className="mt-1 text-mist/90">
-                      Lent runs from {l.from}. Holy Week begins on {l.holyWeek},
-                      and Easter Sunday is {l.easter}.
+                      Lent runs from {l.from}, and the last day for a wedding
+                      is {l.lastWedding}. Easter Sunday is {l.easter}.
                     </dd>
                   </div>
                 ))}
@@ -279,15 +289,15 @@ export default async function WeddingsPage() {
                 ],
                 [
                   "Lent",
-                  "We ask couples to choose a day outside the forty days of Lent.",
+                  "A small, quiet wedding is possible in the first five weeks of Lent. From the Fifth Sunday of Lent until Easter Sunday, the church stays free of weddings.",
                 ],
                 [
                   "Sundays and great feasts",
-                  "The Mass of the day comes first, so most weddings are on a weekday or a Saturday.",
+                  "The Mass of the day comes first. Most weddings here are midweek, and Wednesday or Thursday suits us best. A Sunday wedding can only be at 3pm.",
                 ],
                 [
                   "Your date",
-                  "A date is settled only when Fr Charles has agreed it with you. Please hold off booking a reception or travel until then.",
+                  "A date is settled only when the parish priest has agreed it with you. Please hold off booking a reception or travel until then.",
                 ],
               ].map(([t, d]) => (
                 <li
@@ -341,8 +351,8 @@ export default async function WeddingsPage() {
             </div>
             <p className="mt-8 max-w-[60ch] text-slate">
               A day missing from this list may still be unavailable because of
-              the Church’s calendar or parish commitments. Fr Charles confirms
-              every date personally.{" "}
+              the Church’s calendar or parish commitments. The parish priest
+              confirms every date personally.{" "}
               <a href="#enquire" className="link">Ask about your date</a>.
             </p>
           </div>
@@ -388,7 +398,7 @@ export default async function WeddingsPage() {
         <div className="wrap">
           <SectionHeading
             title="Send your enquiry"
-            lede="A few facts about the two of you let Fr Charles give you the right answer the first time. If you would rather write, the address is below."
+            lede="Fr Charles Egbon, the parish priest, reads every enquiry himself. A few facts about the two of you help him give you the right answer the first time. If you would rather write, the address is below."
           />
           <WeddingEnquiryForm />
           <p className="mt-8 text-slate">

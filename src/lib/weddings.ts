@@ -89,7 +89,7 @@ export const SITUATIONS: { id: SituationId; label: string; heading: string; summ
     heading: 'When neither of you is Catholic',
     summary: 'St Mary & St Finnan is a Catholic church, and a wedding here is a sacrament of the Catholic Church. For that reason we are only able to marry couples where at least one partner is Catholic.',
     papers: [],
-    note: 'If Glenfinnan means a great deal to you, do still write to us. In some circumstances a simple blessing of a marriage is possible, and we will gladly talk it through with you.',
+    note: 'If at least one of you is a Christian and Glenfinnan means a great deal to you, do still write to us. In some circumstances a simple blessing of a marriage is possible, and we will gladly talk it through with you. Ceremonies in the church and on its grounds are kept for Christian worship, and photographs on the grounds are welcome.',
   },
 ];
 
@@ -97,8 +97,8 @@ export const HOMES: { id: HomeId; label: string; heading: string; text: string }
   {
     id: 'parish',
     label: 'In the parish of Caol and Glenfinnan',
-    heading: 'Fr Charles prepares you',
-    text: 'You are our own parishioners, so your preparation and paperwork are done here. Send the enquiry below and Fr Charles will arrange to meet you.',
+    heading: 'We prepare you here',
+    text: 'You are our own parishioners, so your preparation and paperwork are done here. Send the enquiry below and the parish priest will arrange to meet you.',
   },
   {
     id: 'scotland',
@@ -118,7 +118,7 @@ export const WEDDING_STEPS: { when: string; title: string; text: string }[] = [
   {
     when: 'At least six months ahead',
     title: 'Write to us',
-    text: 'Send the enquiry on this page with the dates you hope for. Fr Charles checks the church diary and the Church’s calendar, and tells you which path fits your situation.',
+    text: 'Send the enquiry on this page with the dates you hope for. We check the church diary and the Church’s calendar, and tell you which path fits your situation.',
   },
   {
     when: 'Over the following months',
@@ -128,7 +128,7 @@ export const WEDDING_STEPS: { when: string; title: string; text: string }[] = [
   {
     when: 'When your papers are complete',
     title: 'Your file comes to the diocese',
-    text: 'Your priest sends the file to the Diocese of Argyll and the Isles. Once it is approved, Fr Charles confirms your date.',
+    text: 'Your priest sends the file to the Diocese of Argyll and the Isles. Once it is approved, the parish priest confirms your date.',
   },
   {
     when: 'Three months to 29 days before',
@@ -159,11 +159,11 @@ export const WEDDING_FAQ: { q: string; a: string }[] = [
   },
   {
     q: 'How far ahead should we begin?',
-    a: 'At least six months, and earlier if you live abroad or one of you is not Catholic. Please do not book a reception or travel until Fr Charles has agreed a date with you.',
+    a: 'At least six months, and earlier if you live abroad or one of you is not Catholic. Please do not book a reception or travel until the parish priest has agreed a date with you.',
   },
   {
     q: 'Can a priest we know celebrate our wedding?',
-    a: 'Yes, a priest who is a friend or a relative is welcome. He writes to Fr Charles to ask for the delegation he needs to marry you in this parish.',
+    a: 'Yes, a priest who is a friend or a relative is welcome. He writes to the parish priest to ask for the delegation he needs to marry you in this parish.',
   },
   {
     q: 'One of us has been married before. What should we do?',

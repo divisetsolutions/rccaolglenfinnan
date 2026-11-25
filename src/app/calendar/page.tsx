@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shareCard, sharePhoto } from '@/lib/share';
 import Link from 'next/link';
 import { AwayNotice, PageHeader, Section, SectionHeading } from '@/components/site/Bits';
 import { Reveal } from '@/components/site/Reveal';
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
   title: 'Mass times',
   description: 'Catholic Mass times in Fort William and Glenfinnan: Sunday and weekday Mass, confession and adoration at St John’s, Caol and St Mary & St Finnan, with this week’s changes.',
   alternates: { canonical: '/calendar' },
+  openGraph: shareCard('/calendar', sharePhoto('/img/caol-altar.jpg', 'Candles lit around the altar at St John’s, Caol')),
 };
 
 export default async function MassTimesPage() {
