@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Alegreya, Atkinson_Hyperlegible } from 'next/font/google';
 import './globals.css';
-import { AuthProvider } from '@/context/AuthContext';
 import { SiteHeader } from '@/components/site/SiteHeader';
 import { SiteFooter } from '@/components/site/SiteFooter';
 import { ArchDefs } from '@/components/site/Bits';
@@ -11,7 +10,7 @@ import { siteGraph } from '@/lib/structured-data';
 // Alegreya: a calligraphic book face with real warmth at large sizes.
 const display = Alegreya({ subsets: ['latin'], display: 'swap', variable: '--font-display', style: ['normal', 'italic'] });
 // Atkinson Hyperlegible: designed by the Braille Institute so that every letter is unmistakable.
-const body = Atkinson_Hyperlegible({ subsets: ['latin'], display: 'swap', variable: '--font-body', weight: ['400', '700'], style: ['normal', 'italic'] });
+const body = Atkinson_Hyperlegible({ subsets: ['latin'], display: 'swap', variable: '--font-body', weight: ['400', '700'], style: ['normal', 'italic'], preload: false });
 
 const description =
   'Mass times, sacraments and parish life at St John the Evangelist, Caol (Fort William) and St Mary & St Finnan, Glenfinnan, in the Diocese of Argyll and the Isles.';
@@ -43,15 +42,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <ArchDefs />
-        <AuthProvider>
-          <div className="flex min-h-screen flex-col">
-            <SiteHeader />
-            <main id="main" className="flex-grow">
-              {children}
-            </main>
-            <SiteFooter />
-          </div>
-        </AuthProvider>
+        {/* The admin area has its own AuthProvider (src/app/admin/layout.tsx), so public pages do not load Firebase Auth. */}
+        <div className="flex min-h-screen flex-col">
+          <SiteHeader />
+          <main id="main" className="flex-grow">
+            {children}
+          </main>
+          <SiteFooter />
+        </div>
       </body>
     </html>
   );
